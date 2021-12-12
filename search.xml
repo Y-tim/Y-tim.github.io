@@ -228,4 +228,16 @@
         <tag>博客功能测试</tag>
       </tags>
   </entry>
+  <entry>
+    <title>About Me</title>
+    <url>/2019/12/01/about/</url>
+    <content><![CDATA[<blockquote>
+<p>A newbie developer, live in ShangHai, China.</p>
+</blockquote>
+<p>姓名：Mr.yuan<br>现居：上海<br>GitHub: <a href="https://github.com/Y-tim">Y-tim</a><br>QQ: <a href="http://wpa.qq.com/msgrd?v=3&uin=1362785281&site=qq&menu=yes">1362785281</a><br>微信: YUAN—x</p>
+]]></content>
+      <tags>
+        <tag>about me</tag>
+      </tags>
+  </entry>
 </search>
