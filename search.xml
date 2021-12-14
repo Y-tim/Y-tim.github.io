@@ -259,4 +259,20 @@
         <tag>博客迁移</tag>
       </tags>
   </entry>
+  <entry>
+    <title></title>
+    <url>/2021/12/14/Doris%E4%B8%8EClickHouse/</url>
+    <content><![CDATA[<p>Doris与ClickHouse的区别</p>
+<p>背景</p>
+<p>Apache Dories是由百度贡献的开源MPP分析型数据库产品</p>
+<p>clickhouse是俄罗斯的搜索公司Yandex开源的MPP架构的分析引擎</p>
+]]></content>
+      <categories>
+        <category>BigData</category>
+        <category>Doris与ClickHouse的区别</category>
+      </categories>
+      <tags>
+        <tag>dories,clickhouse</tag>
+      </tags>
+  </entry>
 </search>
