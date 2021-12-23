@@ -291,7 +291,7 @@
       </tags>
   </entry>
   <entry>
-    <title></title>
+    <title>MySQL杂记</title>
     <url>/2021/12/23/MySQL%E6%9D%82%E8%AE%B0/</url>
     <content><![CDATA[<h1 id="MySQL杂记"><a href="#MySQL杂记" class="headerlink" title="MySQL杂记"></a>MySQL杂记</h1><p>1、MySQL中的update不能出现在子查询语句中</p>
 <p>2、更新binlog日志</p>
@@ -3567,7 +3567,7 @@
         <category>大数据常用命令</category>
       </categories>
       <tags>
-        <tag>linux,shell,hadoop,zookeeper,kafka,hive,impala,redis,flink</tag>
+        <tag>Bigdata</tag>
       </tags>
   </entry>
 </search>
