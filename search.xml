@@ -302,7 +302,7 @@
 <p>4、拼接函数：concat_ws(‘分隔符’,元素)，concat(元素，‘分隔符’，元素)</p>
 ]]></content>
       <categories>
-        <category>Bigdata</category>
+        <category>BigData</category>
         <category>MySQL杂记</category>
       </categories>
       <tags>
@@ -3563,11 +3563,11 @@
 </tbody></table>
 ]]></content>
       <categories>
-        <category>Bigdata</category>
+        <category>BigData</category>
         <category>大数据常用命令</category>
       </categories>
       <tags>
-        <tag>Bigdata</tag>
+        <tag>BigData</tag>
       </tags>
   </entry>
 </search>
