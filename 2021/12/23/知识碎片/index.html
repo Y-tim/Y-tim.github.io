@@ -90,7 +90,7 @@ var _hmt = _hmt || [];
   <time datetime="2021-12-23T08:17:17.022Z" itemprop="datePublished">2021-12-23</time>
 </a> 
   <div class="article-category">
-    <a class="article-category-link" href="/categories/%E7%A2%8E%E7%89%87%EF%BC%8C%E7%9F%A5%E8%AF%86%E7%A2%8E%E7%89%87/">碎片，知识碎片</a>
+    <a class="article-category-link" href="/categories/%E7%A2%8E%E7%89%87/">碎片</a> / <a class="article-category-link" href="/categories/%E7%A2%8E%E7%89%87/%E7%9F%A5%E8%AF%86%E7%A2%8E%E7%89%87/">知识碎片</a>
   </div>
   
 <div class="word_count">
@@ -98,7 +98,7 @@ var _hmt = _hmt || [];
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">142</span>
+            <span class="post-count">149</span>
         </span>
     </span>
 
@@ -124,7 +124,7 @@ var _hmt = _hmt || [];
 <figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> sparkConf = <span class="keyword">new</span> <span class="type">SparkConf</span>().setAppName(<span class="string">&quot;InitData&quot;</span>)</span><br><span class="line">      .setMaster(<span class="string">&quot;local[*]&quot;</span>).set(<span class="string">&quot;spark.testing.memory&quot;</span>,<span class="string">&quot;471859200&quot;</span>)</span><br></pre></td></tr></table></figure>
 
 <p>2、代码中出现</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">java.lang.NoClassDefFoundError: org/apache/spark/sql/SparkSession</span><br><span class="line">Error: A JNI error has occurred, please check your installation and try again</span><br><span class="line">原因：</span><br><span class="line">	pom文件中的依赖中scope填写的是provided，这是用于打包的时候防止需要的依赖一起打包导致包太大，但需要在服务器中已经有这些依赖了，否则加上这个在服务其中b，idea默认是compile，</span><br><span class="line">解决：</span><br><span class="line">	注释掉该标签</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">java.lang.NoClassDefFoundError: org/apache/spark/sql/SparkSession</span><br><span class="line">Error: A JNI error has occurred, please check your installation and try again</span><br><span class="line">原因：</span><br><span class="line">	pom文件中的依赖中scope填写的是provided，这是用于打包的时候防止需要的依赖一起打包导致包太大，但需要在服务器中已经有这些依赖了，否则加上这个在服务其中报没有依赖的错误，idea默认是compile，</span><br><span class="line">解决：</span><br><span class="line">	注释掉该标签</span><br></pre></td></tr></table></figure>
 
  
       <!-- reward -->
