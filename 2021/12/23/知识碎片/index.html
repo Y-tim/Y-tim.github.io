@@ -98,7 +98,7 @@ var _hmt = _hmt || [];
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">149</span>
+            <span class="post-count">352</span>
         </span>
     </span>
 
@@ -125,6 +125,12 @@ var _hmt = _hmt || [];
 
 <p>2、代码中出现</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">java.lang.NoClassDefFoundError: org/apache/spark/sql/SparkSession</span><br><span class="line">Error: A JNI error has occurred, please check your installation and try again</span><br><span class="line">原因：</span><br><span class="line">	pom文件中的依赖中scope填写的是provided，这是用于打包的时候防止需要的依赖一起打包导致包太大，但需要在服务器中已经有这些依赖了，否则加上这个在服务其中报没有依赖的错误，idea默认是compile，</span><br><span class="line">解决：</span><br><span class="line">	注释掉该标签</span><br></pre></td></tr></table></figure>
+
+<p>3、通过idea代码读取hdfs数据时，可能会出现lzo压缩找不到，所以需要在core-site.xml文件中添加配置</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span><span class="comment">&lt;!--这个配置可以不要--&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">name</span>&gt;</span>io.compression.codecs<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">value</span>&gt;</span></span><br><span class="line">           org.apache.hadoop.io.compress.GzipCodec,</span><br><span class="line">           org.apache.hadoop.io.compress.DefaultCodec,</span><br><span class="line">           org.apache.hadoop.io.compress.BZip2Codec,</span><br><span class="line">           org.apache.hadoop.io.compress.SnappyCodec</span><br><span class="line">           <span class="comment">&lt;!--com.hadoop.compression.lzo.LzoCodec,这里不能打开，否则报lzo找不到--&gt;</span></span><br><span class="line">           <span class="comment">&lt;!--com.hadoop.compression.lzo.LzopCodec这里不能打开，否则报lzo找不到--&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">   <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">name</span>&gt;</span>io.compression.codec.lzo.class<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">value</span>&gt;</span>com.hadoop.compression.lzo.LzoCodec<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>4、spark中task并发和并行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">三台节点，一个2核，总共6核，</span><br><span class="line">并发度理解为同时执行的task数量。这里并发度为6；</span><br></pre></td></tr></table></figure>
 
  
       <!-- reward -->
