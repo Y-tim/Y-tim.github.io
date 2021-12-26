@@ -98,7 +98,7 @@ var _hmt = _hmt || [];
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">6.8k</span>
+            <span class="post-count">6.7k</span>
         </span>
     </span>
 
@@ -107,7 +107,7 @@ var _hmt = _hmt || [];
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">35 分钟</span>
+            <span class="post-count">34 分钟</span>
         </span>
     </span>
 </div>
@@ -122,201 +122,179 @@ var _hmt = _hmt || [];
   
     <div class="article-entry" itemprop="articleBody">
        
-  <h1 id="一、行列转换"><a href="#一、行列转换" class="headerlink" title="一、行列转换"></a>一、行列转换</h1><p><strong>描述</strong>：表中记录了各年份各部门的平均绩效考核成绩。</p>
-<p><strong>表名：t1</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">表结构：</span><br><span class="line"></span><br><span class="line">a -- 年份</span><br><span class="line"></span><br><span class="line">b -- 部门</span><br><span class="line"></span><br><span class="line">c -- 绩效得分</span><br></pre></td></tr></table></figure>
+  <h2 id="一、行列转换"><a href="#一、行列转换" class="headerlink" title="一、行列转换"></a>一、行列转换</h2><p>描述：表中记录了各年份各部门的平均绩效考核成绩。</p>
+<p>表名：t1</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">表结构：</span><br><span class="line">a -- 年份</span><br><span class="line">b -- 部门</span><br><span class="line">c -- 绩效得分</span><br></pre></td></tr></table></figure>
 
 
 
-<p><strong>表内容</strong>：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"> a  b c</span><br><span class="line"></span><br><span class="line">2014 B 9</span><br><span class="line"></span><br><span class="line">2015 A 8</span><br><span class="line"></span><br><span class="line">2014 A 10</span><br><span class="line"></span><br><span class="line">2015 B 7</span><br></pre></td></tr></table></figure>
+<p>表内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"> a  b c</span><br><span class="line">2014 B 9</span><br><span class="line">2015 A 8</span><br><span class="line">2014 A 10</span><br><span class="line">2015 B 7</span><br></pre></td></tr></table></figure>
 
 
 
-<h4 id="问题一：多行转多列"><a href="#问题一：多行转多列" class="headerlink" title="问题一：多行转多列"></a><strong>问题一：多行转多列</strong></h4><p><strong>问题描述</strong>：将上述表内容转为如下输出结果所示：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"> a col_A col_B</span><br><span class="line"></span><br><span class="line">2014 10  9</span><br><span class="line"></span><br><span class="line">2015 8  7</span><br></pre></td></tr></table></figure>
+<h4 id="问题一：多行转多列"><a href="#问题一：多行转多列" class="headerlink" title="问题一：多行转多列"></a>问题一：多行转多列</h4><p>问题描述：将上述表内容转为如下输出结果所示：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a col_A col_B</span><br><span class="line">2014 10  9</span><br><span class="line">2015 8  7</span><br></pre></td></tr></table></figure>
 
 
 
-<p>**<em>*参考答案*<em>：</em></em></p>
+<p>参考答案：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> </span><br><span class="line">  a,</span><br><span class="line">  <span class="built_in">max</span>(<span class="keyword">case</span> <span class="keyword">when</span> b<span class="operator">=</span>&quot;A&quot; <span class="keyword">then</span> c <span class="keyword">end</span>) col_A,</span><br><span class="line">  <span class="built_in">max</span>(<span class="keyword">case</span> <span class="keyword">when</span> b<span class="operator">=</span>&quot;B&quot; <span class="keyword">then</span> c <span class="keyword">end</span>) col_B</span><br><span class="line"><span class="keyword">from</span> t1</span><br><span class="line"><span class="keyword">group</span> <span class="keyword">by</span> a;</span><br></pre></td></tr></table></figure>
 
 
 
-<h4 id="问题二：如何将结果转成源表？（多列转多行）"><a href="#问题二：如何将结果转成源表？（多列转多行）" class="headerlink" title="*问题二：如何将结果转成源表？（多列转多行）*"></a><em><strong>*问题二：如何将结果转成源表？（多列转多行）*</strong></em></h4><p>****问题描述****：将问题一的结果转成源表，问题一结果表名为t1_2。</p>
-<p>****参考答案****：</p>
+<h4 id="问题二：如何将结果转成源表？（多列转多行）"><a href="#问题二：如何将结果转成源表？（多列转多行）" class="headerlink" title="问题二：如何将结果转成源表？（多列转多行）"></a>问题二：如何将结果转成源表？（多列转多行）</h4><p>问题描述：将问题一的结果转成源表，问题一结果表名为t1_2。</p>
+<p>参考答案：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> </span><br><span class="line">  a,</span><br><span class="line">  b,</span><br><span class="line">  c</span><br><span class="line"><span class="keyword">from</span> (</span><br><span class="line">  <span class="keyword">select</span> a,&quot;A&quot; <span class="keyword">as</span> b,col_a <span class="keyword">as</span> c <span class="keyword">from</span> t1_2 </span><br><span class="line">  <span class="keyword">union</span> <span class="keyword">all</span> </span><br><span class="line">  <span class="keyword">select</span> a,&quot;B&quot; <span class="keyword">as</span> b,col_b <span class="keyword">as</span> c <span class="keyword">from</span> t1_2 </span><br><span class="line">)tmp; </span><br></pre></td></tr></table></figure>
 
 
 
-<h4 id="问题三：同一部门会有多个绩效，求多行转多列结果"><a href="#问题三：同一部门会有多个绩效，求多行转多列结果" class="headerlink" title="*问题三：同一部门会有多个绩效，求多行转多列结果*"></a><em><strong>*问题三：同一部门会有多个绩效，求多行转多列结果*</strong></em></h4><p>****问题描述****：2014年公司组织架构调整，导致部门出现多个绩效，业务及人员不同，无法合并算绩效，源表内容如下：</p>
+<h4 id="问题三：同一部门会有多个绩效，求多行转多列结果"><a href="#问题三：同一部门会有多个绩效，求多行转多列结果" class="headerlink" title="问题三：同一部门会有多个绩效，求多行转多列结果"></a>问题三：同一部门会有多个绩效，求多行转多列结果</h4><p>问题描述：2014年公司组织架构调整，导致部门出现多个绩效，业务及人员不同，无法合并算绩效，源表内容如下：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2014</span> B <span class="number">9</span></span><br><span class="line"><span class="number">2015</span> A <span class="number">8</span></span><br><span class="line"><span class="number">2014</span> A <span class="number">10</span></span><br><span class="line"><span class="number">2015</span> B <span class="number">7</span></span><br><span class="line"><span class="number">2014</span> B <span class="number">6</span></span><br></pre></td></tr></table></figure>
 
 
 
-<p>****输出结果如下所示****：</p>
+<p>输出结果如下所示：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> a  col_A col_B</span><br><span class="line"><span class="number">2014</span>  <span class="number">10</span>  <span class="number">6</span>,<span class="number">9</span></span><br><span class="line"><span class="number">2015</span>  <span class="number">8</span>   <span class="number">7</span></span><br></pre></td></tr></table></figure>
 
 
 
-<p><em><strong>*参考答案*</strong></em>:</p>
+<p>参考答案:</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> </span><br><span class="line">  a,</span><br><span class="line">  <span class="built_in">max</span>(<span class="keyword">case</span> <span class="keyword">when</span> b<span class="operator">=</span>&quot;A&quot; <span class="keyword">then</span> c <span class="keyword">end</span>) col_A,</span><br><span class="line">  <span class="built_in">max</span>(<span class="keyword">case</span> <span class="keyword">when</span> b<span class="operator">=</span>&quot;B&quot; <span class="keyword">then</span> c <span class="keyword">end</span>) col_B</span><br><span class="line"><span class="keyword">from</span> (</span><br><span class="line">  <span class="keyword">select</span> </span><br><span class="line">    a,</span><br><span class="line">   b,</span><br><span class="line">    concat_ws(&quot;,&quot;,collect_set(<span class="built_in">cast</span>(c <span class="keyword">as</span> string))) <span class="keyword">as</span> c</span><br><span class="line">  <span class="keyword">from</span> t1</span><br><span class="line">  <span class="keyword">group</span> <span class="keyword">by</span> a,b</span><br><span class="line">)tmp</span><br><span class="line"><span class="keyword">group</span> <span class="keyword">by</span> a;</span><br></pre></td></tr></table></figure>
 
 
 
-<h2 id="二、排名中取他值"><a href="#二、排名中取他值" class="headerlink" title="*二、排名中取他值*"></a><em><strong>*二、排名中取他值*</strong></em></h2><p>****表名****：t2</p>
-<p>****表字段及内容****：</p>
+<h2 id="二、排名中取他值"><a href="#二、排名中取他值" class="headerlink" title="二、排名中取他值"></a>二、排名中取他值</h2><p>表名：t2</p>
+<p>表字段及内容：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">a  b  c</span><br><span class="line"><span class="number">2014</span> A  <span class="number">3</span></span><br><span class="line"><span class="number">2014</span> B  <span class="number">1</span></span><br><span class="line"><span class="number">2014</span> C  <span class="number">2</span></span><br><span class="line"><span class="number">2015</span> A  <span class="number">4</span></span><br><span class="line"><span class="number">2015</span> D  <span class="number">3</span></span><br></pre></td></tr></table></figure>
 
 
 
-<h4 id="问题一：按-a-分组取-b-字段最小时对应的-c-字段"><a href="#问题一：按-a-分组取-b-字段最小时对应的-c-字段" class="headerlink" title="*问题一：按**a**分组取**b**字段最小时对应的**c**字段*"></a><em><strong>*问题一：按*</strong></em><em><strong>*a*</strong></em><em><strong>*分组取*</strong></em><em><strong>*b*</strong></em><em><strong>*字段最小时对应的*</strong></em><em><strong>*c*</strong></em><em><strong>*字段*</strong></em></h4><p>****输出结果如下所示****：</p>
+<h4 id="问题一：按a分组取b字段最小时对应的c字段"><a href="#问题一：按a分组取b字段最小时对应的c字段" class="headerlink" title="问题一：按a分组取b字段最小时对应的c字段"></a>问题一：按a分组取b字段最小时对应的c字段</h4><p>输出结果如下所示：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a  min_c</span><br><span class="line"><span class="number">2014</span> <span class="number">3</span></span><br><span class="line"><span class="number">2015</span> <span class="number">4</span></span><br></pre></td></tr></table></figure>
 
 
 
-<p><em><strong>*参考答案*</strong></em>:</p>
+<p>参考答案:</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span></span><br><span class="line"> a,</span><br><span class="line"> c <span class="keyword">as</span> min_c</span><br><span class="line"><span class="keyword">from</span></span><br><span class="line">(</span><br><span class="line">   <span class="keyword">select</span></span><br><span class="line">​    a,</span><br><span class="line">​    b,</span><br><span class="line">​    c,</span><br><span class="line">​    <span class="built_in">row_number</span>() <span class="keyword">over</span>(<span class="keyword">partition</span> <span class="keyword">by</span> a <span class="keyword">order</span> <span class="keyword">by</span> b) <span class="keyword">as</span> rn </span><br><span class="line">   <span class="keyword">from</span> t2 </span><br><span class="line">)a</span><br><span class="line"><span class="keyword">where</span> rn <span class="operator">=</span> <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
 
 
 
-<h4 id="问题二：按-a-分组取-b-字段排第二时对应的-c-字段"><a href="#问题二：按-a-分组取-b-字段排第二时对应的-c-字段" class="headerlink" title="*问题二：按**a**分组取**b**字段排第二时对应的**c**字段*"></a><em><strong>*问题二：按*</strong></em><em><strong>*a*</strong></em><em><strong>*分组取*</strong></em><em><strong>*b*</strong></em><em><strong>*字段排第二时对应的*</strong></em><em><strong>*c*</strong></em><em><strong>*字段*</strong></em></h4><p>****输出结果如下所示****：</p>
+<h4 id="问题二：按a分组取b字段排第二时对应的c字段"><a href="#问题二：按a分组取b字段排第二时对应的c字段" class="headerlink" title="问题二：按a分组取b字段排第二时对应的c字段"></a>问题二：按a分组取b字段排第二时对应的c字段</h4><p>输出结果如下所示：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> a second_c</span><br><span class="line"><span class="number">2014</span> <span class="number">1</span></span><br><span class="line"><span class="number">2015</span> <span class="number">3</span></span><br></pre></td></tr></table></figure>
 
 
 
-<p>****参考答案****：</p>
+<p>参考答案：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span></span><br><span class="line"> a,</span><br><span class="line"> c <span class="keyword">as</span> second_c</span><br><span class="line"><span class="keyword">from</span></span><br><span class="line">(</span><br><span class="line">   <span class="keyword">select</span></span><br><span class="line">​    a,</span><br><span class="line">​    b,</span><br><span class="line">​    c,</span><br><span class="line">​    <span class="built_in">row_number</span>() <span class="keyword">over</span>(<span class="keyword">partition</span> <span class="keyword">by</span> a <span class="keyword">order</span> <span class="keyword">by</span> b) <span class="keyword">as</span> rn </span><br><span class="line">   <span class="keyword">from</span> t2 </span><br><span class="line">)a</span><br><span class="line"><span class="keyword">where</span> rn <span class="operator">=</span> <span class="number">2</span>;</span><br></pre></td></tr></table></figure>
 
 
 
-<h4 id="问题三：按-a-分组取-b-字段最小和最大时对应的-c-字段"><a href="#问题三：按-a-分组取-b-字段最小和最大时对应的-c-字段" class="headerlink" title="*问题三：按**a**分组取**b**字段最小和最大时对应的**c**字段*"></a><em><strong>*问题三：按*</strong></em><em><strong>*a*</strong></em><em><strong>*分组取*</strong></em><em><strong>*b*</strong></em><em><strong>*字段最小和最大时对应的*</strong></em><em><strong>*c*</strong></em><em><strong>*字段*</strong></em></h4><p>****输出结果如下所示****：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">a  min_c max_c</span><br><span class="line"></span><br><span class="line"><span class="number">2014</span> <span class="number">3</span>   <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="number">2015</span> <span class="number">4</span>   <span class="number">3</span></span><br></pre></td></tr></table></figure>
+<h4 id="问题三：按a分组取b字段最小和最大时对应的c字段"><a href="#问题三：按a分组取b字段最小和最大时对应的c字段" class="headerlink" title="问题三：按a分组取b字段最小和最大时对应的c字段"></a>问题三：按a分组取b字段最小和最大时对应的c字段</h4><p>输出结果如下所示：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a  min_c max_c</span><br><span class="line"><span class="number">2014</span> <span class="number">3</span>   <span class="number">2</span></span><br><span class="line"><span class="number">2015</span> <span class="number">4</span>   <span class="number">3</span></span><br></pre></td></tr></table></figure>
 
 
 
-<p><em><strong>*参考答案*</strong></em>:</p>
+<p>参考答案:</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span></span><br><span class="line"> a,</span><br><span class="line"> <span class="built_in">min</span>(if(asc_rn <span class="operator">=</span> <span class="number">1</span>, c, <span class="keyword">null</span>)) <span class="keyword">as</span> min_c,</span><br><span class="line"> <span class="built_in">max</span>(if(desc_rn <span class="operator">=</span> <span class="number">1</span>, c, <span class="keyword">null</span>)) <span class="keyword">as</span> max_c</span><br><span class="line"><span class="keyword">from</span></span><br><span class="line">(</span><br><span class="line">   <span class="keyword">select</span></span><br><span class="line">​    a,</span><br><span class="line">​    b,</span><br><span class="line">​    c,</span><br><span class="line">​    <span class="built_in">row_number</span>() <span class="keyword">over</span>(<span class="keyword">partition</span> <span class="keyword">by</span> a <span class="keyword">order</span> <span class="keyword">by</span> b) <span class="keyword">as</span> asc_rn,</span><br><span class="line">​    <span class="built_in">row_number</span>() <span class="keyword">over</span>(<span class="keyword">partition</span> <span class="keyword">by</span> a <span class="keyword">order</span> <span class="keyword">by</span> b <span class="keyword">desc</span>) <span class="keyword">as</span> desc_rn </span><br><span class="line">   <span class="keyword">from</span> t2 </span><br><span class="line">)a</span><br><span class="line"><span class="keyword">where</span> asc_rn <span class="operator">=</span> <span class="number">1</span> <span class="keyword">or</span> desc_rn <span class="operator">=</span> <span class="number">1</span></span><br><span class="line"><span class="keyword">group</span> <span class="keyword">by</span> a; </span><br></pre></td></tr></table></figure>
 
 
 
-<h4 id="问题四：按-a-分组取-b-字段第二小和第二大时对应的-c-字段"><a href="#问题四：按-a-分组取-b-字段第二小和第二大时对应的-c-字段" class="headerlink" title="*问题四：按**a**分组取**b**字段第二小和第二大时对应的**c**字段*"></a><em><strong>*问题四：按*</strong></em><em><strong>*a*</strong></em><em><strong>*分组取*</strong></em><em><strong>*b*</strong></em><em><strong>*字段第二小和第二大时对应的*</strong></em><em><strong>*c*</strong></em><em><strong>*字段*</strong></em></h4><p>****输出结果如下所示****：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">a  min_c max_c</span><br><span class="line"></span><br><span class="line"><span class="number">2014</span> <span class="number">1</span>   <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="number">2015</span> <span class="number">3</span>   <span class="number">4</span></span><br></pre></td></tr></table></figure>
+<h4 id="问题四：按a分组取b字段第二小和第二大时对应的c字段"><a href="#问题四：按a分组取b字段第二小和第二大时对应的c字段" class="headerlink" title="问题四：按a分组取b字段第二小和第二大时对应的c字段"></a>问题四：按a分组取b字段第二小和第二大时对应的c字段</h4><p>输出结果如下所示：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a  min_c max_c</span><br><span class="line"><span class="number">2014</span> <span class="number">1</span>   <span class="number">1</span></span><br><span class="line"><span class="number">2015</span> <span class="number">3</span>   <span class="number">4</span></span><br></pre></td></tr></table></figure>
 
 
 
-<p>****参考答案****：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span></span><br><span class="line"></span><br><span class="line">  ret.a</span><br><span class="line"></span><br><span class="line">  ,<span class="built_in">max</span>(<span class="keyword">case</span> <span class="keyword">when</span> ret.rn_min <span class="operator">=</span> <span class="number">2</span> <span class="keyword">then</span> ret.c <span class="keyword">else</span> <span class="keyword">null</span> <span class="keyword">end</span>) <span class="keyword">as</span> min_c</span><br><span class="line"></span><br><span class="line">  ,<span class="built_in">max</span>(<span class="keyword">case</span> <span class="keyword">when</span> ret.rn_max <span class="operator">=</span> <span class="number">2</span> <span class="keyword">then</span> ret.c <span class="keyword">else</span> <span class="keyword">null</span> <span class="keyword">end</span>) <span class="keyword">as</span> max_c</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> (</span><br><span class="line"></span><br><span class="line">  <span class="keyword">select</span></span><br><span class="line"></span><br><span class="line">​    <span class="operator">*</span></span><br><span class="line"></span><br><span class="line">​    ,<span class="built_in">row_number</span>() <span class="keyword">over</span>(<span class="keyword">partition</span> <span class="keyword">by</span> t2.a <span class="keyword">order</span> <span class="keyword">by</span> t2.b) <span class="keyword">as</span> rn_min</span><br><span class="line"></span><br><span class="line">​    ,<span class="built_in">row_number</span>() <span class="keyword">over</span>(<span class="keyword">partition</span> <span class="keyword">by</span> t2.a <span class="keyword">order</span> <span class="keyword">by</span> t2.b <span class="keyword">desc</span>) <span class="keyword">as</span> rn_max</span><br><span class="line"></span><br><span class="line">  <span class="keyword">from</span> t2</span><br><span class="line"></span><br><span class="line">) <span class="keyword">as</span> ret</span><br><span class="line"></span><br><span class="line"><span class="keyword">where</span> ret.rn_min <span class="operator">=</span> <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">or</span> ret.rn_max <span class="operator">=</span> <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">group</span> <span class="keyword">by</span> ret.a;</span><br></pre></td></tr></table></figure>
+<p>参考答案：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span></span><br><span class="line">  ret.a</span><br><span class="line">  ,<span class="built_in">max</span>(<span class="keyword">case</span> <span class="keyword">when</span> ret.rn_min <span class="operator">=</span> <span class="number">2</span> <span class="keyword">then</span> ret.c <span class="keyword">else</span> <span class="keyword">null</span> <span class="keyword">end</span>) <span class="keyword">as</span> min_c</span><br><span class="line">  ,<span class="built_in">max</span>(<span class="keyword">case</span> <span class="keyword">when</span> ret.rn_max <span class="operator">=</span> <span class="number">2</span> <span class="keyword">then</span> ret.c <span class="keyword">else</span> <span class="keyword">null</span> <span class="keyword">end</span>) <span class="keyword">as</span> max_c</span><br><span class="line"><span class="keyword">from</span> (</span><br><span class="line">  <span class="keyword">select</span></span><br><span class="line">​    </span><br><span class="line">​    ,<span class="built_in">row_number</span>() <span class="keyword">over</span>(<span class="keyword">partition</span> <span class="keyword">by</span> t2.a <span class="keyword">order</span> <span class="keyword">by</span> t2.b) <span class="keyword">as</span> rn_min</span><br><span class="line">​    ,<span class="built_in">row_number</span>() <span class="keyword">over</span>(<span class="keyword">partition</span> <span class="keyword">by</span> t2.a <span class="keyword">order</span> <span class="keyword">by</span> t2.b <span class="keyword">desc</span>) <span class="keyword">as</span> rn_max</span><br><span class="line">  <span class="keyword">from</span> t2</span><br><span class="line">) <span class="keyword">as</span> ret</span><br><span class="line"><span class="keyword">where</span> ret.rn_min <span class="operator">=</span> <span class="number">2</span></span><br><span class="line"><span class="keyword">or</span> ret.rn_max <span class="operator">=</span> <span class="number">2</span></span><br><span class="line"><span class="keyword">group</span> <span class="keyword">by</span> ret.a;</span><br></pre></td></tr></table></figure>
 
 
 
-<h4 id="问题五：按-a-分组取-b-字段前两小和前两大时对应的-c-字段"><a href="#问题五：按-a-分组取-b-字段前两小和前两大时对应的-c-字段" class="headerlink" title="*问题五：按**a**分组取**b**字段前两小和前两大时对应的**c**字段*"></a><em><strong>*问题五：按*</strong></em><em><strong>*a*</strong></em><em><strong>*分组取*</strong></em><em><strong>*b*</strong></em><em><strong>*字段前两小和前两大时对应的*</strong></em><em><strong>*c*</strong></em><em><strong>*字段*</strong></em></h4><p>注意：需保持b字段最小、最大排首位</p>
-<p>****输出结果如下所示****：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">a  min_c max_c</span><br><span class="line"></span><br><span class="line"><span class="number">2014</span> <span class="number">3</span>,<span class="number">1</span>   <span class="number">2</span>,<span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="number">2015</span> <span class="number">4</span>,<span class="number">3</span>   <span class="number">3</span>,<span class="number">4</span></span><br></pre></td></tr></table></figure>
+<h4 id="问题五：按a分组取b字段前两小和前两大时对应的c字段"><a href="#问题五：按a分组取b字段前两小和前两大时对应的c字段" class="headerlink" title="问题五：按a分组取b字段前两小和前两大时对应的c字段"></a>问题五：按a分组取b字段前两小和前两大时对应的c字段</h4><p>注意：需保持b字段最小、最大排首位</p>
+<p>输出结果如下所示：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a  min_c max_c</span><br><span class="line"><span class="number">2014</span> <span class="number">3</span>,<span class="number">1</span>   <span class="number">2</span>,<span class="number">1</span></span><br><span class="line"><span class="number">2015</span> <span class="number">4</span>,<span class="number">3</span>   <span class="number">3</span>,<span class="number">4</span></span><br></pre></td></tr></table></figure>
 
 
 
-<p>****参考答案****：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span></span><br><span class="line"></span><br><span class="line"> tmp1.a <span class="keyword">as</span> a,</span><br><span class="line"></span><br><span class="line"> min_c,</span><br><span class="line"></span><br><span class="line"> max_c</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> </span><br><span class="line"></span><br><span class="line">(</span><br><span class="line"></span><br><span class="line"> <span class="keyword">select</span> </span><br><span class="line"></span><br><span class="line">  a,</span><br><span class="line"></span><br><span class="line">  concat_ws(<span class="string">&#x27;,&#x27;</span>, collect_list(c)) <span class="keyword">as</span> min_c</span><br><span class="line"></span><br><span class="line"> <span class="keyword">from</span></span><br><span class="line"></span><br><span class="line">  (</span><br><span class="line"></span><br><span class="line">   <span class="keyword">select</span></span><br><span class="line"></span><br><span class="line">​    a,</span><br><span class="line"></span><br><span class="line">​    b,</span><br><span class="line"></span><br><span class="line">​    c,</span><br><span class="line"></span><br><span class="line">​    <span class="built_in">row_number</span>() <span class="keyword">over</span>(<span class="keyword">partition</span> <span class="keyword">by</span> a <span class="keyword">order</span> <span class="keyword">by</span> b) <span class="keyword">as</span> asc_rn</span><br><span class="line"></span><br><span class="line">   <span class="keyword">from</span> t2</span><br><span class="line"></span><br><span class="line">   )a</span><br><span class="line"></span><br><span class="line">  <span class="keyword">where</span> asc_rn <span class="operator">&lt;=</span> <span class="number">2</span> </span><br><span class="line"></span><br><span class="line">  <span class="keyword">group</span> <span class="keyword">by</span> a </span><br><span class="line"></span><br><span class="line">)tmp1 </span><br><span class="line"></span><br><span class="line"><span class="keyword">join</span> </span><br><span class="line"></span><br><span class="line">(</span><br><span class="line"></span><br><span class="line"> <span class="keyword">select</span> </span><br><span class="line"></span><br><span class="line">  a,</span><br><span class="line"></span><br><span class="line">  concat_ws(<span class="string">&#x27;,&#x27;</span>, collect_list(c)) <span class="keyword">as</span> max_c</span><br><span class="line"></span><br><span class="line"> <span class="keyword">from</span></span><br><span class="line"></span><br><span class="line">  (</span><br><span class="line"></span><br><span class="line">   <span class="keyword">select</span></span><br><span class="line"></span><br><span class="line">​    a,</span><br><span class="line"></span><br><span class="line">​    b,</span><br><span class="line"></span><br><span class="line">​    c,</span><br><span class="line"></span><br><span class="line">​    <span class="built_in">row_number</span>() <span class="keyword">over</span>(<span class="keyword">partition</span> <span class="keyword">by</span> a <span class="keyword">order</span> <span class="keyword">by</span> b <span class="keyword">desc</span>) <span class="keyword">as</span> desc_rn </span><br><span class="line"></span><br><span class="line">   <span class="keyword">from</span> t2</span><br><span class="line"></span><br><span class="line">  )a</span><br><span class="line"></span><br><span class="line">  <span class="keyword">where</span> desc_rn <span class="operator">&lt;=</span> <span class="number">2</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">group</span> <span class="keyword">by</span> a </span><br><span class="line"></span><br><span class="line">)tmp2 </span><br><span class="line"></span><br><span class="line"><span class="keyword">on</span> tmp1.a <span class="operator">=</span> tmp2.a; </span><br></pre></td></tr></table></figure>
+<p>参考答案：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span></span><br><span class="line"> tmp1.a <span class="keyword">as</span> a,</span><br><span class="line"> min_c,</span><br><span class="line"> max_c</span><br><span class="line"><span class="keyword">from</span> </span><br><span class="line">(</span><br><span class="line"> <span class="keyword">select</span> </span><br><span class="line">  a,</span><br><span class="line">  concat_ws(<span class="string">&#x27;,&#x27;</span>, collect_list(c)) <span class="keyword">as</span> min_c</span><br><span class="line"> <span class="keyword">from</span></span><br><span class="line">  (</span><br><span class="line">   <span class="keyword">select</span></span><br><span class="line">​    a,</span><br><span class="line">​    b,</span><br><span class="line">​    c,</span><br><span class="line">​    <span class="built_in">row_number</span>() <span class="keyword">over</span>(<span class="keyword">partition</span> <span class="keyword">by</span> a <span class="keyword">order</span> <span class="keyword">by</span> b) <span class="keyword">as</span> asc_rn</span><br><span class="line">   <span class="keyword">from</span> t2</span><br><span class="line">   )a</span><br><span class="line">  <span class="keyword">where</span> asc_rn <span class="operator">&lt;=</span> <span class="number">2</span> </span><br><span class="line">  <span class="keyword">group</span> <span class="keyword">by</span> a </span><br><span class="line">)tmp1 </span><br><span class="line"><span class="keyword">join</span> </span><br><span class="line">(</span><br><span class="line"> <span class="keyword">select</span> </span><br><span class="line">  a,</span><br><span class="line">  concat_ws(<span class="string">&#x27;,&#x27;</span>, collect_list(c)) <span class="keyword">as</span> max_c</span><br><span class="line"> <span class="keyword">from</span></span><br><span class="line">  (</span><br><span class="line">   <span class="keyword">select</span></span><br><span class="line">​    a,</span><br><span class="line">​    b,</span><br><span class="line">​    c,</span><br><span class="line">​    <span class="built_in">row_number</span>() <span class="keyword">over</span>(<span class="keyword">partition</span> <span class="keyword">by</span> a <span class="keyword">order</span> <span class="keyword">by</span> b <span class="keyword">desc</span>) <span class="keyword">as</span> desc_rn </span><br><span class="line">   <span class="keyword">from</span> t2</span><br><span class="line">  )a</span><br><span class="line">  <span class="keyword">where</span> desc_rn <span class="operator">&lt;=</span> <span class="number">2</span></span><br><span class="line">  <span class="keyword">group</span> <span class="keyword">by</span> a </span><br><span class="line">)tmp2 </span><br><span class="line"><span class="keyword">on</span> tmp1.a <span class="operator">=</span> tmp2.a; </span><br></pre></td></tr></table></figure>
 
 
 
-<h2 id="三、累计求值"><a href="#三、累计求值" class="headerlink" title="*三、累计求值*"></a><em><strong>*三、累计求值*</strong></em></h2><p>****表名****：t3</p>
-<p>****表字段及内容****：</p>
-<p>a  b  c</p>
-<p>2014 A  3</p>
-<p>2014 B  1</p>
-<p>2014 C  2</p>
-<p>2015 A  4</p>
-<p>2015 D  3</p>
-<h4 id="问题一：按-a-分组按-b-字段排序，对-c-累计求和"><a href="#问题一：按-a-分组按-b-字段排序，对-c-累计求和" class="headerlink" title="*问题一：按**a**分组按**b**字段排序，对**c**累计求和*"></a><em><strong>*问题一：按*</strong></em><em><strong>*a*</strong></em><em><strong>*分组按*</strong></em><em><strong>*b*</strong></em><em><strong>*字段排序，对*</strong></em><em><strong>*c*</strong></em><em><strong>*累计求和*</strong></em></h4><p>****输出结果如下所示****：</p>
-<p>a  b  sum_c</p>
-<p>2014 A  3</p>
-<p>2014 B  4</p>
-<p>2014 C  6</p>
-<p>2015 A  4</p>
-<p>2015 D  7</p>
-<p>****参考答案****：</p>
-<p>select </p>
-<p> a, </p>
-<p> b, </p>
-<p> c, </p>
-<p> sum(c) over(partition by a order by b) as sum_c</p>
-<p>from t3; </p>
-<h4 id="问题二：按-a-分组按-b-字段排序，对-c-取累计平均值"><a href="#问题二：按-a-分组按-b-字段排序，对-c-取累计平均值" class="headerlink" title="*问题二：按**a**分组按**b**字段排序，对**c**取累计平均值*"></a><em><strong>*问题二：按*</strong></em><em><strong>*a*</strong></em><em><strong>*分组按*</strong></em><em><strong>*b*</strong></em><em><strong>*字段排序，对*</strong></em><em><strong>*c*</strong></em><em><strong>*取累计平均值*</strong></em></h4><p>****输出结果如下所示****：</p>
-<p>a  b  avg_c</p>
-<p>2014 A  3</p>
-<p>2014 B  2</p>
-<p>2014 C  2</p>
-<p>2015 A  4</p>
-<p>2015 D  3.5</p>
-<p>****参考答案****：</p>
-<p>select </p>
-<p> a, </p>
-<p> b, </p>
-<p> c, </p>
-<p> avg(c) over(partition by a order by b) as avg_c</p>
-<p>from t3;</p>
-<h4 id="问题三：按-a-分组按-b-字段排序，对-b-取累计排名比例"><a href="#问题三：按-a-分组按-b-字段排序，对-b-取累计排名比例" class="headerlink" title="*问题三：按**a**分组按**b**字段排序，对**b**取累计排名比例*"></a><em><strong>*问题三：按*</strong></em><em><strong>*a*</strong></em><em><strong>*分组按*</strong></em><em><strong>*b*</strong></em><em><strong>*字段排序，对*</strong></em><em><strong>*b*</strong></em><em><strong>*取累计排名比例*</strong></em></h4><p>****输出结果如下所示****：</p>
-<p>a  b  ratio_c</p>
-<p>2014 A  0.33</p>
-<p>2014 B  0.67</p>
-<p>2014 C  1.00</p>
-<p>2015 A  0.50</p>
-<p>2015 D  1.00</p>
-<p>****参考答案****：</p>
-<p>select </p>
-<p> a, </p>
-<p> b, </p>
-<p> c, </p>
-<p> round(row_number() over(partition by a order by b) / (count(c) over(partition by a)),2) as ratio_c</p>
-<p>from t3 </p>
-<p>order by a,b;</p>
-<h4 id="问题四：按-a-分组按-b-字段排序，对-b-取累计求和比例"><a href="#问题四：按-a-分组按-b-字段排序，对-b-取累计求和比例" class="headerlink" title="*问题四：按**a**分组按**b**字段排序，对**b**取累计求和比例*"></a><em><strong>*问题四：按*</strong></em><em><strong>*a*</strong></em><em><strong>*分组按*</strong></em><em><strong>*b*</strong></em><em><strong>*字段排序，对*</strong></em><em><strong>*b*</strong></em><em><strong>*取累计求和比例*</strong></em></h4><p>****输出结果如下所示****：</p>
-<p>a  b  ratio_c</p>
-<p>2014 A  0.50</p>
-<p>2014 B  0.67</p>
-<p>2014 C  1.00</p>
-<p>2015 A  0.57</p>
-<p>2015 D  1.00</p>
-<p>****参考答案****：</p>
-<p>select </p>
-<p> a, </p>
-<p> b, </p>
-<p> c, </p>
-<p> round(sum(c) over(partition by a order by b) / (sum(c) over(partition by a)),2) as ratio_c</p>
-<p>from t3 </p>
-<p>order by a,b;</p>
-<h2 id="四、窗口大小控制"><a href="#四、窗口大小控制" class="headerlink" title="*四、窗口大小控制*"></a><em><strong>*四、窗口大小控制*</strong></em></h2><p>****表名****：t4</p>
-<p>****表字段及内容****：</p>
-<p>a  b  c</p>
-<p>2014 A  3</p>
-<p>2014 B  1</p>
-<p>2014 C  2</p>
-<p>2015 A  4</p>
-<p>2015 D  3</p>
-<h4 id="问题一：按-a-分组按-b-字段排序，对-c-取前后各一行的和"><a href="#问题一：按-a-分组按-b-字段排序，对-c-取前后各一行的和" class="headerlink" title="*问题一：按**a**分组按**b**字段排序，对**c**取前后各一行的和*"></a><em><strong>*问题一：按*</strong></em><em><strong>*a*</strong></em><em><strong>*分组按*</strong></em><em><strong>*b*</strong></em><em><strong>*字段排序，对*</strong></em><em><strong>*c*</strong></em><em><strong>*取前后各一行的和*</strong></em></h4><p>****输出结果如下所示****：</p>
+<h2 id="三、累计求值"><a href="#三、累计求值" class="headerlink" title="三、累计求值"></a>三、累计求值</h2><p>表名：t3</p>
+<p>表字段及内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">a  b  c</span><br><span class="line">2014 A  3</span><br><span class="line">2014 B  1</span><br><span class="line">2014 C  2</span><br><span class="line">2015 A  4</span><br><span class="line">2015 D  3</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="问题一：按a分组按b字段排序，对c累计求和"><a href="#问题一：按a分组按b字段排序，对c累计求和" class="headerlink" title="问题一：按a分组按b字段排序，对c累计求和"></a>问题一：按a分组按b字段排序，对c累计求和</h4><p>输出结果如下所示：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">a  b  sum_c</span><br><span class="line">2014 A  3</span><br><span class="line">2014 B  4</span><br><span class="line">2014 C  6</span><br><span class="line">2015 A  4</span><br><span class="line">2015 D  7</span><br></pre></td></tr></table></figure>
+
+
+
+<p>参考答案：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">select </span><br><span class="line"> a, </span><br><span class="line"> b, </span><br><span class="line"> c, </span><br><span class="line"> sum(c) over(partition by a order by b) as sum_c</span><br><span class="line">from t3; </span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="问题二：按a分组按b字段排序，对c取累计平均值"><a href="#问题二：按a分组按b字段排序，对c取累计平均值" class="headerlink" title="问题二：按a分组按b字段排序，对c取累计平均值"></a>问题二：按a分组按b字段排序，对c取累计平均值</h4><p>输出结果如下所示：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">a  b  avg_c</span><br><span class="line">2014 A  3</span><br><span class="line">2014 B  2</span><br><span class="line">2014 C  2</span><br><span class="line">2015 A  4</span><br><span class="line">2015 D  3.5</span><br></pre></td></tr></table></figure>
+
+
+
+<p>参考答案：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">select </span><br><span class="line"> a, </span><br><span class="line"> b, </span><br><span class="line"> c, </span><br><span class="line"> avg(c) over(partition by a order by b) as avg_c</span><br><span class="line">from t3;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="问题三：按a分组按b字段排序，对b取累计排名比例"><a href="#问题三：按a分组按b字段排序，对b取累计排名比例" class="headerlink" title="问题三：按a分组按b字段排序，对b取累计排名比例"></a>问题三：按a分组按b字段排序，对b取累计排名比例</h4><p>输出结果如下所示：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">a  b  ratio_c</span><br><span class="line">2014 A  0.33</span><br><span class="line">2014 B  0.67</span><br><span class="line">2014 C  1.00</span><br><span class="line">2015 A  0.50</span><br><span class="line">2015 D  1.00</span><br></pre></td></tr></table></figure>
+
+
+
+<p>参考答案：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">select </span><br><span class="line"> a, </span><br><span class="line"> b, </span><br><span class="line"> c, </span><br><span class="line">round(row_number() over(partition by a order by b) / (count(c) over(partition by a)),2) as ratio_c</span><br><span class="line">from t3 </span><br><span class="line">order by a,b;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="问题四：按a分组按b字段排序，对b取累计求和比例"><a href="#问题四：按a分组按b字段排序，对b取累计求和比例" class="headerlink" title="问题四：按a分组按b字段排序，对b取累计求和比例"></a>问题四：按a分组按b字段排序，对b取累计求和比例</h4><p>输出结果如下所示：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">a  b  ratio_c</span><br><span class="line">2014 A  0.50</span><br><span class="line">2014 B  0.67</span><br><span class="line">2014 C  1.00</span><br><span class="line">2015 A  0.57</span><br><span class="line">2015 D  1.00</span><br></pre></td></tr></table></figure>
+
+
+
+<p>参考答案：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">select </span><br><span class="line"> a, </span><br><span class="line"> b, </span><br><span class="line"> c, </span><br><span class="line"> round(sum(c) over(partition by a order by b) / (sum(c) over(partition by a)),2) as ratio_c</span><br><span class="line">from t3 </span><br><span class="line">order by a,b;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="四、窗口大小控制"><a href="#四、窗口大小控制" class="headerlink" title="四、窗口大小控制"></a>四、窗口大小控制</h2><p>表名：t4</p>
+<p>表字段及内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">a  b  c</span><br><span class="line">2014 A  3</span><br><span class="line">2014 B  1</span><br><span class="line">2014 C  2</span><br><span class="line">2015 A  4</span><br><span class="line">2015 D  3</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="问题一：按a分组按b字段排序，对c取前后各一行的和"><a href="#问题一：按a分组按b字段排序，对c取前后各一行的和" class="headerlink" title="问题一：按a分组按b字段排序，对c取前后各一行的和"></a>问题一：按a分组按b字段排序，对c取前后各一行的和</h4><p>输出结果如下所示：</p>
 <p>a  b  sum_c</p>
 <p>2014 A  1</p>
 <p>2014 B  5</p>
 <p>2014 C  1</p>
 <p>2015 A  3</p>
 <p>2015 D  4</p>
-<p>****参考答案****：</p>
+<p>参考答案：</p>
 <p>select </p>
 <p> a,</p>
 <p> b,</p>
 <p> lag(c,1,0) over(partition by a order by b)+lead(c,1,0) over(partition by a order by b) as sum_c</p>
 <p>from t4;</p>
-<h4 id="问题二：按-a-分组按-b-字段排序，对-c-取平均值"><a href="#问题二：按-a-分组按-b-字段排序，对-c-取平均值" class="headerlink" title="*问题二：按**a**分组按**b**字段排序，对**c**取平均值*"></a><em><strong>*问题二：按*</strong></em><em><strong>*a*</strong></em><em><strong>*分组按*</strong></em><em><strong>*b*</strong></em><em><strong>*字段排序，对*</strong></em><em><strong>*c*</strong></em><em><strong>*取平均值*</strong></em></h4><p>****问题描述****：前一行与当前行的均值！</p>
-<p>****输出结果如下所示****：</p>
+<h4 id="问题二：按a分组按b字段排序，对c取平均值"><a href="#问题二：按a分组按b字段排序，对c取平均值" class="headerlink" title="问题二：按a分组按b字段排序，对c取平均值"></a>问题二：按a分组按b字段排序，对c取平均值</h4><p>问题描述：前一行与当前行的均值！</p>
+<p>输出结果如下所示：</p>
 <p>a  b  avg_c</p>
 <p>2014 A  3</p>
 <p>2014 B  2</p>
 <p>2014 C  1.5</p>
 <p>2015 A  4</p>
 <p>2015 D  3.5</p>
-<p>****参考答案****：</p>
+<p>参考答案：</p>
 <p>select</p>
 <p> a,</p>
 <p> b,</p>
@@ -331,7 +309,7 @@ var _hmt = _hmt || [];
 <p>  lag(c,1) over(partition by a order by b) as lag_c</p>
 <p> from t4</p>
 <p> )temp;</p>
-<h2 id="五、产生连续数值"><a href="#五、产生连续数值" class="headerlink" title="*五、产生连续数值*"></a><em><strong>*五、产生连续数值*</strong></em></h2><p>****输出结果如下所示****：</p>
+<h2 id="五、产生连续数值"><a href="#五、产生连续数值" class="headerlink" title="五、产生连续数值"></a>五、产生连续数值</h2><p>输出结果如下所示：</p>
 <p>1</p>
 <p>2</p>
 <p>3</p>
@@ -339,8 +317,8 @@ var _hmt = _hmt || [];
 <p>5</p>
 <p>…</p>
 <p>100</p>
-<p>****参考答案****：</p>
-<p><em><strong>*不借助其他任何外表，实现产生连续数值*</strong></em></p>
+<p>参考答案：</p>
+<p>不借助其他任何外表，实现产生连续数值</p>
 <p>此处给出两种解法，其一：</p>
 <p>select</p>
 <p>id_start+pos as id</p>
@@ -356,26 +334,26 @@ var _hmt = _hmt || [];
 <p> (select split(space(99), ‘ ‘) as x) t</p>
 <p>lateral view</p>
 <p>explode(x) ex;</p>
-<p><em><strong>*那如何产生1至1000000连续数值？*</strong></em></p>
-<p>****参考答案****：</p>
+<p>那如何产生1至1000000连续数值？</p>
+<p>参考答案：</p>
 <p>select</p>
 <p> row_number() over() as id</p>
 <p>from </p>
 <p> (select split(space(999999), ‘ ‘) as x) t</p>
 <p>lateral view</p>
 <p>explode(x) ex;</p>
-<h2 id="六、数据扩充与收缩"><a href="#六、数据扩充与收缩" class="headerlink" title="*六、数据扩充与收缩*"></a><em><strong>*六、数据扩充与收缩*</strong></em></h2><p>****表名****：t6</p>
-<p>****表字段及内容****：</p>
+<h2 id="六、数据扩充与收缩"><a href="#六、数据扩充与收缩" class="headerlink" title="六、数据扩充与收缩"></a>六、数据扩充与收缩</h2><p>表名：t6</p>
+<p>表字段及内容：</p>
 <p>a</p>
 <p>3</p>
 <p>2</p>
 <p>4</p>
-<h4 id="问题一：数据扩充"><a href="#问题一：数据扩充" class="headerlink" title="*问题一：数据扩充*"></a><em><strong>*问题一：数据扩充*</strong></em></h4><p>****输出结果如下所示****：</p>
+<h4 id="问题一：数据扩充"><a href="#问题一：数据扩充" class="headerlink" title="问题一：数据扩充"></a>问题一：数据扩充</h4><p>输出结果如下所示：</p>
 <p>a   b</p>
 <p>3  3、2、1</p>
 <p>2  2、1</p>
 <p>4  4、3、2、1</p>
-<p>****参考答案****：</p>
+<p>参考答案：</p>
 <p>select </p>
 <p> t.a,</p>
 <p> concat_ws(‘、’,collect_set(cast(t.rn as string))) as b</p>
@@ -390,7 +368,7 @@ var _hmt = _hmt || [];
 <p>  select</p>
 <p>   row_number() over() as rn</p>
 <p>  from </p>
-<p>  (select split(space(5), ‘ ‘) as x) t <strong>– space(5)可根据t6表的最大值灵活调整</strong></p>
+<p>  (select split(space(5), ‘ ‘) as x) t – space(5)可根据t6表的最大值灵活调整</p>
 <p>  lateral view</p>
 <p>  explode(x) pe</p>
 <p> ) b</p>
@@ -399,12 +377,12 @@ var _hmt = _hmt || [];
 <p> order by t6.a, b.rn desc </p>
 <p>) t</p>
 <p>group by t.a;</p>
-<h4 id="问题二：数据扩充，排除偶数"><a href="#问题二：数据扩充，排除偶数" class="headerlink" title="*问题二：数据扩充，排除偶数*"></a><em><strong>*问题二：数据扩充，排除偶数*</strong></em></h4><p>****输出结果如下所示****：</p>
+<h4 id="问题二：数据扩充，排除偶数"><a href="#问题二：数据扩充，排除偶数" class="headerlink" title="问题二：数据扩充，排除偶数"></a>问题二：数据扩充，排除偶数</h4><p>输出结果如下所示：</p>
 <p>a   b</p>
 <p>3  3、1</p>
 <p>2  1</p>
 <p>4  3、1</p>
-<p>****参考答案****：</p>
+<p>参考答案：</p>
 <p>select </p>
 <p> t.a,</p>
 <p> concat_ws(‘、’,collect_set(cast(t.rn as string))) as b</p>
@@ -428,13 +406,13 @@ var _hmt = _hmt || [];
 <p> order by t6.a, b.rn desc </p>
 <p>) t</p>
 <p>group by t.a;</p>
-<h4 id="问题三：如何处理字符串累计拼接"><a href="#问题三：如何处理字符串累计拼接" class="headerlink" title="*问题三：如何处理字符串累计拼接*"></a><em><strong>*问题三：如何处理字符串累计拼接*</strong></em></h4><p>****问题描述****：将小于等于a字段的值聚合拼接起来</p>
-<p>****输出结果如下所示****：</p>
+<h4 id="问题三：如何处理字符串累计拼接"><a href="#问题三：如何处理字符串累计拼接" class="headerlink" title="问题三：如何处理字符串累计拼接"></a>问题三：如何处理字符串累计拼接</h4><p>问题描述：将小于等于a字段的值聚合拼接起来</p>
+<p>输出结果如下所示：</p>
 <p>a   b</p>
 <p>3   2、3</p>
 <p>2   2</p>
 <p>4   2、3、4</p>
-<p>****参考答案****：</p>
+<p>参考答案：</p>
 <p>select </p>
 <p> t.a,</p>
 <p> concat_ws(‘、’,collect_set(cast(t.a1 as string))) as b</p>
@@ -454,13 +432,13 @@ var _hmt = _hmt || [];
 <p> order by t6.a, b.a1 </p>
 <p>) t</p>
 <p>group by t.a;</p>
-<h4 id="问题四：如果a字段有重复，如何实现字符串累计拼接"><a href="#问题四：如果a字段有重复，如何实现字符串累计拼接" class="headerlink" title="*问题四：如果a字段有重复，如何实现字符串累计拼接*"></a><em><strong>*问题四：如果a字段有重复，如何实现字符串累计拼接*</strong></em></h4><p>****输出结果如下所示****：</p>
+<h4 id="问题四：如果a字段有重复，如何实现字符串累计拼接"><a href="#问题四：如果a字段有重复，如何实现字符串累计拼接" class="headerlink" title="问题四：如果a字段有重复，如何实现字符串累计拼接"></a>问题四：如果a字段有重复，如何实现字符串累计拼接</h4><p>输出结果如下所示：</p>
 <p>a   b</p>
 <p>2   2</p>
 <p>3   2、3</p>
 <p>3   2、3、3</p>
 <p>4   2、3、3、4</p>
-<p>****参考答案****：</p>
+<p>参考答案：</p>
 <p>select </p>
 <p> a,</p>
 <p> b</p>
@@ -496,8 +474,8 @@ var _hmt = _hmt || [];
 <p> group by t.a,t.rn</p>
 <p> order by t.a,t.rn</p>
 <p>) tt; </p>
-<h4 id="问题五：数据展开"><a href="#问题五：数据展开" class="headerlink" title="*问题五：数据展开*"></a><em><strong>*问题五：数据展开*</strong></em></h4><p>****问题描述****：如何将字符串”1-5,16,11-13,9”扩展成”1,2,3,4,5,16,11,12,13,9”？注意顺序不变。</p>
-<p>****参考答案****：</p>
+<h4 id="问题五：数据展开"><a href="#问题五：数据展开" class="headerlink" title="问题五：数据展开"></a>问题五：数据展开</h4><p>问题描述：如何将字符串”1-5,16,11-13,9”扩展成”1,2,3,4,5,16,11,12,13,9”？注意顺序不变。</p>
+<p>参考答案：</p>
 <p>select </p>
 <p> concat_ws(‘,’,collect_list(cast(rn as string)))</p>
 <p>from</p>
@@ -510,7 +488,7 @@ var _hmt = _hmt || [];
 <p>  (</p>
 <p>  select</p>
 <p>   row_number() over() as rn</p>
-<p>  from (select split(space(20), ‘ ‘) as x) t <strong>– space(20)可灵活调整</strong></p>
+<p>  from (select split(space(20), ‘ ‘) as x) t – space(20)可灵活调整</p>
 <p>  lateral view</p>
 <p>  explode(x) pe</p>
 <p>  ) a lateral view outer </p>
@@ -518,24 +496,24 @@ var _hmt = _hmt || [];
 <p>  where a.rn between cast(split(num, ‘-‘)[0] as int) and cast(split(num, ‘-‘)[1] as int) or a.rn = num</p>
 <p>  order by pos, rn </p>
 <p>) t;</p>
-<h2 id="七、合并与拆分"><a href="#七、合并与拆分" class="headerlink" title="*七、合并与拆分*"></a><em><strong>*七、合并与拆分*</strong></em></h2><p>****表名****：t7</p>
-<p>****表字段及内容****：</p>
+<h2 id="七、合并与拆分"><a href="#七、合并与拆分" class="headerlink" title="七、合并与拆分"></a>七、合并与拆分</h2><p>表名：t7</p>
+<p>表字段及内容：</p>
 <p>a  b</p>
 <p>2014 A</p>
 <p>2014 B</p>
 <p>2015 B</p>
 <p>2015 D</p>
-<h4 id="问题一：合并"><a href="#问题一：合并" class="headerlink" title="*问题一：合并*"></a><em><strong>*问题一：合并*</strong></em></h4><p>****输出结果如下所示****：</p>
+<h4 id="问题一：合并"><a href="#问题一：合并" class="headerlink" title="问题一：合并"></a>问题一：合并</h4><p>输出结果如下所示：</p>
 <p>2014 A、B</p>
 <p>2015 B、D</p>
-<p><em><strong>*参考答案*</strong></em>:</p>
+<p>参考答案:</p>
 <p>select</p>
 <p> a,</p>
 <p> concat_ws(‘、’, collect_set(t.b)) b</p>
 <p>from t7</p>
 <p>group by a;</p>
-<h4 id="问题二：拆分"><a href="#问题二：拆分" class="headerlink" title="*问题二：拆分*"></a><em><strong>*问题二：拆分*</strong></em></h4><p>****问题描述****：将分组合并的结果拆分出来</p>
-<p>****参考答案****：</p>
+<h4 id="问题二：拆分"><a href="#问题二：拆分" class="headerlink" title="问题二：拆分"></a>问题二：拆分</h4><p>问题描述：将分组合并的结果拆分出来</p>
+<p>参考答案：</p>
 <p>select</p>
 <p> t.a,</p>
 <p> d</p>
@@ -549,15 +527,15 @@ var _hmt = _hmt || [];
 <p>)t</p>
 <p>lateral view </p>
 <p>explode(split(t.b, ‘、’)) table_tmp as d;</p>
-<h2 id="八、模拟循环操作"><a href="#八、模拟循环操作" class="headerlink" title="*八、模拟循环操作*"></a><em><strong>*八、模拟循环操作*</strong></em></h2><p>****表名****：t8</p>
-<p>****表字段及内容****：</p>
+<h2 id="八、模拟循环操作"><a href="#八、模拟循环操作" class="headerlink" title="八、模拟循环操作"></a>八、模拟循环操作</h2><p>表名：t8</p>
+<p>表字段及内容：</p>
 <p>a</p>
 <p>1011</p>
 <p>0101</p>
-<h5 id="问题一：如何将字符’1’的位置提取出来"><a href="#问题一：如何将字符’1’的位置提取出来" class="headerlink" title="*问题一：如何将字符’1’的位置提取出来*"></a><em><strong>*问题一：如何将字符’1’的位置提取出来*</strong></em></h5><p><em><strong>*输出结果如下所示*</strong></em>:</p>
+<h5 id="问题一：如何将字符’1’的位置提取出来"><a href="#问题一：如何将字符’1’的位置提取出来" class="headerlink" title="问题一：如何将字符’1’的位置提取出来"></a>问题一：如何将字符’1’的位置提取出来</h5><p>输出结果如下所示:</p>
 <p>1,3,4</p>
 <p>2,4</p>
-<p>****参考答案****：</p>
+<p>参考答案：</p>
 <p>select </p>
 <p>  a,</p>
 <p>  concat_ws(“,”,collect_list(cast(index as string))) as res</p>
@@ -576,24 +554,23 @@ var _hmt = _hmt || [];
 <p>  where chr = “1”</p>
 <p>) tmp2</p>
 <p>group by a;</p>
-<h2 id="九、不使用distinct或group-by去重"><a href="#九、不使用distinct或group-by去重" class="headerlink" title="*九、不使用distinct或group by去重*"></a><em><strong>*九、不使用distinct或group by去重*</strong></em></h2><p>****表名****：t9</p>
-<p>****表字段及内容****：</p>
+<h2 id="九、不使用distinct或group-by去重"><a href="#九、不使用distinct或group-by去重" class="headerlink" title="九、不使用distinct或group by去重"></a>九、不使用distinct或group by去重</h2><p>表名：t9</p>
+<p>表字段及内容：</p>
 <p>a   b   c  d</p>
 <p>2014 2016 2014  A</p>
 <p>2014 2015 2015  B</p>
-<h4 id="问题一：不使用distinct或group-by去重"><a href="#问题一：不使用distinct或group-by去重" class="headerlink" title="*问题一：不使用distinct或group by去重*"></a><em><strong>*问题一：不使用distinct或group by去重*</strong></em></h4><p>****输出结果如下所示****：</p>
+<h4 id="问题一：不使用distinct或group-by去重"><a href="#问题一：不使用distinct或group-by去重" class="headerlink" title="问题一：不使用distinct或group by去重"></a>问题一：不使用distinct或group by去重</h4><p>输出结果如下所示：</p>
 <p>2014 A</p>
 <p>2016 A</p>
 <p>2014 B</p>
 <p>2015 B</p>
-<p>****参考答案****：</p>
+<p>参考答案：</p>
 <p>select</p>
 <p> t2.year</p>
 <p> ,t2.num</p>
 <p>from</p>
 <p> (</p>
 <p> select</p>
-<p>  *</p>
 <p>  ,row_number() over (partition by t1.year,t1.num) as rank_1</p>
 <p> from </p>
 <p> (</p>
@@ -615,15 +592,15 @@ var _hmt = _hmt || [];
 <p>)t2</p>
 <p>where rank_1=1</p>
 <p>order by num;</p>
-<h2 id="十、容器–反转内容"><a href="#十、容器–反转内容" class="headerlink" title="*十、容器–反转内容*"></a><em><strong>*十、容器–反转内容*</strong></em></h2><p>****表名****：t10</p>
-<p>****表字段及内容****：</p>
+<h2 id="十、容器–反转内容"><a href="#十、容器–反转内容" class="headerlink" title="十、容器–反转内容"></a>十、容器–反转内容</h2><p>表名：t10</p>
+<p>表字段及内容：</p>
 <p>a</p>
 <p>AB,CA,BAD</p>
 <p>BD,EA</p>
-<h4 id="问题一：反转逗号分隔的数据：改变顺序，内容不变"><a href="#问题一：反转逗号分隔的数据：改变顺序，内容不变" class="headerlink" title="*问题一：反转逗号分隔的数据：改变顺序，内容不变*"></a><em><strong>*问题一：反转逗号分隔的数据：改变顺序，内容不变*</strong></em></h4><p>****输出结果如下所示****：</p>
+<h4 id="问题一：反转逗号分隔的数据：改变顺序，内容不变"><a href="#问题一：反转逗号分隔的数据：改变顺序，内容不变" class="headerlink" title="问题一：反转逗号分隔的数据：改变顺序，内容不变"></a>问题一：反转逗号分隔的数据：改变顺序，内容不变</h4><p>输出结果如下所示：</p>
 <p>BAD,CA,AB</p>
 <p>EA,BD</p>
-<p>****参考答案****：</p>
+<p>参考答案：</p>
 <p>select </p>
 <p> a,</p>
 <p> concat_ws(“,”,collect_list(reverse(str)))</p>
@@ -636,10 +613,10 @@ var _hmt = _hmt || [];
 <p> lateral view explode(split(reverse(a),”,”)) t as str</p>
 <p>) tmp1</p>
 <p>group by a;</p>
-<h4 id="问题二：反转逗号分隔的数据：改变内容，顺序不变"><a href="#问题二：反转逗号分隔的数据：改变内容，顺序不变" class="headerlink" title="*问题二：反转逗号分隔的数据：改变内容，顺序不变*"></a><em><strong>*问题二：反转逗号分隔的数据：改变内容，顺序不变*</strong></em></h4><p>****输出结果如下所示****：</p>
+<h4 id="问题二：反转逗号分隔的数据：改变内容，顺序不变"><a href="#问题二：反转逗号分隔的数据：改变内容，顺序不变" class="headerlink" title="问题二：反转逗号分隔的数据：改变内容，顺序不变"></a>问题二：反转逗号分隔的数据：改变内容，顺序不变</h4><p>输出结果如下所示：</p>
 <p>BA,AC,DAB</p>
 <p>DB,AE</p>
-<p>****参考答案****：</p>
+<p>参考答案：</p>
 <p>select </p>
 <p> a,</p>
 <p> concat_ws(“,”,collect_list(reverse(str)))</p>
@@ -652,19 +629,19 @@ var _hmt = _hmt || [];
 <p> lateral view explode(split(a,”,”)) t as str</p>
 <p>) tmp1</p>
 <p>group by a;</p>
-<h2 id="十一、多容器–成对提取数据"><a href="#十一、多容器–成对提取数据" class="headerlink" title="*十一、多容器–成对提取数据*"></a><em><strong>*十一、多容器–成对提取数据*</strong></em></h2><p>****表名****：t11</p>
-<p>****表字段及内容****：</p>
+<h2 id="十一、多容器–成对提取数据"><a href="#十一、多容器–成对提取数据" class="headerlink" title="十一、多容器–成对提取数据"></a>十一、多容器–成对提取数据</h2><p>表名：t11</p>
+<p>表字段及内容：</p>
 <p>a    b</p>
 <p>A/B   1/3</p>
 <p>B/C/D  4/5/2</p>
-<h4 id="问题一：成对提取数据，字段一一对应"><a href="#问题一：成对提取数据，字段一一对应" class="headerlink" title="*问题一：成对提取数据，字段一一对应*"></a><em><strong>*问题一：成对提取数据，字段一一对应*</strong></em></h4><p>****输出结果如下所示****：</p>
+<h4 id="问题一：成对提取数据，字段一一对应"><a href="#问题一：成对提取数据，字段一一对应" class="headerlink" title="问题一：成对提取数据，字段一一对应"></a>问题一：成对提取数据，字段一一对应</h4><p>输出结果如下所示：</p>
 <p>a    b</p>
 <p>A    1</p>
 <p>B    3</p>
 <p>B    4</p>
 <p>C    5</p>
 <p>D    2</p>
-<p><em><strong>*参考答案*</strong></em>:</p>
+<p>参考答案:</p>
 <p>select </p>
 <p> a_inx,</p>
 <p> b_inx</p>
@@ -682,12 +659,12 @@ var _hmt = _hmt || [];
 <p> lateral view posexplode(split(b,’/‘)) t as b_id,b_inx</p>
 <p>) tmp</p>
 <p>where a_id=b_id;</p>
-<h2 id="十二、多容器–转多行"><a href="#十二、多容器–转多行" class="headerlink" title="*十二、多容器–转多行*"></a><em><strong>*十二、多容器–转多行*</strong></em></h2><p>****表名****：t12</p>
-<p>****表字段及内容****：</p>
+<h2 id="十二、多容器–转多行"><a href="#十二、多容器–转多行" class="headerlink" title="十二、多容器–转多行"></a>十二、多容器–转多行</h2><p>表名：t12</p>
+<p>表字段及内容：</p>
 <p>a    b   c</p>
 <p>001   A/B   1/3/5</p>
 <p>002   B/C/D  4/5</p>
-<h4 id="问题一：转多行"><a href="#问题一：转多行" class="headerlink" title="*问题一：转多行*"></a><em><strong>*问题一：转多行*</strong></em></h4><p>****输出结果如下所示****：</p>
+<h4 id="问题一：转多行"><a href="#问题一：转多行" class="headerlink" title="问题一：转多行"></a>问题一：转多行</h4><p>输出结果如下所示：</p>
 <p>a    d    e</p>
 <p>001   type_b  A</p>
 <p>001   type_b  B</p>
@@ -699,7 +676,7 @@ var _hmt = _hmt || [];
 <p>002   type_b  D</p>
 <p>002   type_c  4</p>
 <p>002   type_c  5</p>
-<p><em><strong>*参考答案*</strong></em>:</p>
+<p>参考答案:</p>
 <p>select </p>
 <p> a,</p>
 <p> d,</p>
@@ -721,8 +698,8 @@ var _hmt = _hmt || [];
 <p> lateral view explode(split(c,”/“)) t as str</p>
 <p>) tmp</p>
 <p>order by a,d;</p>
-<h2 id="十三、抽象分组–断点排序"><a href="#十三、抽象分组–断点排序" class="headerlink" title="*十三、抽象分组–断点排序*"></a><em><strong>*十三、抽象分组–断点排序*</strong></em></h2><p>****表名****：t13</p>
-<p>****表字段及内容****：</p>
+<h2 id="十三、抽象分组–断点排序"><a href="#十三、抽象分组–断点排序" class="headerlink" title="十三、抽象分组–断点排序"></a>十三、抽象分组–断点排序</h2><p>表名：t13</p>
+<p>表字段及内容：</p>
 <p>a  b</p>
 <p>2014 1</p>
 <p>2015 1</p>
@@ -734,7 +711,7 @@ var _hmt = _hmt || [];
 <p>2021 -1</p>
 <p>2022 1</p>
 <p>2023 1</p>
-<h4 id="问题一：断点排序"><a href="#问题一：断点排序" class="headerlink" title="*问题一：断点排序*"></a><em><strong>*问题一：断点排序*</strong></em></h4><p>****输出结果如下所示****：</p>
+<h4 id="问题一：断点排序"><a href="#问题一：断点排序" class="headerlink" title="问题一：断点排序"></a>问题一：断点排序</h4><p>输出结果如下所示：</p>
 <p>a  b  c </p>
 <p>2014 1  1</p>
 <p>2015 1  2</p>
@@ -746,48 +723,48 @@ var _hmt = _hmt || [];
 <p>2021 -1  3</p>
 <p>2022 1  1</p>
 <p>2023 1  2</p>
-<p><em><strong>*参考答案*</strong></em>:</p>
+<p>参考答案:</p>
 <p>select </p>
 <p> a,</p>
 <p> b,</p>
-<p> row_number() over( partition by b,repair_a order by a asc) as c**–按照b列和[b的组首]分组，排序**</p>
+<p> row_number() over( partition by b,repair_a order by a asc) as c–按照b列和[b的组首]分组，排序</p>
 <p>from </p>
 <p>(</p>
 <p> select </p>
 <p>  a,</p>
 <p>  b,</p>
-<p>  a-b_rn as repair_a**–根据b列值出现的次序,修复a列值为b首次出现的a列值,称为b的[组首]**</p>
+<p>  a-b_rn as repair_a–根据b列值出现的次序,修复a列值为b首次出现的a列值,称为b的[组首]</p>
 <p> from </p>
 <p> (</p>
 <p>  select </p>
 <p>   a,</p>
 <p>   b,</p>
-<p>   row_number() over( partition by b order by a asc ) as b_rn**–按b列分组,按a列排序,得到b列各值出现的次序**</p>
+<p>   row_number() over( partition by b order by a asc ) as b_rn–按b列分组,按a列排序,得到b列各值出现的次序</p>
 <p>  from t13 </p>
 <p> )tmp1</p>
-<p>)tmp2**–注意，如果不同的b列值，可能出现同样的组首值，但组首值需要和a列值 一并参与分组，故并不影响排序。**</p>
+<p>)tmp2–注意，如果不同的b列值，可能出现同样的组首值，但组首值需要和a列值 一并参与分组，故并不影响排序。</p>
 <p>order by a asc; </p>
-<h2 id="十四、业务逻辑的分类与抽象–时效"><a href="#十四、业务逻辑的分类与抽象–时效" class="headerlink" title="*十四、业务逻辑的分类与抽象–时效*"></a><em><strong>*十四、业务逻辑的分类与抽象–时效*</strong></em></h2><p>****日期表****：d_date</p>
-<p>****表字段及内容****：</p>
+<h2 id="十四、业务逻辑的分类与抽象–时效"><a href="#十四、业务逻辑的分类与抽象–时效" class="headerlink" title="十四、业务逻辑的分类与抽象–时效"></a>十四、业务逻辑的分类与抽象–时效</h2><p>日期表：d_date</p>
+<p>表字段及内容：</p>
 <p>date_id   is_work</p>
 <p>2017-04-13    1</p>
 <p>2017-04-14    1</p>
 <p>2017-04-15    0</p>
 <p>2017-04-16    0</p>
 <p>2017-04-17    1</p>
-<p>****工作日****：周一至周五09:30-18:30</p>
-<p>****客户申请表****：t14</p>
-<p>****表字段及内容****：</p>
+<p>工作日：周一至周五09:30-18:30</p>
+<p>客户申请表：t14</p>
+<p>表字段及内容：</p>
 <p>a   b    c</p>
 <p>1   申请  2017-04-14 18:03:00</p>
 <p>1   通过  2017-04-17 09:43:00</p>
 <p>2   申请  2017-04-13 17:02:00</p>
 <p>2   通过  2017-04-15 09:42:00</p>
-<h4 id="问题一：计算上表中从申请到通过占用的工作时长"><a href="#问题一：计算上表中从申请到通过占用的工作时长" class="headerlink" title="*问题一：计算上表中从申请到通过占用的工作时长*"></a><em><strong>*问题一：计算上表中从申请到通过占用的工作时长*</strong></em></h4><p>****输出结果如下所示****：</p>
+<h4 id="问题一：计算上表中从申请到通过占用的工作时长"><a href="#问题一：计算上表中从申请到通过占用的工作时长" class="headerlink" title="问题一：计算上表中从申请到通过占用的工作时长"></a>问题一：计算上表中从申请到通过占用的工作时长</h4><p>输出结果如下所示：</p>
 <p>a     d</p>
 <p>1    0.67h</p>
 <p>2    10.67h </p>
-<p><em><strong>*参考答案*</strong></em>:</p>
+<p>参考答案:</p>
 <p>select </p>
 <p>  a,</p>
 <p>  round(sum(diff)/3600,2) as d</p>
@@ -803,7 +780,7 @@ var _hmt = _hmt || [];
 <p>​    case when is_work=1 and rn=1 then unix_timestamp(concat(dates,’ 18:30:00’),’yyyy-MM-dd HH:mm:ss’)-unix_timestamp(apply_time,’yyyy-MM-dd HH:mm:ss’)</p>
 <p>​      when is_work=0 then 0</p>
 <p>​      when is_work=1 and rn=ct then unix_timestamp(pass_time,’yyyy-MM-dd HH:mm:ss’)-unix_timestamp(concat(dates,’ 09:30:00’),’yyyy-MM-dd HH:mm:ss’)</p>
-<p>​      when is_work=1 and rn!=ct then 9*3600</p>
+<p>​      when is_work=1 and rn!=ct then 93600</p>
 <p>​    end diff</p>
 <p>  from (</p>
 <p>​    select </p>
@@ -825,7 +802,7 @@ var _hmt = _hmt || [];
 <p>​        strs,</p>
 <p>​        start,</p>
 <p>​        row_number() over(partition by a) as rn,</p>
-<p>​        count(*) over(partition by a) as ct</p>
+<p>​        count() over(partition by a) as ct</p>
 <p>​      from (</p>
 <p>​        select </p>
 <p>​          a,</p>
@@ -833,7 +810,7 @@ var _hmt = _hmt || [];
 <p>​          pass_time,</p>
 <p>​          time_diff,</p>
 <p>​          day_diff,</p>
-<p>​          substr(repeat(concat(substr(apply_time,1,10),’,’),day_diff+1),1,11*(day_diff+1)-1) strs</p>
+<p>​          substr(repeat(concat(substr(apply_time,1,10),’,’),day_diff+1),1,11(day_diff+1)-1) strs</p>
 <p>​        from (</p>
 <p>​          select </p>
 <p>​            a,</p>
@@ -858,8 +835,8 @@ var _hmt = _hmt || [];
 <p>  on tmp5.dates = d_date.date_id</p>
 <p>) tmp6</p>
 <p>group by a;</p>
-<h2 id="十五、时间序列–进度及剩余"><a href="#十五、时间序列–进度及剩余" class="headerlink" title="*十五、时间序列–进度及剩余*"></a><em><strong>*十五、时间序列–进度及剩余*</strong></em></h2><p>****表名****：t15</p>
-<p>****表字段及内容****：</p>
+<h2 id="十五、时间序列–进度及剩余"><a href="#十五、时间序列–进度及剩余" class="headerlink" title="十五、时间序列–进度及剩余"></a>十五、时间序列–进度及剩余</h2><p>表名：t15</p>
+<p>表字段及内容：</p>
 <p>date_id   is_work</p>
 <p>2017-07-30   0</p>
 <p>2017-07-31   1</p>
@@ -870,7 +847,7 @@ var _hmt = _hmt || [];
 <p>2017-08-05   0</p>
 <p>2017-08-06   0</p>
 <p>2017-08-07   1</p>
-<h4 id="问题一：求每天的累计周工作日，剩余周工作日"><a href="#问题一：求每天的累计周工作日，剩余周工作日" class="headerlink" title="*问题一：求每天的累计周工作日，剩余周工作日*"></a><em><strong>*问题一：求每天的累计周工作日，剩余周工作日*</strong></em></h4><p>****输出结果如下所示****：</p>
+<h4 id="问题一：求每天的累计周工作日，剩余周工作日"><a href="#问题一：求每天的累计周工作日，剩余周工作日" class="headerlink" title="问题一：求每天的累计周工作日，剩余周工作日"></a>问题一：求每天的累计周工作日，剩余周工作日</h4><p>输出结果如下所示：</p>
 <p>date_id   week_to_work week_left_work</p>
 <p>2017-07-31   1       4</p>
 <p>2017-08-01   2       3</p>
@@ -879,7 +856,7 @@ var _hmt = _hmt || [];
 <p>2017-08-04   5       0</p>
 <p>2017-08-05   5       0</p>
 <p>2017-08-06   5       0</p>
-<p><em><strong>*参考答案*</strong></em>:</p>
+<p>参考答案:</p>
 <p>此处给出两种解法，其一：</p>
 <p>select </p>
 <p> date_id</p>
@@ -921,7 +898,7 @@ var _hmt = _hmt || [];
 <p>​    from t15</p>
 <p>  ) ta</p>
 <p>) tb order by date_id;</p>
-<h2 id="十六、时间序列–构造日期"><a href="#十六、时间序列–构造日期" class="headerlink" title="*十六、时间序列–构造日期*"></a><em><strong>*十六、时间序列–构造日期*</strong></em></h2><h4 id="问题一：直接使用SQL实现一张日期维度表，包含以下字段："><a href="#问题一：直接使用SQL实现一张日期维度表，包含以下字段：" class="headerlink" title="*问题一：直接使用SQL实现一张日期维度表，包含以下字段：*"></a><em><strong>*问题一：直接使用SQL实现一张日期维度表，包含以下字段：*</strong></em></h4><p>date         string        日期</p>
+<h2 id="十六、时间序列–构造日期"><a href="#十六、时间序列–构造日期" class="headerlink" title="十六、时间序列–构造日期"></a>十六、时间序列–构造日期</h2><h4 id="问题一：直接使用SQL实现一张日期维度表，包含以下字段："><a href="#问题一：直接使用SQL实现一张日期维度表，包含以下字段：" class="headerlink" title="问题一：直接使用SQL实现一张日期维度表，包含以下字段："></a>问题一：直接使用SQL实现一张日期维度表，包含以下字段：</h4><p>date         string        日期</p>
 <p>d_week        string        年内第几周</p>
 <p>weeks        int         周几</p>
 <p>w_start       string        周开始日</p>
@@ -935,7 +912,7 @@ var _hmt = _hmt || [];
 <p>d_year        int          年份</p>
 <p>y_start       string        年开始日</p>
 <p>y_end        string        年结束日</p>
-<p>****参考答案****：</p>
+<p>参考答案：</p>
 <p>drop table if exists dim_date;</p>
 <p>create table if not exists dim_date(</p>
 <p>  <code>date</code> string comment ‘日期’,</p>
@@ -953,10 +930,10 @@ var _hmt = _hmt || [];
 <p>  y_start string comment ‘年开始日’,</p>
 <p>  y_end string comment ‘年结束日’</p>
 <p>);</p>
-<p><strong>–自然月: 指每月的1号到那个月的月底，它是按照阳历来计算的。就是从每月1号到月底，不管这个月有30天，31天，29天或者28天，都算是一个自然月。</strong></p>
+<p>–自然月: 指每月的1号到那个月的月底，它是按照阳历来计算的。就是从每月1号到月底，不管这个月有30天，31天，29天或者28天，都算是一个自然月。</p>
 <p>insert overwrite table dim_date</p>
 <p>select <code>date</code></p>
-<p>   , d_week <strong>–年内第几周</strong></p>
+<p>   , d_week –年内第几周</p>
 <p>   , case weekid</p>
 <p>​      when 0 then ‘周日’</p>
 <p>​      when 1 then ‘周一’</p>
@@ -965,39 +942,39 @@ var _hmt = _hmt || [];
 <p>​      when 4 then ‘周四’</p>
 <p>​      when 5 then ‘周五’</p>
 <p>​      when 6 then ‘周六’</p>
-<p>  end as weeks <strong>– 周</strong></p>
-<p>   , date_add(next_day(<code>date</code>,’MO’),-7) as w_start <strong>–周一</strong></p>
-<p>   , date_add(next_day(<code>date</code>,’MO’),-1) as w_end  <strong>– 周日_end</strong></p>
-<p>   <strong>– 月份日期</strong></p>
+<p>  end as weeks – 周</p>
+<p>   , date_add(next_day(<code>date</code>,’MO’),-7) as w_start –周一</p>
+<p>   , date_add(next_day(<code>date</code>,’MO’),-1) as w_end  – 周日_end</p>
+<p>   – 月份日期</p>
 <p>   , concat(‘第’, monthid, ‘月’) as d_month</p>
 <p>   , m_start</p>
 <p>   , m_end</p>
-<p>   <strong>– 季节</strong></p>
+<p>   – 季节</p>
 <p>   , quarterid as d_quart</p>
-<p>   , concat(d_year, ‘-‘, substr(concat(‘0’, (quarterid - 1) * 3 + 1), -2), ‘-01’) as q_start <strong>–季开始日</strong></p>
-<p>   , date_sub(concat(d_year, ‘-‘, substr(concat(‘0’, (quarterid) * 3 + 1), -2), ‘-01’), 1) as q_end  <strong>–季结束日</strong></p>
-<p>   <strong>– 年</strong></p>
+<p>   , concat(d_year, ‘-‘, substr(concat(‘0’, (quarterid - 1)  3 + 1), -2), ‘-01’) as q_start –季开始日</p>
+<p>   , date_sub(concat(d_year, ‘-‘, substr(concat(‘0’, (quarterid)  3 + 1), -2), ‘-01’), 1) as q_end  –季结束日</p>
+<p>   – 年</p>
 <p>   , d_year</p>
 <p>   , y_start</p>
 <p>   , y_end</p>
 <p>from (</p>
 <p>​     select <code>date</code></p>
-<p>​       , pmod(datediff(<code>date</code>, ‘2012-01-01’), 7)         as weekid  <strong>–获取周几</strong></p>
-<p>​       , cast(substr(<code>date</code>, 6, 2) as int)            as monthid  <strong>–获取月份</strong></p>
+<p>​       , pmod(datediff(<code>date</code>, ‘2012-01-01’), 7)         as weekid  –获取周几</p>
+<p>​       , cast(substr(<code>date</code>, 6, 2) as int)            as monthid  –获取月份</p>
 <p>​       , case</p>
 <p>​          when cast(substr(<code>date</code>, 6, 2) as int) &lt;= 3 then 1</p>
 <p>​          when cast(substr(<code>date</code>, 6, 2) as int) &lt;= 6 then 2</p>
 <p>​          when cast(substr(<code>date</code>, 6, 2) as int) &lt;= 9 then 3</p>
 <p>​          when cast(substr(<code>date</code>, 6, 2) as int) &lt;= 12 then 4</p>
-<p>​       end                            as quarterid <strong>–获取季节 可以直接使用 quarter(<code>date</code>)</strong></p>
-<p>​       , substr(<code>date</code>, 1, 4)                   as d_year  <strong>– 获取年份</strong></p>
-<p>​       , trunc(<code>date</code>, ‘YYYY’)                  as y_start  <strong>–年开始日</strong></p>
-<p>​       , date_sub(trunc(add_months(<code>date</code>, 12), ‘YYYY’), 1) as y_end   <strong>–年结束日</strong></p>
-<p>​       , date_sub(<code>date</code>, dayofmonth(<code>date</code>) - 1)         as m_start  <strong>–当月第一天</strong></p>
-<p>​       , last_day(date_sub(<code>date</code>, dayofmonth(<code>date</code>) - 1))     m_end   <strong>–当月最后一天</strong></p>
-<p>​       , weekofyear(<code>date</code>)                    as d_week  <strong>–年内第几周</strong></p>
+<p>​       end                            as quarterid –获取季节 可以直接使用 quarter(<code>date</code>)</p>
+<p>​       , substr(<code>date</code>, 1, 4)                   as d_year  – 获取年份</p>
+<p>​       , trunc(<code>date</code>, ‘YYYY’)                  as y_start  –年开始日</p>
+<p>​       , date_sub(trunc(add_months(<code>date</code>, 12), ‘YYYY’), 1) as y_end   –年结束日</p>
+<p>​       , date_sub(<code>date</code>, dayofmonth(<code>date</code>) - 1)         as m_start  –当月第一天</p>
+<p>​       , last_day(date_sub(<code>date</code>, dayofmonth(<code>date</code>) - 1))     m_end   –当月最后一天</p>
+<p>​       , weekofyear(<code>date</code>)                    as d_week  –年内第几周</p>
 <p>​     from (</p>
-<p>​          <strong>– ‘2021-04-01’是开始日期, ‘2022-03-31’是截止日期</strong></p>
+<p>​          – ‘2021-04-01’是开始日期, ‘2022-03-31’是截止日期</p>
 <p>​         select date_add(‘2021-04-01’, t0.pos) as <code>date</code></p>
 <p>​         from (</p>
 <p>​              select posexplode(</p>
@@ -1011,13 +988,13 @@ var _hmt = _hmt || [];
 <p>​            ) t0</p>
 <p>​       ) t1</p>
 <p>   ) t2;</p>
-<h2 id="十七、时间序列–构造累积日期"><a href="#十七、时间序列–构造累积日期" class="headerlink" title="*十七、时间序列–构造累积日期*"></a><em><strong>*十七、时间序列–构造累积日期*</strong></em></h2><p>****表名****：t17</p>
-<p>****表字段及内容****：</p>
+<h2 id="十七、时间序列–构造累积日期"><a href="#十七、时间序列–构造累积日期" class="headerlink" title="十七、时间序列–构造累积日期"></a>十七、时间序列–构造累积日期</h2><p>表名：t17</p>
+<p>表字段及内容：</p>
 <p>date_id</p>
 <p>2017-08-01</p>
 <p>2017-08-02</p>
 <p>2017-08-03</p>
-<h4 id="问题一：每一日期，都扩展成月初至当天"><a href="#问题一：每一日期，都扩展成月初至当天" class="headerlink" title="*问题一：每一日期，都扩展成月初至当天*"></a><em><strong>*问题一：每一日期，都扩展成月初至当天*</strong></em></h4><p>****输出结果如下所示****：</p>
+<h4 id="问题一：每一日期，都扩展成月初至当天"><a href="#问题一：每一日期，都扩展成月初至当天" class="headerlink" title="问题一：每一日期，都扩展成月初至当天"></a>问题一：每一日期，都扩展成月初至当天</h4><p>输出结果如下所示：</p>
 <p>date_id  date_to_day</p>
 <p>2017-08-01 2017-08-01</p>
 <p>2017-08-02 2017-08-01</p>
@@ -1026,7 +1003,7 @@ var _hmt = _hmt || [];
 <p>2017-08-03 2017-08-02</p>
 <p>2017-08-03 2017-08-03</p>
 <p>这种累积相关的表，常做桥接表。</p>
-<p><em><strong>*参考答案*</strong></em>:</p>
+<p>参考答案:</p>
 <p>select</p>
 <p> date_id,</p>
 <p> date_add(date_start_id,pos) as date_to_day</p>
@@ -1038,8 +1015,8 @@ var _hmt = _hmt || [];
 <p> from t17</p>
 <p>) m lateral view </p>
 <p>posexplode(split(space(datediff(from_unixtime(unix_timestamp(date_id,’yyyy-MM-dd’)),from_unixtime(unix_timestamp(date_start_id,’yyyy-MM-dd’)))), ‘’)) t as pos, val;</p>
-<h2 id="十八、时间序列–构造连续日期"><a href="#十八、时间序列–构造连续日期" class="headerlink" title="*十八、时间序列–构造连续日期*"></a><em><strong>*十八、时间序列–构造连续日期*</strong></em></h2><p>****表名****：t18</p>
-<p>****表字段及内容****：</p>
+<h2 id="十八、时间序列–构造连续日期"><a href="#十八、时间序列–构造连续日期" class="headerlink" title="十八、时间序列–构造连续日期"></a>十八、时间序列–构造连续日期</h2><p>表名：t18</p>
+<p>表字段及内容：</p>
 <p>a       b     c</p>
 <p>101    2018-01-01   10</p>
 <p>101    2018-01-03   20</p>
@@ -1047,9 +1024,9 @@ var _hmt = _hmt || [];
 <p>102    2018-01-02   20</p>
 <p>102    2018-01-04   30</p>
 <p>102    2018-01-07   60</p>
-<h4 id="问题一：构造连续日期"><a href="#问题一：构造连续日期" class="headerlink" title="*问题一：构造连续日期*"></a><em><strong>*问题一：构造连续日期*</strong></em></h4><p>****问题描述****：将表中数据的b字段扩充至范围[2018-01-01, 2018-01-07]，并累积对c求和。</p>
+<h4 id="问题一：构造连续日期"><a href="#问题一：构造连续日期" class="headerlink" title="问题一：构造连续日期"></a>问题一：构造连续日期</h4><p>问题描述：将表中数据的b字段扩充至范围[2018-01-01, 2018-01-07]，并累积对c求和。</p>
 <p>b字段的值是较稀疏的。</p>
-<p>****输出结果如下所示****：</p>
+<p>输出结果如下所示：</p>
 <p>a       b     c   d</p>
 <p>101    2018-01-01   10   10</p>
 <p>101    2018-01-02   0   10</p>
@@ -1065,7 +1042,7 @@ var _hmt = _hmt || [];
 <p>102    2018-01-05   0   50</p>
 <p>102    2018-01-06   0   50</p>
 <p>102    2018-01-07   60  110</p>
-<p><em><strong>*参考答案*</strong></em>:</p>
+<p>参考答案:</p>
 <p>select</p>
 <p> a,</p>
 <p> b,</p>
@@ -1098,17 +1075,17 @@ var _hmt = _hmt || [];
 <p>  left join t18</p>
 <p>  on t1.a = t18.a and t1.b = t18.b</p>
 <p>) ts;</p>
-<h2 id="十九、时间序列–取多个字段最新的值"><a href="#十九、时间序列–取多个字段最新的值" class="headerlink" title="*十九、时间序列–取多个字段最新的值*"></a><em><strong>*十九、时间序列–取多个字段最新的值*</strong></em></h2><p>****表名****：t19</p>
-<p>****表字段及内容****：</p>
+<h2 id="十九、时间序列–取多个字段最新的值"><a href="#十九、时间序列–取多个字段最新的值" class="headerlink" title="十九、时间序列–取多个字段最新的值"></a>十九、时间序列–取多个字段最新的值</h2><p>表名：t19</p>
+<p>表字段及内容：</p>
 <p>date_id  a  b  c</p>
 <p>2014   AB 12  bc</p>
 <p>2015     23  </p>
 <p>2016        d</p>
 <p>2017   BC </p>
-<h4 id="问题一：如何一并取出最新日期"><a href="#问题一：如何一并取出最新日期" class="headerlink" title="*问题一：如何一并取出最新日期*"></a><em><strong>*问题一：如何一并取出最新日期*</strong></em></h4><p>****输出结果如下所示****：</p>
+<h4 id="问题一：如何一并取出最新日期"><a href="#问题一：如何一并取出最新日期" class="headerlink" title="问题一：如何一并取出最新日期"></a>问题一：如何一并取出最新日期</h4><p>输出结果如下所示：</p>
 <p>date_a  a  date_b  b  date_c  c</p>
 <p>2017  BC  2015   23  2016  d</p>
-<p><em><strong>*参考答案*</strong></em>:</p>
+<p>参考答案:</p>
 <p>此处给出三种解法，其一：</p>
 <p>SELECT max(CASE WHEN rn_a = 1 THEN date_id else 0 END) AS date_a</p>
 <p>​    ,max(CASE WHEN rn_a = 1 THEN a else null END) AS a</p>
@@ -1121,7 +1098,7 @@ var _hmt = _hmt || [];
 <p>​          ,a</p>
 <p>​          ,b</p>
 <p>​          ,c</p>
-<p>​          <strong>–对每列上不为null的值 的 日期 进行排序</strong></p>
+<p>​          –对每列上不为null的值 的 日期 进行排序</p>
 <p>​          ,row_number()OVER( PARTITION BY 1 ORDER BY CASE WHEN a IS NULL THEN 0 ELSE date_id END DESC) AS rn_a</p>
 <p>​          ,row_number()OVER(PARTITION BY 1 ORDER BY CASE WHEN b IS NULL THEN 0 ELSE date_id END DESC) AS rn_b</p>
 <p>​          ,row_number()OVER(PARTITION BY 1 ORDER BY CASE WHEN c IS NULL THEN 0 ELSE date_id END DESC) AS rn_c</p>
@@ -1188,7 +1165,6 @@ var _hmt = _hmt || [];
 <p>ON 1 = 1;</p>
 <p>其三：</p>
 <p>select </p>
-<p> * </p>
 <p>from </p>
 <p>(</p>
 <p> select t1.date_id as date_a,t1.a from (select t1.date_id,t1.a from t19 t1 where t1.a is not null) t1</p>
@@ -1207,20 +1183,20 @@ var _hmt = _hmt || [];
 <p> inner join (select max(t1.date_id) as date_id  from t19 t1 where t1.c is not null)t2</p>
 <p> on t1.date_c=t2.date_id</p>
 <p>) t3;</p>
-<h2 id="二十、时间序列–补全数据"><a href="#二十、时间序列–补全数据" class="headerlink" title="*二十、时间序列–补全数据*"></a><em><strong>*二十、时间序列–补全数据*</strong></em></h2><p>****表名****：t20</p>
-<p>****表字段及内容****：</p>
+<h2 id="二十、时间序列–补全数据"><a href="#二十、时间序列–补全数据" class="headerlink" title="二十、时间序列–补全数据"></a>二十、时间序列–补全数据</h2><p>表名：t20</p>
+<p>表字段及内容：</p>
 <p>date_id  a  b  c</p>
 <p>2014   AB 12  bc</p>
 <p>2015     23  </p>
 <p>2016        d</p>
 <p>2017   BC </p>
-<h4 id="问题一：如何使用最新数据补全表格"><a href="#问题一：如何使用最新数据补全表格" class="headerlink" title="*问题一：如何使用最新数据补全表格*"></a><em><strong>*问题一：如何使用最新数据补全表格*</strong></em></h4><p>****输出结果如下所示****：</p>
+<h4 id="问题一：如何使用最新数据补全表格"><a href="#问题一：如何使用最新数据补全表格" class="headerlink" title="问题一：如何使用最新数据补全表格"></a>问题一：如何使用最新数据补全表格</h4><p>输出结果如下所示：</p>
 <p>date_id  a  b  c</p>
 <p>2014   AB 12  bc</p>
 <p>2015   AB 23  bc</p>
 <p>2016   AB 23  d</p>
 <p>2017   BC 23  d</p>
-<p><em><strong>*参考答案*</strong></em>:</p>
+<p>参考答案:</p>
 <p>select </p>
 <p> date_id, </p>
 <p> first_value(a) over(partition by aa order by date_id) as a,</p>
@@ -1238,8 +1214,8 @@ var _hmt = _hmt || [];
 <p>  count(c) over(order by date_id) as cc</p>
 <p> from t20</p>
 <p>)tmp1;</p>
-<h2 id="二十一、时间序列–取最新完成状态的前一个状态"><a href="#二十一、时间序列–取最新完成状态的前一个状态" class="headerlink" title="*二十一、时间序列–取最新完成状态的前一个状态*"></a><em><strong>*二十一、时间序列–取最新完成状态的前一个状态*</strong></em></h2><p>****表名****：t21</p>
-<p>****表字段及内容****：</p>
+<h2 id="二十一、时间序列–取最新完成状态的前一个状态"><a href="#二十一、时间序列–取最新完成状态的前一个状态" class="headerlink" title="二十一、时间序列–取最新完成状态的前一个状态"></a>二十一、时间序列–取最新完成状态的前一个状态</h2><p>表名：t21</p>
+<p>表字段及内容：</p>
 <p>date_id  a  b</p>
 <p>2014   1  A</p>
 <p>2015   1  B</p>
@@ -1252,13 +1228,13 @@ var _hmt = _hmt || [];
 <p>2015   3  A</p>
 <p>2016   3  B</p>
 <p>2017   3  A</p>
-<p>****上表中B为完成状态****。</p>
-<h4 id="问题一：取最新完成状态的前一个状态"><a href="#问题一：取最新完成状态的前一个状态" class="headerlink" title="*问题一：取最新完成状态的前一个状态*"></a><em><strong>*问题一：取最新完成状态的前一个状态*</strong></em></h4><p>****输出结果如下所示****：</p>
+<p>上表中B为完成状态。</p>
+<h4 id="问题一：取最新完成状态的前一个状态"><a href="#问题一：取最新完成状态的前一个状态" class="headerlink" title="问题一：取最新完成状态的前一个状态"></a>问题一：取最新完成状态的前一个状态</h4><p>输出结果如下所示：</p>
 <p>date_id a  b</p>
 <p>2016   1  A</p>
 <p>2013   2  A</p>
 <p>2015   3  A</p>
-<p><em><strong>*参考答案*</strong></em>:</p>
+<p>参考答案:</p>
 <p>此处给出两种解法，其一：</p>
 <p>select</p>
 <p>  t21.date_id,</p>
@@ -1285,62 +1261,61 @@ var _hmt = _hmt || [];
 <p> ,next_b as b</p>
 <p>from(</p>
 <p> select</p>
-<p>  *,min(nk) over(partition by a,b) as minb</p>
+<p>  ,min(nk) over(partition by a,b) as minb</p>
 <p> from(</p>
 <p>  select</p>
-<p>   *,row_number() over(partition by a order by date_id desc) nk</p>
+<p>   ,row_number() over(partition by a order by date_id desc) nk</p>
 <p>   ,lead(date_id) over(partition by a order by date_id desc) next_date_id</p>
 <p>   ,lead(b) over(partition by a order by date_id desc) next_b</p>
 <p>  from(</p>
-<p>   select * from t21</p>
+<p>   select  from t21</p>
 <p>  ) t</p>
 <p> ) t</p>
 <p>) t</p>
 <p>where minb = nk and b = ‘B’;</p>
-<h4 id="问题二：如何将完成状态的过程合并"><a href="#问题二：如何将完成状态的过程合并" class="headerlink" title="*问题二：如何将完成状态的过程合并*"></a><em><strong>*问题二：如何将完成状态的过程合并*</strong></em></h4><p><em><strong>*输出结果如下所示*</strong></em>:</p>
+<h4 id="问题二：如何将完成状态的过程合并"><a href="#问题二：如何将完成状态的过程合并" class="headerlink" title="问题二：如何将完成状态的过程合并"></a>问题二：如何将完成状态的过程合并</h4><p>输出结果如下所示:</p>
 <p>a  b_merge</p>
 <p>1  A、B、A、B</p>
 <p>2  A、B</p>
 <p>3  A、A、B</p>
-<p>****参考答案****：</p>
+<p>参考答案：</p>
 <p>select</p>
 <p> a</p>
 <p> ,collect_list(b) as b</p>
 <p>from(</p>
 <p> select</p>
-<p>  *</p>
 <p>  ,min(if(b = ‘B’,nk,null)) over(partition by a) as minb</p>
 <p> from(</p>
 <p>  select</p>
-<p>   *,row_number() over(partition by a order by date_id desc) nk</p>
+<p>   ,row_number() over(partition by a order by date_id desc) nk</p>
 <p>  from(</p>
-<p>   select * from t21</p>
+<p>   select  from t21</p>
 <p>  ) t</p>
 <p> ) t</p>
 <p>) t</p>
 <p>where nk &gt;= minb</p>
 <p>group by a;</p>
-<h2 id="二十二、非等值连接–范围匹配"><a href="#二十二、非等值连接–范围匹配" class="headerlink" title="*二十二、非等值连接–范围匹配*"></a><em><strong>*二十二、非等值连接–范围匹配*</strong></em></h2><p>表f是事实表，表d是匹配表，在hive中如何将匹配表中的值关联到事实表中？</p>
+<h2 id="二十二、非等值连接–范围匹配"><a href="#二十二、非等值连接–范围匹配" class="headerlink" title="二十二、非等值连接–范围匹配"></a>二十二、非等值连接–范围匹配</h2><p>表f是事实表，表d是匹配表，在hive中如何将匹配表中的值关联到事实表中？</p>
 <p>表d相当于拉链过的变化维，但日期范围可能是不全的。</p>
-<p>****表f****：</p>
+<p>表f：</p>
 <p>date_id p_id</p>
 <p> 2017  C</p>
 <p> 2018  B</p>
 <p> 2019  A</p>
 <p> 2013  C</p>
-<p>****表d****：</p>
+<p>表d：</p>
 <p>d_start  d_end  p_id  p_value</p>
 <p> 2016   2018   A    1</p>
 <p> 2016   2018   B    2</p>
 <p> 2008   2009   C    4</p>
 <p> 2010   2015   C    3</p>
-<h4 id="问题一：范围匹配"><a href="#问题一：范围匹配" class="headerlink" title="*问题一：范围匹配*"></a><em><strong>*问题一：范围匹配*</strong></em></h4><p>****输出结果如下所示****：</p>
+<h4 id="问题一：范围匹配"><a href="#问题一：范围匹配" class="headerlink" title="问题一：范围匹配"></a>问题一：范围匹配</h4><p>输出结果如下所示：</p>
 <p>date_id p_id  p_value</p>
 <p> 2017  C   null</p>
 <p> 2018  B   2</p>
 <p> 2019  A   null</p>
 <p> 2013  C   3</p>
-<p>**参考答案：</p>
+<p>参考答案：</p>
 <p>此处给出两种解法，其一：</p>
 <p>select </p>
 <p> f.date_id,</p>
@@ -1384,9 +1359,9 @@ var _hmt = _hmt || [];
 <p>  on f.p_id = d.p_id</p>
 <p>) tmp</p>
 <p>where d_end = max_end;</p>
-<h2 id="二十三、非等值连接–最近匹配"><a href="#二十三、非等值连接–最近匹配" class="headerlink" title="*二十三、非等值连接–最近匹配*"></a><em><strong>*二十三、非等值连接–最近匹配*</strong></em></h2><p>表t23_1和表t23_2通过a和b关联时，有相等的取相等的值匹配，不相等时每一个a的值在b中找差值最小的来匹配。</p>
+<h2 id="二十三、非等值连接–最近匹配"><a href="#二十三、非等值连接–最近匹配" class="headerlink" title="二十三、非等值连接–最近匹配"></a>二十三、非等值连接–最近匹配</h2><p>表t23_1和表t23_2通过a和b关联时，有相等的取相等的值匹配，不相等时每一个a的值在b中找差值最小的来匹配。</p>
 <p>t23_1和t23_2为两个班的成绩单，t23_1班的每个学生成绩在t23_2班中找出成绩最接近的成绩。</p>
-<p>****表t23_1****：a中无重复值</p>
+<p>表t23_1：a中无重复值</p>
 <p>a</p>
 <p>1</p>
 <p>2</p>
@@ -1394,14 +1369,14 @@ var _hmt = _hmt || [];
 <p>5</p>
 <p>8</p>
 <p>10</p>
-<p>****表t23_2****：b中无重复值</p>
+<p>表t23_2：b中无重复值</p>
 <p>b</p>
 <p>2</p>
 <p>3</p>
 <p>7</p>
 <p>11</p>
 <p>13</p>
-<h4 id="问题一：单向最近匹配"><a href="#问题一：单向最近匹配" class="headerlink" title="*问题一：单向最近匹配*"></a><em><strong>*问题一：单向最近匹配*</strong></em></h4><p>****输出结果如下所示****：</p>
+<h4 id="问题一：单向最近匹配"><a href="#问题一：单向最近匹配" class="headerlink" title="问题一：单向最近匹配"></a>问题一：单向最近匹配</h4><p>输出结果如下所示：</p>
 <p>注意：b的值可能会被丢弃</p>
 <p>a  b</p>
 <p>1  2</p>
@@ -1411,9 +1386,8 @@ var _hmt = _hmt || [];
 <p>5  7</p>
 <p>8  7</p>
 <p>10  11</p>
-<p>****参考答案****：</p>
+<p>参考答案：</p>
 <p>select </p>
-<p> * </p>
 <p>from</p>
 <p>(</p>
 <p> select </p>
@@ -1444,8 +1418,8 @@ var _hmt = _hmt || [];
 <p> inner join t23_2 on t23_1.a=t23_2.b</p>
 <p>) result_t </p>
 <p>order by result_t.a;</p>
-<h2 id="二十四、N指标–累计去重"><a href="#二十四、N指标–累计去重" class="headerlink" title="*二十四、N指标–累计去重*"></a><em><strong>*二十四、N指标–累计去重*</strong></em></h2><p>假设表A为事件流水表，客户当天有一条记录则视为当天活跃。</p>
-<p>****表A****：</p>
+<h2 id="二十四、N指标–累计去重"><a href="#二十四、N指标–累计去重" class="headerlink" title="二十四、N指标–累计去重"></a>二十四、N指标–累计去重</h2><p>假设表A为事件流水表，客户当天有一条记录则视为当天活跃。</p>
+<p>表A：</p>
 <p>  time_id     user_id</p>
 <p>2018-01-01 10:00:00  001</p>
 <p>2018-01-01 11:03:00  002</p>
@@ -1460,32 +1434,32 @@ var _hmt = _hmt || [];
 <p>2018-01-03 10:40:00  001</p>
 <p>2018-01-03 14:21:00  005</p>
 <p>假设客户活跃非常，一天产生的事件记录平均达千条。</p>
-<h4 id="问题一：累计去重"><a href="#问题一：累计去重" class="headerlink" title="*问题一：累计去重*"></a><em><strong>*问题一：累计去重*</strong></em></h4><p>****输出结果如下所示****：</p>
+<h4 id="问题一：累计去重"><a href="#问题一：累计去重" class="headerlink" title="问题一：累计去重"></a>问题一：累计去重</h4><p>输出结果如下所示：</p>
 <p>日期    当日活跃人数   月累计活跃人数_截至当日</p>
 <p>date_id  user_cnt_act  user_cnt_act_month</p>
 <p>2018-01-01   2        2</p>
 <p>2018-01-02   3        4</p>
 <p>2018-01-03   3        5</p>
-<p>****参考答案****：</p>
+<p>参考答案：</p>
 <p>SELECT tt1.date_id</p>
 <p>​    ,tt2.user_cnt_act</p>
 <p>​    ,tt1.user_cnt_act_month</p>
 <p>FROM</p>
-<p>(  <strong>– ④ 按照t.date_id分组求出user_cnt_act_month，得到tt1</strong></p>
+<p>(  – ④ 按照t.date_id分组求出user_cnt_act_month，得到tt1</p>
 <p> SELECT t.date_id</p>
 <p>​    ,COUNT(user_id) AS user_cnt_act_month</p>
 <p> FROM</p>
-<p> (  <strong>– ③ 表a和表b进行笛卡尔积，按照a.date_id,b.user_id分组，保证截止到当日的用户唯一，得出表t。</strong></p>
+<p> (  – ③ 表a和表b进行笛卡尔积，按照a.date_id,b.user_id分组，保证截止到当日的用户唯一，得出表t。</p>
 <p> SELECT a.date_id</p>
 <p>​     ,b.user_id</p>
 <p> FROM</p>
-<p> (  <strong>– ① 按照日期分组，取出date_id字段当主表的维度字段 得出表a</strong></p>
+<p> (  – ① 按照日期分组，取出date_id字段当主表的维度字段 得出表a</p>
 <p>  SELECT from_unixtime(unix_timestamp(time_id),’yyyy-MM-dd’) AS date_id</p>
 <p>  FROM test.temp_tanhaidi_20211213_1</p>
 <p>  GROUP BY from_unixtime(unix_timestamp(time_id),’yyyy-MM-dd’)</p>
 <p> ) a</p>
 <p> INNER JOIN</p>
-<p> (  <strong>– ② 按照date_id、user_id分组，保证每天每个用户只有一条记录，得出表b</strong></p>
+<p> (  – ② 按照date_id、user_id分组，保证每天每个用户只有一条记录，得出表b</p>
 <p>  SELECT from_unixtime(unix_timestamp(time_id),’yyyy-MM-dd’) AS date_id</p>
 <p>​     ,user_id</p>
 <p>  FROM test.temp_tanhaidi_20211213_1</p>
@@ -1500,11 +1474,11 @@ var _hmt = _hmt || [];
 <p> GROUP BY t.date_id</p>
 <p>) tt1</p>
 <p>LEFT JOIN</p>
-<p>(  <strong>– ⑥ 按照date_id分组求出user_cnt_act，得到tt2</strong></p>
+<p>(  – ⑥ 按照date_id分组求出user_cnt_act，得到tt2</p>
 <p> SELECT date_id</p>
 <p>​    ,COUNT(user_id) AS user_cnt_act</p>
 <p> FROM</p>
-<p> (  <strong>– ⑤ 按照日期分组，取出date_id字段当主表的维度字段 得出表a</strong></p>
+<p> (  – ⑤ 按照日期分组，取出date_id字段当主表的维度字段 得出表a</p>
 <p> SELECT from_unixtime(unix_timestamp(time_id),’yyyy-MM-dd’) AS date_id</p>
 <p>​     ,user_id</p>
 <p> FROM test.temp_tanhaidi_20211213_1</p>
