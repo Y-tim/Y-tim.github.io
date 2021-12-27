@@ -231,7 +231,7 @@
 <li><p>第四步，完成功能的实现！！！</p>
 </li>
 </ul>
-<h2 id="8、文章视频播放（待测试）"><a href="#8、文章视频播放（待测试）" class="headerlink" title="8、文章视频播放（待测试）"></a>8、文章视频播放（<strong>待测试</strong>）</h2><h2 id="9、文章音乐播放（待测试）"><a href="#9、文章音乐播放（待测试）" class="headerlink" title="9、文章音乐播放（待测试）"></a>9、文章音乐播放（<strong>待测试</strong>）</h2><h2 id="10、全局搜索功能✔"><a href="#10、全局搜索功能✔" class="headerlink" title="10、全局搜索功能✔"></a>10、全局搜索功能✔</h2><ul>
+<h2 id="8、文章视频播放（待测试）"><a href="#8、文章视频播放（待测试）" class="headerlink" title="8、文章视频播放（待测试）"></a>8、文章视频播放（<strong>待测试</strong>）</h2><h2 id="9、文章音乐播放（待测试）"><a href="#9、文章音乐播放（待测试）" class="headerlink" title="9、文章音乐播放（待测试）"></a>9、文章音乐播放（<strong>待测试</strong>）</h2><h2 id="10、全局搜索功能✔"><a href="#10、全局搜索功能✔" class="headerlink" title="10、全局搜索功能✔"></a>10、全局搜索功能✔</h2><h2 id="11、右边栏的目录不能收起，屏占比小的时候会影响内容的查看，需要修改成左边的侧边栏一样。"><a href="#11、右边栏的目录不能收起，屏占比小的时候会影响内容的查看，需要修改成左边的侧边栏一样。" class="headerlink" title="11、右边栏的目录不能收起，屏占比小的时候会影响内容的查看，需要修改成左边的侧边栏一样。"></a>11、右边栏的目录不能收起，屏占比小的时候会影响内容的查看，需要修改成左边的侧边栏一样。</h2><ul>
 <li><p><strong>注意</strong>：</p>
 <p>​        写文章的时候，尽量不要有特殊字符，否则搜索功能会失效</p>
 </li>
@@ -463,229 +463,103 @@
 
 
 
-<h4 id="问题一：按a分组按b字段排序，对c取前后各一行的和"><a href="#问题一：按a分组按b字段排序，对c取前后各一行的和" class="headerlink" title="问题一：按a分组按b字段排序，对c取前后各一行的和"></a>问题一：按a分组按b字段排序，对c取前后各一行的和</h4><p>输出结果如下所示：</p>
-<p>a  b  sum_c</p>
-<p>2014 A  1</p>
-<p>2014 B  5</p>
-<p>2014 C  1</p>
-<p>2015 A  3</p>
-<p>2015 D  4</p>
+<h3 id="问题一：按a分组按b字段排序，对c取前后各一行的和"><a href="#问题一：按a分组按b字段排序，对c取前后各一行的和" class="headerlink" title="问题一：按a分组按b字段排序，对c取前后各一行的和"></a>问题一：按a分组按b字段排序，对c取前后各一行的和</h3><p>输出结果如下所示：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">a  b  sum_c</span><br><span class="line">2014 A  1</span><br><span class="line">2014 B  5</span><br><span class="line">2014 C  1</span><br><span class="line">2015 A  3</span><br><span class="line">2015 D  4</span><br></pre></td></tr></table></figure>
+
+
+
 <p>参考答案：</p>
-<p>select </p>
-<p> a,</p>
-<p> b,</p>
-<p> lag(c,1,0) over(partition by a order by b)+lead(c,1,0) over(partition by a order by b) as sum_c</p>
-<p>from t4;</p>
-<h4 id="问题二：按a分组按b字段排序，对c取平均值"><a href="#问题二：按a分组按b字段排序，对c取平均值" class="headerlink" title="问题二：按a分组按b字段排序，对c取平均值"></a>问题二：按a分组按b字段排序，对c取平均值</h4><p>问题描述：前一行与当前行的均值！</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select </span><br><span class="line"> a,</span><br><span class="line"> b,</span><br><span class="line"> lag(c,1,0) over(partition by a order by b)+lead(c,1,0) over(partition by a order by b) as sum_c</span><br><span class="line">from t4;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="问题二：按a分组按b字段排序，对c取平均值"><a href="#问题二：按a分组按b字段排序，对c取平均值" class="headerlink" title="问题二：按a分组按b字段排序，对c取平均值"></a>问题二：按a分组按b字段排序，对c取平均值</h3><p>问题描述：前一行与当前行的均值！</p>
 <p>输出结果如下所示：</p>
-<p>a  b  avg_c</p>
-<p>2014 A  3</p>
-<p>2014 B  2</p>
-<p>2014 C  1.5</p>
-<p>2015 A  4</p>
-<p>2015 D  3.5</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">a  b  avg_c</span><br><span class="line">2014 A  3</span><br><span class="line">2014 B  2</span><br><span class="line">2014 C  1.5</span><br><span class="line">2015 A  4</span><br><span class="line">2015 D  3.5</span><br></pre></td></tr></table></figure>
+
+
+
 <p>参考答案：</p>
-<p>select</p>
-<p> a,</p>
-<p> b,</p>
-<p> case when lag_c is null then c</p>
-<p> else (c+lag_c)/2 end as avg_c</p>
-<p>from</p>
-<p> (</p>
-<p> select</p>
-<p>  a,</p>
-<p>  b,</p>
-<p>  c,</p>
-<p>  lag(c,1) over(partition by a order by b) as lag_c</p>
-<p> from t4</p>
-<p> )temp;</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select</span><br><span class="line"> a,</span><br><span class="line"> b,</span><br><span class="line"> case when lag_c is null then c</span><br><span class="line"> else (c+lag_c)/2 end as avg_c</span><br><span class="line">from</span><br><span class="line"> (</span><br><span class="line"> select</span><br><span class="line">  a,</span><br><span class="line"> b,</span><br><span class="line">  c,</span><br><span class="line">  lag(c,1) over(partition by a order by b) as lag_c</span><br><span class="line"> from t4</span><br><span class="line"> )temp;</span><br></pre></td></tr></table></figure>
+
+
+
 <h2 id="五、产生连续数值"><a href="#五、产生连续数值" class="headerlink" title="五、产生连续数值"></a>五、产生连续数值</h2><p>输出结果如下所示：</p>
-<p>1</p>
-<p>2</p>
-<p>3</p>
-<p>4</p>
-<p>5</p>
-<p>…</p>
-<p>100</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">...</span><br><span class="line">100</span><br></pre></td></tr></table></figure>
+
+
+
 <p>参考答案：</p>
 <p>不借助其他任何外表，实现产生连续数值</p>
 <p>此处给出两种解法，其一：</p>
-<p>select</p>
-<p>id_start+pos as id</p>
-<p>from(</p>
-<p>  select</p>
-<p>  1 as id_start,</p>
-<p>  1000000 as id_end</p>
-<p>) m lateral view posexplode(split(space(id_end-id_start), ‘’)) t as pos, val</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span></span><br><span class="line">id_start<span class="operator">+</span>pos <span class="keyword">as</span> id</span><br><span class="line"><span class="keyword">from</span>(</span><br><span class="line">  <span class="keyword">select</span></span><br><span class="line">  <span class="number">1</span> <span class="keyword">as</span> id_start,</span><br><span class="line">  <span class="number">1000000</span> <span class="keyword">as</span> id_end</span><br><span class="line">) m <span class="keyword">lateral</span> <span class="keyword">view</span> posexplode(split(space(id_end<span class="operator">-</span>id_start), <span class="string">&#x27;&#x27;</span>)) t <span class="keyword">as</span> pos, val</span><br></pre></td></tr></table></figure>
+
+
+
 <p>其二：</p>
-<p>select</p>
-<p> row_number() over() as id</p>
-<p>from </p>
-<p> (select split(space(99), ‘ ‘) as x) t</p>
-<p>lateral view</p>
-<p>explode(x) ex;</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select</span><br><span class="line"> row_number() over() as id</span><br><span class="line">from </span><br><span class="line"> (select split(space(99), &#x27; &#x27;) as x) t</span><br><span class="line">lateral view</span><br><span class="line">explode(x) ex;</span><br></pre></td></tr></table></figure>
+
+
+
 <p>那如何产生1至1000000连续数值？</p>
 <p>参考答案：</p>
-<p>select</p>
-<p> row_number() over() as id</p>
-<p>from </p>
-<p> (select split(space(999999), ‘ ‘) as x) t</p>
-<p>lateral view</p>
-<p>explode(x) ex;</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select</span><br><span class="line"> row_number() over() as id</span><br><span class="line">from </span><br><span class="line"> (select split(space(999999), &#x27; &#x27;) as x) t</span><br><span class="line">lateral view</span><br><span class="line">explode(x) ex;</span><br></pre></td></tr></table></figure>
+
+
+
 <h2 id="六、数据扩充与收缩"><a href="#六、数据扩充与收缩" class="headerlink" title="六、数据扩充与收缩"></a>六、数据扩充与收缩</h2><p>表名：t6</p>
 <p>表字段及内容：</p>
-<p>a</p>
-<p>3</p>
-<p>2</p>
-<p>4</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">a</span><br><span class="line">3</span><br><span class="line">2</span><br><span class="line">4</span><br></pre></td></tr></table></figure>
+
+
+
 <h4 id="问题一：数据扩充"><a href="#问题一：数据扩充" class="headerlink" title="问题一：数据扩充"></a>问题一：数据扩充</h4><p>输出结果如下所示：</p>
-<p>a   b</p>
-<p>3  3、2、1</p>
-<p>2  2、1</p>
-<p>4  4、3、2、1</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">a   b</span><br><span class="line">3  3、2、1</span><br><span class="line">2  2、1</span><br><span class="line">4  4、3、2、1</span><br></pre></td></tr></table></figure>
+
+
+
 <p>参考答案：</p>
-<p>select </p>
-<p> t.a,</p>
-<p> concat_ws(‘、’,collect_set(cast(t.rn as string))) as b</p>
-<p>from</p>
-<p>( </p>
-<p> select </p>
-<p>  t6.a,</p>
-<p>  b.rn</p>
-<p> from t6</p>
-<p> left join</p>
-<p> ( </p>
-<p>  select</p>
-<p>   row_number() over() as rn</p>
-<p>  from </p>
-<p>  (select split(space(5), ‘ ‘) as x) t – space(5)可根据t6表的最大值灵活调整</p>
-<p>  lateral view</p>
-<p>  explode(x) pe</p>
-<p> ) b</p>
-<p> on 1 = 1</p>
-<p> where t6.a &gt;= b.rn</p>
-<p> order by t6.a, b.rn desc </p>
-<p>) t</p>
-<p>group by t.a;</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select </span><br><span class="line"> t.a,</span><br><span class="line"> concat_ws(&#x27;、&#x27;,collect_set(cast(t.rn as string))) as b</span><br><span class="line">from</span><br><span class="line">( </span><br><span class="line"> select </span><br><span class="line">  t6.a,</span><br><span class="line">  b.rn</span><br><span class="line"> from t6</span><br><span class="line"> left join</span><br><span class="line"> (   select</span><br><span class="line">   row_number() over() as rn</span><br><span class="line">  from </span><br><span class="line">  (select split(space(5), &#x27; &#x27;) as x) t -- space(5)可根据t6表的最大值灵活调整</span><br><span class="line">  lateral view</span><br><span class="line">  explode(x) pe</span><br><span class="line"> ) b</span><br><span class="line"> on 1 = 1</span><br><span class="line"> where t6.a &gt;= b.rn</span><br><span class="line"> order by t6.a, b.rn desc </span><br><span class="line">) t</span><br><span class="line">group by t.a;</span><br></pre></td></tr></table></figure>
+
+
+
 <h4 id="问题二：数据扩充，排除偶数"><a href="#问题二：数据扩充，排除偶数" class="headerlink" title="问题二：数据扩充，排除偶数"></a>问题二：数据扩充，排除偶数</h4><p>输出结果如下所示：</p>
-<p>a   b</p>
-<p>3  3、1</p>
-<p>2  1</p>
-<p>4  3、1</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">a   b</span><br><span class="line">3  3、1</span><br><span class="line">2  1</span><br><span class="line">4  3、1</span><br></pre></td></tr></table></figure>
+
+
+
 <p>参考答案：</p>
-<p>select </p>
-<p> t.a,</p>
-<p> concat_ws(‘、’,collect_set(cast(t.rn as string))) as b</p>
-<p>from</p>
-<p>( </p>
-<p> select </p>
-<p>  t6.a,</p>
-<p>  b.rn</p>
-<p> from t6</p>
-<p> left join</p>
-<p> ( </p>
-<p>  select</p>
-<p>   row_number() over() as rn</p>
-<p>  from </p>
-<p>  (select split(space(5), ‘ ‘) as x) t</p>
-<p>  lateral view</p>
-<p>  explode(x) pe</p>
-<p> ) b</p>
-<p> on 1 = 1</p>
-<p> where t6.a &gt;= b.rn and b.rn % 2 = 1</p>
-<p> order by t6.a, b.rn desc </p>
-<p>) t</p>
-<p>group by t.a;</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select </span><br><span class="line"> t.a,</span><br><span class="line"> concat_ws(&#x27;、&#x27;,collect_set(cast(t.rn as string))) as b</span><br><span class="line">from</span><br><span class="line">( </span><br><span class="line"> select </span><br><span class="line">  t6.a,</span><br><span class="line">  b.rn</span><br><span class="line"> from t6</span><br><span class="line"> left join</span><br><span class="line"> ( </span><br><span class="line">  select</span><br><span class="line">   row_number() over() as rn</span><br><span class="line">  from </span><br><span class="line">  (select split(space(5), &#x27; &#x27;) as x) t</span><br><span class="line">  lateral view</span><br><span class="line">  explode(x) pe</span><br><span class="line"> ) b</span><br><span class="line"> on 1 = 1</span><br><span class="line"> where t6.a &gt;= b.rn and b.rn % 2 = 1</span><br><span class="line"> order by t6.a, b.rn desc </span><br><span class="line">) t</span><br><span class="line">group by t.a;</span><br></pre></td></tr></table></figure>
+
+
+
 <h4 id="问题三：如何处理字符串累计拼接"><a href="#问题三：如何处理字符串累计拼接" class="headerlink" title="问题三：如何处理字符串累计拼接"></a>问题三：如何处理字符串累计拼接</h4><p>问题描述：将小于等于a字段的值聚合拼接起来</p>
 <p>输出结果如下所示：</p>
-<p>a   b</p>
-<p>3   2、3</p>
-<p>2   2</p>
-<p>4   2、3、4</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">a   b</span><br><span class="line">3   2、3</span><br><span class="line">2   2</span><br><span class="line">4   2、3、4</span><br></pre></td></tr></table></figure>
+
+
+
 <p>参考答案：</p>
-<p>select </p>
-<p> t.a,</p>
-<p> concat_ws(‘、’,collect_set(cast(t.a1 as string))) as b</p>
-<p>from</p>
-<p>(  </p>
-<p> select </p>
-<p>  t6.a,</p>
-<p>  b.a1</p>
-<p> from t6</p>
-<p> left join</p>
-<p> (  </p>
-<p>  select a as a1 </p>
-<p>  from t6</p>
-<p> ) b</p>
-<p> on 1 = 1</p>
-<p> where t6.a &gt;= b.a1</p>
-<p> order by t6.a, b.a1 </p>
-<p>) t</p>
-<p>group by t.a;</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select </span><br><span class="line"> t.a,</span><br><span class="line"> concat_ws(&#x27;、&#x27;,collect_set(cast(t.a1 as string))) as b</span><br><span class="line">from</span><br><span class="line">(   select </span><br><span class="line"></span><br><span class="line">  t6.a,</span><br><span class="line">  b.a1 from t6</span><br><span class="line"> left join</span><br><span class="line"> (  </span><br><span class="line">  select a as a1 </span><br><span class="line">  from t6</span><br><span class="line"> ) b</span><br><span class="line"> on 1 = 1</span><br><span class="line"> where t6.a &gt;= b.a1</span><br><span class="line"> order by t6.a, b.a1 </span><br><span class="line">) t</span><br><span class="line">group by t.a;</span><br></pre></td></tr></table></figure>
+
+
+
 <h4 id="问题四：如果a字段有重复，如何实现字符串累计拼接"><a href="#问题四：如果a字段有重复，如何实现字符串累计拼接" class="headerlink" title="问题四：如果a字段有重复，如何实现字符串累计拼接"></a>问题四：如果a字段有重复，如何实现字符串累计拼接</h4><p>输出结果如下所示：</p>
-<p>a   b</p>
-<p>2   2</p>
-<p>3   2、3</p>
-<p>3   2、3、3</p>
-<p>4   2、3、3、4</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">a   b</span><br><span class="line">2   2</span><br><span class="line">3   2、3</span><br><span class="line">3   2、3、3</span><br><span class="line">4   2、3、3、4</span><br></pre></td></tr></table></figure>
+
+
+
 <p>参考答案：</p>
-<p>select </p>
-<p> a,</p>
-<p> b</p>
-<p>from </p>
-<p>(</p>
-<p> select </p>
-<p>  t.a,</p>
-<p>  t.rn,</p>
-<p>  concat_ws(‘、’,collect_list(cast(t.a1 as string))) as b</p>
-<p> from</p>
-<p> (  </p>
-<p>  select </p>
-<p>   a.a,</p>
-<p>   a.rn,</p>
-<p>   b.a1</p>
-<p>  from</p>
-<p>  (</p>
-<p>   select </p>
-<p>​    a,</p>
-<p>​    row_number() over(order by a ) as rn </p>
-<p>   from t6</p>
-<p>  ) a</p>
-<p>  left join</p>
-<p>  (  </p>
-<p>   select a as a1,</p>
-<p>   row_number() over(order by a ) as rn </p>
-<p>   from t6</p>
-<p>  ) b</p>
-<p>  on 1 = 1</p>
-<p>  where a.a &gt;= b.a1 and a.rn &gt;= b.rn </p>
-<p>  order by a.a, b.a1 </p>
-<p> ) t</p>
-<p> group by t.a,t.rn</p>
-<p> order by t.a,t.rn</p>
-<p>) tt; </p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> </span><br><span class="line"> a,</span><br><span class="line"> b</span><br><span class="line"><span class="keyword">from</span> </span><br><span class="line">(</span><br><span class="line"> <span class="keyword">select</span> </span><br><span class="line">  t.a,</span><br><span class="line">  t.rn,</span><br><span class="line">  concat_ws(<span class="string">&#x27;、&#x27;</span>,collect_list(<span class="built_in">cast</span>(t.a1 <span class="keyword">as</span> string))) <span class="keyword">as</span> b</span><br><span class="line"> <span class="keyword">from</span></span><br><span class="line"> (  </span><br><span class="line">  <span class="keyword">select</span> </span><br><span class="line">   a.a,</span><br><span class="line">   a.rn,</span><br><span class="line">   b.a1</span><br><span class="line">  <span class="keyword">from</span></span><br><span class="line">  (</span><br><span class="line">   <span class="keyword">select</span> </span><br><span class="line">​    a,</span><br><span class="line">​    <span class="built_in">row_number</span>() <span class="keyword">over</span>(<span class="keyword">order</span> <span class="keyword">by</span> a ) <span class="keyword">as</span> rn </span><br><span class="line">   <span class="keyword">from</span> t6</span><br><span class="line">  ) a</span><br><span class="line">  <span class="keyword">left</span> <span class="keyword">join</span></span><br><span class="line">  (  </span><br><span class="line">   <span class="keyword">select</span> a <span class="keyword">as</span> a1,</span><br><span class="line">   <span class="built_in">row_number</span>() <span class="keyword">over</span>(<span class="keyword">order</span> <span class="keyword">by</span> a ) <span class="keyword">as</span> rn </span><br><span class="line">   <span class="keyword">from</span> t6</span><br><span class="line">  ) b</span><br><span class="line">  <span class="keyword">on</span> <span class="number">1</span> <span class="operator">=</span> <span class="number">1</span></span><br><span class="line">  <span class="keyword">where</span> a.a <span class="operator">&gt;=</span> b.a1 <span class="keyword">and</span> a.rn <span class="operator">&gt;=</span> b.rn </span><br><span class="line">  <span class="keyword">order</span> <span class="keyword">by</span> a.a, b.a1 </span><br><span class="line"> ) t</span><br><span class="line"> <span class="keyword">group</span> <span class="keyword">by</span> t.a,t.rn</span><br><span class="line"> <span class="keyword">order</span> <span class="keyword">by</span> t.a,t.rn</span><br><span class="line">) tt; </span><br></pre></td></tr></table></figure>
+
+
+
 <h4 id="问题五：数据展开"><a href="#问题五：数据展开" class="headerlink" title="问题五：数据展开"></a>问题五：数据展开</h4><p>问题描述：如何将字符串”1-5,16,11-13,9”扩展成”1,2,3,4,5,16,11,12,13,9”？注意顺序不变。</p>
 <p>参考答案：</p>
-<p>select </p>
-<p> concat_ws(‘,’,collect_list(cast(rn as string)))</p>
-<p>from</p>
-<p>(</p>
-<p> select </p>
-<p>  a.rn,</p>
-<p>  b.num,</p>
-<p>  b.pos</p>
-<p> from</p>
-<p>  (</p>
-<p>  select</p>
-<p>   row_number() over() as rn</p>
-<p>  from (select split(space(20), ‘ ‘) as x) t – space(20)可灵活调整</p>
-<p>  lateral view</p>
-<p>  explode(x) pe</p>
-<p>  ) a lateral view outer </p>
-<p>  posexplode(split(‘1-5,16,11-13,9’, ‘,’)) b as pos, num</p>
-<p>  where a.rn between cast(split(num, ‘-‘)[0] as int) and cast(split(num, ‘-‘)[1] as int) or a.rn = num</p>
-<p>  order by pos, rn </p>
-<p>) t;</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> </span><br><span class="line"> concat_ws(<span class="string">&#x27;,&#x27;</span>,collect_list(<span class="built_in">cast</span>(rn <span class="keyword">as</span> string)))</span><br><span class="line"><span class="keyword">from</span></span><br><span class="line">(</span><br><span class="line"> <span class="keyword">select</span> </span><br><span class="line">  a.rn,</span><br><span class="line">  b.num,</span><br><span class="line">  b.pos</span><br><span class="line"> <span class="keyword">from</span></span><br><span class="line">  (</span><br><span class="line">  <span class="keyword">select</span></span><br><span class="line">   <span class="built_in">row_number</span>() <span class="keyword">over</span>() <span class="keyword">as</span> rn</span><br><span class="line">  <span class="keyword">from</span> (<span class="keyword">select</span> split(space(<span class="number">20</span>), <span class="string">&#x27; &#x27;</span>) <span class="keyword">as</span> x) t <span class="comment">-- space(20)可灵活调整</span></span><br><span class="line">  <span class="keyword">lateral</span> <span class="keyword">view</span></span><br><span class="line">  explode(x) pe</span><br><span class="line">  ) a <span class="keyword">lateral</span> <span class="keyword">view</span> <span class="keyword">outer</span> </span><br><span class="line">  posexplode(split(<span class="string">&#x27;1-5,16,11-13,9&#x27;</span>, <span class="string">&#x27;,&#x27;</span>)) b <span class="keyword">as</span> pos, num</span><br><span class="line">  <span class="keyword">where</span> a.rn <span class="keyword">between</span> <span class="built_in">cast</span>(split(num, <span class="string">&#x27;-&#x27;</span>)[<span class="number">0</span>] <span class="keyword">as</span> <span class="type">int</span>) <span class="keyword">and</span> <span class="built_in">cast</span>(split(num, <span class="string">&#x27;-&#x27;</span>)[<span class="number">1</span>] <span class="keyword">as</span> <span class="type">int</span>) <span class="keyword">or</span> a.rn <span class="operator">=</span> num</span><br><span class="line">  <span class="keyword">order</span> <span class="keyword">by</span> pos, rn </span><br><span class="line">) t;</span><br></pre></td></tr></table></figure>
+
+
+
 <h2 id="七、合并与拆分"><a href="#七、合并与拆分" class="headerlink" title="七、合并与拆分"></a>七、合并与拆分</h2><p>表名：t7</p>
 <p>表字段及内容：</p>
 <p>a  b</p>
