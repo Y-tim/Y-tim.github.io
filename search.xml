@@ -356,7 +356,7 @@
 
 <h2 id="二、排名中取他值"><a href="#二、排名中取他值" class="headerlink" title="二、排名中取他值"></a>二、排名中取他值</h2><p>表名：t2</p>
 <p>表字段及内容：</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">a  b  c</span><br><span class="line"><span class="number">2014</span> A  <span class="number">3</span></span><br><span class="line"><span class="number">2014</span> B  <span class="number">1</span></span><br><span class="line"><span class="number">2014</span> C  <span class="number">2</span></span><br><span class="line"><span class="number">2015</span> A  <span class="number">4</span></span><br><span class="line"><span class="number">2015</span> D  <span class="number">3</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">a  b  c</span><br><span class="line">2014 A 3</span><br><span class="line">2014 B  1</span><br><span class="line">2014 C  2</span><br><span class="line">2015 A  4</span><br><span class="line">2015 D  3</span><br></pre></td></tr></table></figure>
 
 
 
@@ -366,17 +366,17 @@
 
 
 <p>参考答案:</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span></span><br><span class="line"> a,</span><br><span class="line"> c <span class="keyword">as</span> min_c</span><br><span class="line"><span class="keyword">from</span></span><br><span class="line">(</span><br><span class="line">   <span class="keyword">select</span></span><br><span class="line">​    a,</span><br><span class="line">​    b,</span><br><span class="line">​    c,</span><br><span class="line">​    <span class="built_in">row_number</span>() <span class="keyword">over</span>(<span class="keyword">partition</span> <span class="keyword">by</span> a <span class="keyword">order</span> <span class="keyword">by</span> b) <span class="keyword">as</span> rn </span><br><span class="line">   <span class="keyword">from</span> t2 </span><br><span class="line">)a</span><br><span class="line"><span class="keyword">where</span> rn <span class="operator">=</span> <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select a,</span><br><span class="line">		c as min_cfrom(  </span><br><span class="line">            select  a,  </span><br><span class="line">            		b,  </span><br><span class="line">            		c,   </span><br><span class="line">            		row_number() over(partition by a order by b) as rn </span><br><span class="line">            from t2 )a </span><br><span class="line">where rn = 1;</span><br></pre></td></tr></table></figure>
 
 
 
 <h4 id="问题二：按a分组取b字段排第二时对应的c字段"><a href="#问题二：按a分组取b字段排第二时对应的c字段" class="headerlink" title="问题二：按a分组取b字段排第二时对应的c字段"></a>问题二：按a分组取b字段排第二时对应的c字段</h4><p>输出结果如下所示：</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"> a second_c</span><br><span class="line"><span class="number">2014</span> <span class="number">1</span></span><br><span class="line"><span class="number">2015</span> <span class="number">3</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">a second_c</span><br><span class="line"><span class="number">2014</span> <span class="number">1</span></span><br><span class="line"><span class="number">2015</span> <span class="number">3</span></span><br></pre></td></tr></table></figure>
 
 
 
 <p>参考答案：</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span></span><br><span class="line"> a,</span><br><span class="line"> c <span class="keyword">as</span> second_c</span><br><span class="line"><span class="keyword">from</span></span><br><span class="line">(</span><br><span class="line">   <span class="keyword">select</span></span><br><span class="line">​    a,</span><br><span class="line">​    b,</span><br><span class="line">​    c,</span><br><span class="line">​    <span class="built_in">row_number</span>() <span class="keyword">over</span>(<span class="keyword">partition</span> <span class="keyword">by</span> a <span class="keyword">order</span> <span class="keyword">by</span> b) <span class="keyword">as</span> rn </span><br><span class="line">   <span class="keyword">from</span> t2 </span><br><span class="line">)a</span><br><span class="line"><span class="keyword">where</span> rn <span class="operator">=</span> <span class="number">2</span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> a, c <span class="keyword">AS</span> second_c</span><br><span class="line"><span class="keyword">FROM</span> (</span><br><span class="line">	<span class="keyword">SELECT</span> a, b, c, <span class="built_in">row_number</span>() <span class="keyword">OVER</span> (<span class="keyword">PARTITION</span> <span class="keyword">BY</span> a <span class="keyword">ORDER</span> <span class="keyword">BY</span> b) <span class="keyword">AS</span> rn</span><br><span class="line">	<span class="keyword">FROM</span> t2</span><br><span class="line">) a</span><br><span class="line"><span class="keyword">WHERE</span> rn <span class="operator">=</span> <span class="number">2</span>;</span><br></pre></td></tr></table></figure>
 
 
 
@@ -386,7 +386,7 @@
 
 
 <p>参考答案:</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span></span><br><span class="line"> a,</span><br><span class="line"> <span class="built_in">min</span>(if(asc_rn <span class="operator">=</span> <span class="number">1</span>, c, <span class="keyword">null</span>)) <span class="keyword">as</span> min_c,</span><br><span class="line"> <span class="built_in">max</span>(if(desc_rn <span class="operator">=</span> <span class="number">1</span>, c, <span class="keyword">null</span>)) <span class="keyword">as</span> max_c</span><br><span class="line"><span class="keyword">from</span></span><br><span class="line">(</span><br><span class="line">   <span class="keyword">select</span></span><br><span class="line">​    a,</span><br><span class="line">​    b,</span><br><span class="line">​    c,</span><br><span class="line">​    <span class="built_in">row_number</span>() <span class="keyword">over</span>(<span class="keyword">partition</span> <span class="keyword">by</span> a <span class="keyword">order</span> <span class="keyword">by</span> b) <span class="keyword">as</span> asc_rn,</span><br><span class="line">​    <span class="built_in">row_number</span>() <span class="keyword">over</span>(<span class="keyword">partition</span> <span class="keyword">by</span> a <span class="keyword">order</span> <span class="keyword">by</span> b <span class="keyword">desc</span>) <span class="keyword">as</span> desc_rn </span><br><span class="line">   <span class="keyword">from</span> t2 </span><br><span class="line">)a</span><br><span class="line"><span class="keyword">where</span> asc_rn <span class="operator">=</span> <span class="number">1</span> <span class="keyword">or</span> desc_rn <span class="operator">=</span> <span class="number">1</span></span><br><span class="line"><span class="keyword">group</span> <span class="keyword">by</span> a; </span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> a</span><br><span class="line">	, <span class="built_in">min</span>(if(asc_rn <span class="operator">=</span> <span class="number">1</span>, c, <span class="keyword">NULL</span>)) <span class="keyword">AS</span> min_c</span><br><span class="line">	, <span class="built_in">max</span>(if(desc_rn <span class="operator">=</span> <span class="number">1</span>, c, <span class="keyword">NULL</span>)) <span class="keyword">AS</span> max_c</span><br><span class="line"><span class="keyword">FROM</span> (</span><br><span class="line">	<span class="keyword">SELECT</span> a, b, c, <span class="built_in">row_number</span>() <span class="keyword">OVER</span> (<span class="keyword">PARTITION</span> <span class="keyword">BY</span> a <span class="keyword">ORDER</span> <span class="keyword">BY</span> b) <span class="keyword">AS</span> asc_rn</span><br><span class="line">		, <span class="built_in">row_number</span>() <span class="keyword">OVER</span> (<span class="keyword">PARTITION</span> <span class="keyword">BY</span> a <span class="keyword">ORDER</span> <span class="keyword">BY</span> b <span class="keyword">DESC</span>) <span class="keyword">AS</span> desc_rn</span><br><span class="line">	<span class="keyword">FROM</span> t2</span><br><span class="line">) a</span><br><span class="line"><span class="keyword">WHERE</span> asc_rn <span class="operator">=</span> <span class="number">1</span></span><br><span class="line">	<span class="keyword">OR</span> desc_rn <span class="operator">=</span> <span class="number">1</span></span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> a;</span><br></pre></td></tr></table></figure>
 
 
 
@@ -396,7 +396,7 @@
 
 
 <p>参考答案：</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span></span><br><span class="line">  ret.a</span><br><span class="line">  ,<span class="built_in">max</span>(<span class="keyword">case</span> <span class="keyword">when</span> ret.rn_min <span class="operator">=</span> <span class="number">2</span> <span class="keyword">then</span> ret.c <span class="keyword">else</span> <span class="keyword">null</span> <span class="keyword">end</span>) <span class="keyword">as</span> min_c</span><br><span class="line">  ,<span class="built_in">max</span>(<span class="keyword">case</span> <span class="keyword">when</span> ret.rn_max <span class="operator">=</span> <span class="number">2</span> <span class="keyword">then</span> ret.c <span class="keyword">else</span> <span class="keyword">null</span> <span class="keyword">end</span>) <span class="keyword">as</span> max_c</span><br><span class="line"><span class="keyword">from</span> (</span><br><span class="line">  <span class="keyword">select</span></span><br><span class="line">​    </span><br><span class="line">​    ,<span class="built_in">row_number</span>() <span class="keyword">over</span>(<span class="keyword">partition</span> <span class="keyword">by</span> t2.a <span class="keyword">order</span> <span class="keyword">by</span> t2.b) <span class="keyword">as</span> rn_min</span><br><span class="line">​    ,<span class="built_in">row_number</span>() <span class="keyword">over</span>(<span class="keyword">partition</span> <span class="keyword">by</span> t2.a <span class="keyword">order</span> <span class="keyword">by</span> t2.b <span class="keyword">desc</span>) <span class="keyword">as</span> rn_max</span><br><span class="line">  <span class="keyword">from</span> t2</span><br><span class="line">) <span class="keyword">as</span> ret</span><br><span class="line"><span class="keyword">where</span> ret.rn_min <span class="operator">=</span> <span class="number">2</span></span><br><span class="line"><span class="keyword">or</span> ret.rn_max <span class="operator">=</span> <span class="number">2</span></span><br><span class="line"><span class="keyword">group</span> <span class="keyword">by</span> ret.a;</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> ret.a</span><br><span class="line">	, <span class="built_in">max</span>(<span class="keyword">CASE</span> </span><br><span class="line">		<span class="keyword">WHEN</span> ret.rn_min <span class="operator">=</span> <span class="number">2</span> <span class="keyword">THEN</span> ret.c</span><br><span class="line">		<span class="keyword">ELSE</span> <span class="keyword">NULL</span></span><br><span class="line">	<span class="keyword">END</span>) <span class="keyword">AS</span> min_c</span><br><span class="line">	, <span class="built_in">max</span>(<span class="keyword">CASE</span> </span><br><span class="line">		<span class="keyword">WHEN</span> ret.rn_max <span class="operator">=</span> <span class="number">2</span> <span class="keyword">THEN</span> ret.c</span><br><span class="line">		<span class="keyword">ELSE</span> <span class="keyword">NULL</span></span><br><span class="line">	<span class="keyword">END</span>) <span class="keyword">AS</span> max_c</span><br><span class="line"><span class="keyword">FROM</span> (</span><br><span class="line">	<span class="keyword">SELECT</span> <span class="operator">*</span>, <span class="built_in">row_number</span>() <span class="keyword">OVER</span> (<span class="keyword">PARTITION</span> <span class="keyword">BY</span> t2.a <span class="keyword">ORDER</span> <span class="keyword">BY</span> t2.b) <span class="keyword">AS</span> rn_min, <span class="built_in">row_number</span>() <span class="keyword">OVER</span> (<span class="keyword">PARTITION</span> <span class="keyword">BY</span> t2.a <span class="keyword">ORDER</span> <span class="keyword">BY</span> t2.b <span class="keyword">DESC</span>) <span class="keyword">AS</span> rn_max</span><br><span class="line">	<span class="keyword">FROM</span> t2</span><br><span class="line">) ret</span><br><span class="line"><span class="keyword">WHERE</span> ret.rn_min <span class="operator">=</span> <span class="number">2</span></span><br><span class="line">	<span class="keyword">OR</span> ret.rn_max <span class="operator">=</span> <span class="number">2</span></span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> ret.a;</span><br></pre></td></tr></table></figure>
 
 
 
@@ -407,7 +407,7 @@
 
 
 <p>参考答案：</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span></span><br><span class="line"> tmp1.a <span class="keyword">as</span> a,</span><br><span class="line"> min_c,</span><br><span class="line"> max_c</span><br><span class="line"><span class="keyword">from</span> </span><br><span class="line">(</span><br><span class="line"> <span class="keyword">select</span> </span><br><span class="line">  a,</span><br><span class="line">  concat_ws(<span class="string">&#x27;,&#x27;</span>, collect_list(c)) <span class="keyword">as</span> min_c</span><br><span class="line"> <span class="keyword">from</span></span><br><span class="line">  (</span><br><span class="line">   <span class="keyword">select</span></span><br><span class="line">​    a,</span><br><span class="line">​    b,</span><br><span class="line">​    c,</span><br><span class="line">​    <span class="built_in">row_number</span>() <span class="keyword">over</span>(<span class="keyword">partition</span> <span class="keyword">by</span> a <span class="keyword">order</span> <span class="keyword">by</span> b) <span class="keyword">as</span> asc_rn</span><br><span class="line">   <span class="keyword">from</span> t2</span><br><span class="line">   )a</span><br><span class="line">  <span class="keyword">where</span> asc_rn <span class="operator">&lt;=</span> <span class="number">2</span> </span><br><span class="line">  <span class="keyword">group</span> <span class="keyword">by</span> a </span><br><span class="line">)tmp1 </span><br><span class="line"><span class="keyword">join</span> </span><br><span class="line">(</span><br><span class="line"> <span class="keyword">select</span> </span><br><span class="line">  a,</span><br><span class="line">  concat_ws(<span class="string">&#x27;,&#x27;</span>, collect_list(c)) <span class="keyword">as</span> max_c</span><br><span class="line"> <span class="keyword">from</span></span><br><span class="line">  (</span><br><span class="line">   <span class="keyword">select</span></span><br><span class="line">​    a,</span><br><span class="line">​    b,</span><br><span class="line">​    c,</span><br><span class="line">​    <span class="built_in">row_number</span>() <span class="keyword">over</span>(<span class="keyword">partition</span> <span class="keyword">by</span> a <span class="keyword">order</span> <span class="keyword">by</span> b <span class="keyword">desc</span>) <span class="keyword">as</span> desc_rn </span><br><span class="line">   <span class="keyword">from</span> t2</span><br><span class="line">  )a</span><br><span class="line">  <span class="keyword">where</span> desc_rn <span class="operator">&lt;=</span> <span class="number">2</span></span><br><span class="line">  <span class="keyword">group</span> <span class="keyword">by</span> a </span><br><span class="line">)tmp2 </span><br><span class="line"><span class="keyword">on</span> tmp1.a <span class="operator">=</span> tmp2.a; </span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> tmp1.a <span class="keyword">AS</span> a, min_c, max_c</span><br><span class="line"><span class="keyword">FROM</span> (</span><br><span class="line">	<span class="keyword">SELECT</span> a, concat_ws(<span class="string">&#x27;,&#x27;</span>, collect_list(c)) <span class="keyword">AS</span> min_c</span><br><span class="line">	<span class="keyword">FROM</span> (</span><br><span class="line">		<span class="keyword">SELECT</span> a, b, c, <span class="built_in">row_number</span>() <span class="keyword">OVER</span> (<span class="keyword">PARTITION</span> <span class="keyword">BY</span> a <span class="keyword">ORDER</span> <span class="keyword">BY</span> b) <span class="keyword">AS</span> asc_rn</span><br><span class="line">		<span class="keyword">FROM</span> t2</span><br><span class="line">	) a</span><br><span class="line">	<span class="keyword">WHERE</span> asc_rn <span class="operator">&lt;=</span> <span class="number">2</span></span><br><span class="line">	<span class="keyword">GROUP</span> <span class="keyword">BY</span> a</span><br><span class="line">) tmp1</span><br><span class="line">	<span class="keyword">JOIN</span> (</span><br><span class="line">		<span class="keyword">SELECT</span> a, concat_ws(<span class="string">&#x27;,&#x27;</span>, collect_list(c)) <span class="keyword">AS</span> max_c</span><br><span class="line">		<span class="keyword">FROM</span> (</span><br><span class="line">			<span class="keyword">SELECT</span> a, b, c, <span class="built_in">row_number</span>() <span class="keyword">OVER</span> (<span class="keyword">PARTITION</span> <span class="keyword">BY</span> a <span class="keyword">ORDER</span> <span class="keyword">BY</span> b <span class="keyword">DESC</span>) <span class="keyword">AS</span> desc_rn</span><br><span class="line">			<span class="keyword">FROM</span> t2</span><br><span class="line">		) a</span><br><span class="line">		<span class="keyword">WHERE</span> desc_rn <span class="operator">&lt;=</span> <span class="number">2</span></span><br><span class="line">		<span class="keyword">GROUP</span> <span class="keyword">BY</span> a</span><br><span class="line">	) tmp2</span><br><span class="line">	<span class="keyword">ON</span> tmp1.a <span class="operator">=</span> tmp2.a;</span><br></pre></td></tr></table></figure>
 
 
 
@@ -423,7 +423,7 @@
 
 
 <p>参考答案：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select </span><br><span class="line"> a, </span><br><span class="line"> b, </span><br><span class="line"> c, </span><br><span class="line"> sum(c) over(partition by a order by b) as sum_c</span><br><span class="line">from t3; </span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SELECT a, b, c</span><br><span class="line">	, sum(c) OVER (PARTITION BY a ORDER BY b) AS sum_c</span><br><span class="line">FROM t3;</span><br></pre></td></tr></table></figure>
 
 
 
@@ -433,7 +433,7 @@
 
 
 <p>参考答案：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select </span><br><span class="line"> a, </span><br><span class="line"> b, </span><br><span class="line"> c, </span><br><span class="line"> avg(c) over(partition by a order by b) as avg_c</span><br><span class="line">from t3;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SELECT a, b, c</span><br><span class="line">	, avg(c) OVER (PARTITION BY a ORDER BY b) AS avg_c</span><br><span class="line">FROM t3;</span><br></pre></td></tr></table></figure>
 
 
 
@@ -443,7 +443,7 @@
 
 
 <p>参考答案：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select </span><br><span class="line"> a, </span><br><span class="line"> b, </span><br><span class="line"> c, </span><br><span class="line">round(row_number() over(partition by a order by b) / (count(c) over(partition by a)),2) as ratio_c</span><br><span class="line">from t3 </span><br><span class="line">order by a,b;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SELECT a, b, c</span><br><span class="line">	, round(row_number() OVER (PARTITION BY a ORDER BY b) / count(c) OVER (PARTITION BY a ), 2) AS ratio_c</span><br><span class="line">FROM t3</span><br><span class="line">ORDER BY a, b;</span><br></pre></td></tr></table></figure>
 
 
 
@@ -453,7 +453,7 @@
 
 
 <p>参考答案：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select </span><br><span class="line"> a, </span><br><span class="line"> b, </span><br><span class="line"> c, </span><br><span class="line"> round(sum(c) over(partition by a order by b) / (sum(c) over(partition by a)),2) as ratio_c</span><br><span class="line">from t3 </span><br><span class="line">order by a,b;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SELECT a, b, c</span><br><span class="line">	, round(sum(c) OVER (PARTITION BY a ORDER BY b) / sum(c) OVER (PARTITION BY a ), 2) AS ratio_c</span><br><span class="line">FROM t3</span><br><span class="line">ORDER BY a, b;</span><br></pre></td></tr></table></figure>
 
 
 
@@ -492,34 +492,34 @@
 <p>参考答案：</p>
 <p>不借助其他任何外表，实现产生连续数值</p>
 <p>此处给出两种解法，其一：</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span></span><br><span class="line">id_start<span class="operator">+</span>pos <span class="keyword">as</span> id</span><br><span class="line"><span class="keyword">from</span>(</span><br><span class="line">  <span class="keyword">select</span></span><br><span class="line">  <span class="number">1</span> <span class="keyword">as</span> id_start,</span><br><span class="line">  <span class="number">1000000</span> <span class="keyword">as</span> id_end</span><br><span class="line">) m <span class="keyword">lateral</span> <span class="keyword">view</span> posexplode(split(space(id_end<span class="operator">-</span>id_start), <span class="string">&#x27;&#x27;</span>)) t <span class="keyword">as</span> pos, val</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> id_start <span class="operator">+</span> pos <span class="keyword">AS</span> id</span><br><span class="line"><span class="keyword">FROM</span> (</span><br><span class="line">	<span class="keyword">SELECT</span> <span class="number">1</span> <span class="keyword">AS</span> id_start, <span class="number">1000000</span> <span class="keyword">AS</span> id_end</span><br><span class="line">) m</span><br><span class="line">	<span class="keyword">LATERAL</span> <span class="keyword">VIEW</span> posexplode(split(space(id_end <span class="operator">-</span> id_start), <span class="string">&#x27;&#x27;</span>)) t <span class="keyword">AS</span> pos, val</span><br></pre></td></tr></table></figure>
 
 
 
 <p>其二：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select</span><br><span class="line"> row_number() over() as id</span><br><span class="line">from </span><br><span class="line"> (select split(space(99), &#x27; &#x27;) as x) t</span><br><span class="line">lateral view</span><br><span class="line">explode(x) ex;</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="built_in">row_number</span>() <span class="keyword">OVER</span> () <span class="keyword">AS</span> id</span><br><span class="line"><span class="keyword">FROM</span> (</span><br><span class="line">	<span class="keyword">SELECT</span> split(space(<span class="number">99</span>), <span class="string">&#x27; &#x27;</span>) <span class="keyword">AS</span> x</span><br><span class="line">) t</span><br><span class="line">	<span class="keyword">LATERAL</span> <span class="keyword">VIEW</span> explode(x) ex;</span><br></pre></td></tr></table></figure>
 
 
 
 <p>那如何产生1至1000000连续数值？</p>
 <p>参考答案：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select</span><br><span class="line"> row_number() over() as id</span><br><span class="line">from </span><br><span class="line"> (select split(space(999999), &#x27; &#x27;) as x) t</span><br><span class="line">lateral view</span><br><span class="line">explode(x) ex;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SELECT row_number() OVER () AS id</span><br><span class="line">FROM (</span><br><span class="line">	SELECT split(space(999999), &#x27; &#x27;) AS x</span><br><span class="line">) t</span><br><span class="line">	LATERAL VIEW explode(x) ex;</span><br></pre></td></tr></table></figure>
 
 
 
 <h2 id="六、数据扩充与收缩"><a href="#六、数据扩充与收缩" class="headerlink" title="六、数据扩充与收缩"></a>六、数据扩充与收缩</h2><p>表名：t6</p>
 <p>表字段及内容：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">a</span><br><span class="line">3</span><br><span class="line">2</span><br><span class="line">4</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">a </span><br><span class="line">3 </span><br><span class="line">2</span><br><span class="line">4</span><br></pre></td></tr></table></figure>
 
 
 
 <h4 id="问题一：数据扩充"><a href="#问题一：数据扩充" class="headerlink" title="问题一：数据扩充"></a>问题一：数据扩充</h4><p>输出结果如下所示：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">a   b</span><br><span class="line">3  3、2、1</span><br><span class="line">2  2、1</span><br><span class="line">4  4、3、2、1</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">a   b</span><br><span class="line"><span class="number">3</span>  <span class="number">3</span>、<span class="number">2</span>、<span class="number">1</span></span><br><span class="line"><span class="number">2</span>  <span class="number">2</span>、<span class="number">1</span></span><br><span class="line"><span class="number">4</span>  <span class="number">4</span>、<span class="number">3</span>、<span class="number">2</span>、<span class="number">1</span></span><br></pre></td></tr></table></figure>
 
 
 
 <p>参考答案：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select </span><br><span class="line"> t.a,</span><br><span class="line"> concat_ws(&#x27;、&#x27;,collect_set(cast(t.rn as string))) as b</span><br><span class="line">from</span><br><span class="line">( </span><br><span class="line"> select </span><br><span class="line">  t6.a,</span><br><span class="line">  b.rn</span><br><span class="line"> from t6</span><br><span class="line"> left join</span><br><span class="line"> (   select</span><br><span class="line">   row_number() over() as rn</span><br><span class="line">  from </span><br><span class="line">  (select split(space(5), &#x27; &#x27;) as x) t -- space(5)可根据t6表的最大值灵活调整</span><br><span class="line">  lateral view</span><br><span class="line">  explode(x) pe</span><br><span class="line"> ) b</span><br><span class="line"> on 1 = 1</span><br><span class="line"> where t6.a &gt;= b.rn</span><br><span class="line"> order by t6.a, b.rn desc </span><br><span class="line">) t</span><br><span class="line">group by t.a;</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> </span><br><span class="line"> t.a,</span><br><span class="line"> concat_ws(<span class="string">&#x27;、&#x27;</span>,collect_set(<span class="built_in">cast</span>(t.rn <span class="keyword">as</span> string))) <span class="keyword">as</span> b</span><br><span class="line"><span class="keyword">from</span></span><br><span class="line">( </span><br><span class="line"> <span class="keyword">select</span> </span><br><span class="line">  t6.a,</span><br><span class="line">  b.rn</span><br><span class="line"> <span class="keyword">from</span> t6</span><br><span class="line"> <span class="keyword">left</span> <span class="keyword">join</span></span><br><span class="line"> (   <span class="keyword">select</span></span><br><span class="line">   <span class="built_in">row_number</span>() <span class="keyword">over</span>() <span class="keyword">as</span> rn</span><br><span class="line">  <span class="keyword">from</span> </span><br><span class="line">  (<span class="keyword">select</span> split(space(<span class="number">5</span>), <span class="string">&#x27; &#x27;</span>) <span class="keyword">as</span> x) t <span class="comment">-- space(5)可根据t6表的最大值灵活调整</span></span><br><span class="line">  <span class="keyword">lateral</span> <span class="keyword">view</span></span><br><span class="line">  explode(x) pe</span><br><span class="line"> ) b</span><br><span class="line"> <span class="keyword">on</span> <span class="number">1</span> <span class="operator">=</span> <span class="number">1</span></span><br><span class="line"> <span class="keyword">where</span> t6.a <span class="operator">&gt;=</span> b.rn</span><br><span class="line"> <span class="keyword">order</span> <span class="keyword">by</span> t6.a, b.rn <span class="keyword">desc</span> </span><br><span class="line">) t</span><br><span class="line"><span class="keyword">group</span> <span class="keyword">by</span> t.a;</span><br></pre></td></tr></table></figure>
 
 
 
@@ -540,7 +540,7 @@
 
 
 <p>参考答案：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select </span><br><span class="line"> t.a,</span><br><span class="line"> concat_ws(&#x27;、&#x27;,collect_set(cast(t.a1 as string))) as b</span><br><span class="line">from</span><br><span class="line">(   select </span><br><span class="line"></span><br><span class="line">  t6.a,</span><br><span class="line">  b.a1 from t6</span><br><span class="line"> left join</span><br><span class="line"> (  </span><br><span class="line">  select a as a1 </span><br><span class="line">  from t6</span><br><span class="line"> ) b</span><br><span class="line"> on 1 = 1</span><br><span class="line"> where t6.a &gt;= b.a1</span><br><span class="line"> order by t6.a, b.a1 </span><br><span class="line">) t</span><br><span class="line">group by t.a;</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> </span><br><span class="line"> t.a,</span><br><span class="line"> concat_ws(<span class="string">&#x27;、&#x27;</span>,collect_set(<span class="built_in">cast</span>(t.a1 <span class="keyword">as</span> string))) <span class="keyword">as</span> b</span><br><span class="line"><span class="keyword">from</span></span><br><span class="line">(   <span class="keyword">select</span> </span><br><span class="line"></span><br><span class="line">  t6.a,</span><br><span class="line">  b.a1 <span class="keyword">from</span> t6</span><br><span class="line"> <span class="keyword">left</span> <span class="keyword">join</span></span><br><span class="line"> (  </span><br><span class="line">  <span class="keyword">select</span> a <span class="keyword">as</span> a1 </span><br><span class="line">  <span class="keyword">from</span> t6</span><br><span class="line"> ) b</span><br><span class="line"> <span class="keyword">on</span> <span class="number">1</span> <span class="operator">=</span> <span class="number">1</span></span><br><span class="line"> <span class="keyword">where</span> t6.a <span class="operator">&gt;=</span> b.a1</span><br><span class="line"> <span class="keyword">order</span> <span class="keyword">by</span> t6.a, b.a1 </span><br><span class="line">) t</span><br><span class="line"><span class="keyword">group</span> <span class="keyword">by</span> t.a;</span><br></pre></td></tr></table></figure>
 
 
 
@@ -562,996 +562,371 @@
 
 <h2 id="七、合并与拆分"><a href="#七、合并与拆分" class="headerlink" title="七、合并与拆分"></a>七、合并与拆分</h2><p>表名：t7</p>
 <p>表字段及内容：</p>
-<p>a  b</p>
-<p>2014 A</p>
-<p>2014 B</p>
-<p>2015 B</p>
-<p>2015 D</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">a  b</span><br><span class="line">2014 A</span><br><span class="line">2014 B</span><br><span class="line">2015 B</span><br><span class="line">2015 D</span><br></pre></td></tr></table></figure>
+
+
+
 <h4 id="问题一：合并"><a href="#问题一：合并" class="headerlink" title="问题一：合并"></a>问题一：合并</h4><p>输出结果如下所示：</p>
-<p>2014 A、B</p>
-<p>2015 B、D</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">2014 A、B</span><br><span class="line"></span><br><span class="line">2015 B、D</span><br></pre></td></tr></table></figure>
+
+
+
 <p>参考答案:</p>
-<p>select</p>
-<p> a,</p>
-<p> concat_ws(‘、’, collect_set(t.b)) b</p>
-<p>from t7</p>
-<p>group by a;</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span></span><br><span class="line"> a,</span><br><span class="line"> concat_ws(<span class="string">&#x27;、&#x27;</span>, collect_set(t.b)) b</span><br><span class="line"><span class="keyword">from</span> t7</span><br><span class="line"><span class="keyword">group</span> <span class="keyword">by</span> a;</span><br></pre></td></tr></table></figure>
+
+
+
 <h4 id="问题二：拆分"><a href="#问题二：拆分" class="headerlink" title="问题二：拆分"></a>问题二：拆分</h4><p>问题描述：将分组合并的结果拆分出来</p>
 <p>参考答案：</p>
-<p>select</p>
-<p> t.a,</p>
-<p> d</p>
-<p>from</p>
-<p>(</p>
-<p> select</p>
-<p> a,</p>
-<p> concat_ws(‘、’, collect_set(t7.b)) b</p>
-<p> from t7</p>
-<p> group by a</p>
-<p>)t</p>
-<p>lateral view </p>
-<p>explode(split(t.b, ‘、’)) table_tmp as d;</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span></span><br><span class="line"> t.a,</span><br><span class="line"> d</span><br><span class="line"><span class="keyword">from</span></span><br><span class="line">(</span><br><span class="line"> <span class="keyword">select</span></span><br><span class="line"> a,</span><br><span class="line"> concat_ws(<span class="string">&#x27;、&#x27;</span>, collect_set(t7.b)) b</span><br><span class="line"> <span class="keyword">from</span> t7</span><br><span class="line"> <span class="keyword">group</span> <span class="keyword">by</span> a</span><br><span class="line">)t</span><br><span class="line"><span class="keyword">lateral</span> <span class="keyword">view</span> </span><br><span class="line">explode(split(t.b, <span class="string">&#x27;、&#x27;</span>)) table_tmp <span class="keyword">as</span> d;</span><br></pre></td></tr></table></figure>
+
+
+
 <h2 id="八、模拟循环操作"><a href="#八、模拟循环操作" class="headerlink" title="八、模拟循环操作"></a>八、模拟循环操作</h2><p>表名：t8</p>
 <p>表字段及内容：</p>
-<p>a</p>
-<p>1011</p>
-<p>0101</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">a</span><br><span class="line">1011</span><br><span class="line">0101</span><br></pre></td></tr></table></figure>
+
+
+
 <h5 id="问题一：如何将字符’1’的位置提取出来"><a href="#问题一：如何将字符’1’的位置提取出来" class="headerlink" title="问题一：如何将字符’1’的位置提取出来"></a>问题一：如何将字符’1’的位置提取出来</h5><p>输出结果如下所示:</p>
-<p>1,3,4</p>
-<p>2,4</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1,3,4</span><br><span class="line">2,4</span><br></pre></td></tr></table></figure>
+
+
+
 <p>参考答案：</p>
-<p>select </p>
-<p>  a,</p>
-<p>  concat_ws(“,”,collect_list(cast(index as string))) as res</p>
-<p>from (</p>
-<p>  select </p>
-<p>​    a,</p>
-<p>​    index+1 as index,</p>
-<p>​    chr</p>
-<p>  from (</p>
-<p>​    select </p>
-<p>​      a,</p>
-<p>​      concat_ws(“,”,substr(a,1,1),substr(a,2,1),substr(a,3,1),substr(a,-1)) str</p>
-<p>​    from t8</p>
-<p>  ) tmp1</p>
-<p>  lateral view posexplode(split(str,”,”)) t as index,chr</p>
-<p>  where chr = “1”</p>
-<p>) tmp2</p>
-<p>group by a;</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> a, concat_ws(<span class="string">&#x27;,&#x27;</span>, collect_list(<span class="built_in">CAST</span>(index <span class="keyword">AS</span> string))) <span class="keyword">AS</span> res</span><br><span class="line"><span class="keyword">FROM</span> (</span><br><span class="line">	<span class="keyword">SELECT</span> a, index <span class="operator">+</span> <span class="number">1</span> <span class="keyword">AS</span> index, chr</span><br><span class="line">	<span class="keyword">FROM</span> (</span><br><span class="line">		<span class="keyword">SELECT</span> a</span><br><span class="line">			, concat_ws(<span class="string">&#x27;,&#x27;</span>, substr(a, <span class="number">1</span>, <span class="number">1</span>), substr(a, <span class="number">2</span>, <span class="number">1</span>), substr(a, <span class="number">3</span>, <span class="number">1</span>), substr(a, <span class="number">-1</span>)) <span class="keyword">AS</span> str</span><br><span class="line">		<span class="keyword">FROM</span> t8</span><br><span class="line">	) tmp1</span><br><span class="line">		<span class="keyword">LATERAL</span> <span class="keyword">VIEW</span> posexplode(split(str, <span class="string">&#x27;,&#x27;</span>)) t <span class="keyword">AS</span> index, chr</span><br><span class="line">	<span class="keyword">WHERE</span> chr <span class="operator">=</span> <span class="string">&#x27;1&#x27;</span></span><br><span class="line">) tmp2</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> a;</span><br></pre></td></tr></table></figure>
+
+
+
 <h2 id="九、不使用distinct或group-by去重"><a href="#九、不使用distinct或group-by去重" class="headerlink" title="九、不使用distinct或group by去重"></a>九、不使用distinct或group by去重</h2><p>表名：t9</p>
 <p>表字段及内容：</p>
-<p>a   b   c  d</p>
-<p>2014 2016 2014  A</p>
-<p>2014 2015 2015  B</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">a   b   c  d</span><br><span class="line">2014 2016 2014  A</span><br><span class="line">2014 2015 2015  B</span><br></pre></td></tr></table></figure>
+
+
+
 <h4 id="问题一：不使用distinct或group-by去重"><a href="#问题一：不使用distinct或group-by去重" class="headerlink" title="问题一：不使用distinct或group by去重"></a>问题一：不使用distinct或group by去重</h4><p>输出结果如下所示：</p>
-<p>2014 A</p>
-<p>2016 A</p>
-<p>2014 B</p>
-<p>2015 B</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">2014 A</span><br><span class="line">2016 A</span><br><span class="line">2014 B</span><br><span class="line">2015 B</span><br></pre></td></tr></table></figure>
+
+
+
 <p>参考答案：</p>
-<p>select</p>
-<p> t2.year</p>
-<p> ,t2.num</p>
-<p>from</p>
-<p> (</p>
-<p> select</p>
-<p>  ,row_number() over (partition by t1.year,t1.num) as rank_1</p>
-<p> from </p>
-<p> (</p>
-<p>  select </p>
-<p>   a as year,</p>
-<p>   d as num</p>
-<p>  from t9</p>
-<p>  union all</p>
-<p>  select </p>
-<p>   b as year,</p>
-<p>   d as num</p>
-<p>  from t9</p>
-<p>  union all</p>
-<p>  select </p>
-<p>   c as year,</p>
-<p>   d as num</p>
-<p>  from t9</p>
-<p>  )t1</p>
-<p>)t2</p>
-<p>where rank_1=1</p>
-<p>order by num;</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> t2.year, t2.num</span><br><span class="line"><span class="keyword">FROM</span> (</span><br><span class="line">	<span class="keyword">SELECT</span> <span class="built_in">row_number</span>() <span class="keyword">OVER</span> (<span class="keyword">PARTITION</span> <span class="keyword">BY</span> t1.year, t1.num ) <span class="keyword">AS</span> rank_1</span><br><span class="line">	<span class="keyword">FROM</span> (</span><br><span class="line">		<span class="keyword">SELECT</span> a <span class="keyword">AS</span> <span class="keyword">year</span>, d <span class="keyword">AS</span> num</span><br><span class="line">		<span class="keyword">FROM</span> t9</span><br><span class="line">		<span class="keyword">UNION</span> <span class="keyword">ALL</span></span><br><span class="line">		<span class="keyword">SELECT</span> b <span class="keyword">AS</span> <span class="keyword">year</span>, d <span class="keyword">AS</span> num</span><br><span class="line">		<span class="keyword">FROM</span> t9</span><br><span class="line">		<span class="keyword">UNION</span> <span class="keyword">ALL</span></span><br><span class="line">		<span class="keyword">SELECT</span> c <span class="keyword">AS</span> <span class="keyword">year</span>, d <span class="keyword">AS</span> num</span><br><span class="line">		<span class="keyword">FROM</span> t9</span><br><span class="line">	) t1</span><br><span class="line">) t2</span><br><span class="line"><span class="keyword">WHERE</span> rank_1 <span class="operator">=</span> <span class="number">1</span></span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> num;</span><br></pre></td></tr></table></figure>
+
+
+
 <h2 id="十、容器–反转内容"><a href="#十、容器–反转内容" class="headerlink" title="十、容器–反转内容"></a>十、容器–反转内容</h2><p>表名：t10</p>
 <p>表字段及内容：</p>
-<p>a</p>
-<p>AB,CA,BAD</p>
-<p>BD,EA</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">a</span><br><span class="line"></span><br><span class="line">AB,CA,BAD</span><br><span class="line"></span><br><span class="line">BD,EA</span><br></pre></td></tr></table></figure>
+
+
+
 <h4 id="问题一：反转逗号分隔的数据：改变顺序，内容不变"><a href="#问题一：反转逗号分隔的数据：改变顺序，内容不变" class="headerlink" title="问题一：反转逗号分隔的数据：改变顺序，内容不变"></a>问题一：反转逗号分隔的数据：改变顺序，内容不变</h4><p>输出结果如下所示：</p>
-<p>BAD,CA,AB</p>
-<p>EA,BD</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">BAD,CA,AB</span><br><span class="line"></span><br><span class="line">EA,BD</span><br></pre></td></tr></table></figure>
+
+
+
 <p>参考答案：</p>
-<p>select </p>
-<p> a,</p>
-<p> concat_ws(“,”,collect_list(reverse(str)))</p>
-<p>from </p>
-<p>(</p>
-<p> select </p>
-<p>  a,</p>
-<p>  str</p>
-<p> from t10</p>
-<p> lateral view explode(split(reverse(a),”,”)) t as str</p>
-<p>) tmp1</p>
-<p>group by a;</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> a</span><br><span class="line">	, concat_ws(<span class="string">&#x27;,&#x27;</span>, collect_list(reverse(str)))</span><br><span class="line"><span class="keyword">FROM</span> (</span><br><span class="line">	<span class="keyword">SELECT</span> a, str</span><br><span class="line">	<span class="keyword">FROM</span> t10</span><br><span class="line">		<span class="keyword">LATERAL</span> <span class="keyword">VIEW</span> explode(split(reverse(a), <span class="string">&#x27;,&#x27;</span>)) t <span class="keyword">AS</span> str</span><br><span class="line">) tmp1</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> a;</span><br></pre></td></tr></table></figure>
+
+
+
 <h4 id="问题二：反转逗号分隔的数据：改变内容，顺序不变"><a href="#问题二：反转逗号分隔的数据：改变内容，顺序不变" class="headerlink" title="问题二：反转逗号分隔的数据：改变内容，顺序不变"></a>问题二：反转逗号分隔的数据：改变内容，顺序不变</h4><p>输出结果如下所示：</p>
-<p>BA,AC,DAB</p>
-<p>DB,AE</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">BA,AC,DAB</span><br><span class="line"></span><br><span class="line">DB,AE</span><br></pre></td></tr></table></figure>
+
+
+
 <p>参考答案：</p>
-<p>select </p>
-<p> a,</p>
-<p> concat_ws(“,”,collect_list(reverse(str)))</p>
-<p>from </p>
-<p>(</p>
-<p> select </p>
-<p>   a,</p>
-<p>   str</p>
-<p> from t10</p>
-<p> lateral view explode(split(a,”,”)) t as str</p>
-<p>) tmp1</p>
-<p>group by a;</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> a</span><br><span class="line">	, concat_ws(<span class="string">&#x27;,&#x27;</span>, collect_list(reverse(str)))</span><br><span class="line"><span class="keyword">FROM</span> (</span><br><span class="line">	<span class="keyword">SELECT</span> a, str</span><br><span class="line">	<span class="keyword">FROM</span> t10</span><br><span class="line">		<span class="keyword">LATERAL</span> <span class="keyword">VIEW</span> explode(split(a, <span class="string">&#x27;,&#x27;</span>)) t <span class="keyword">AS</span> str</span><br><span class="line">) tmp1</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> a;</span><br></pre></td></tr></table></figure>
+
+
+
 <h2 id="十一、多容器–成对提取数据"><a href="#十一、多容器–成对提取数据" class="headerlink" title="十一、多容器–成对提取数据"></a>十一、多容器–成对提取数据</h2><p>表名：t11</p>
 <p>表字段及内容：</p>
-<p>a    b</p>
-<p>A/B   1/3</p>
-<p>B/C/D  4/5/2</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">a    b</span><br><span class="line"></span><br><span class="line">A/B   1/3</span><br><span class="line"></span><br><span class="line">B/C/D  4/5/2</span><br></pre></td></tr></table></figure>
+
+
+
 <h4 id="问题一：成对提取数据，字段一一对应"><a href="#问题一：成对提取数据，字段一一对应" class="headerlink" title="问题一：成对提取数据，字段一一对应"></a>问题一：成对提取数据，字段一一对应</h4><p>输出结果如下所示：</p>
-<p>a    b</p>
-<p>A    1</p>
-<p>B    3</p>
-<p>B    4</p>
-<p>C    5</p>
-<p>D    2</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">a    b</span><br><span class="line"></span><br><span class="line">A    1</span><br><span class="line"></span><br><span class="line">B    3</span><br><span class="line"></span><br><span class="line">B    4</span><br><span class="line"></span><br><span class="line">C    5</span><br><span class="line"></span><br><span class="line">D    2</span><br></pre></td></tr></table></figure>
+
+
+
 <p>参考答案:</p>
-<p>select </p>
-<p> a_inx,</p>
-<p> b_inx</p>
-<p>from </p>
-<p>(</p>
-<p> select </p>
-<p>   a,</p>
-<p>   b,</p>
-<p>   a_id,</p>
-<p>   a_inx,</p>
-<p>   b_id,</p>
-<p>   b_inx</p>
-<p> from t11</p>
-<p> lateral view posexplode(split(a,’/‘)) t as a_id,a_inx</p>
-<p> lateral view posexplode(split(b,’/‘)) t as b_id,b_inx</p>
-<p>) tmp</p>
-<p>where a_id=b_id;</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> a_inx, b_inx</span><br><span class="line"><span class="keyword">FROM</span> (</span><br><span class="line">	<span class="keyword">SELECT</span> a, b, a_id, a_inx, b_id</span><br><span class="line">		, b_inx</span><br><span class="line">	<span class="keyword">FROM</span> t11</span><br><span class="line">		<span class="keyword">LATERAL</span> <span class="keyword">VIEW</span> posexplode(split(a, <span class="string">&#x27;/&#x27;</span>)) t <span class="keyword">AS</span> a_id, a_inx</span><br><span class="line">		<span class="keyword">LATERAL</span> <span class="keyword">VIEW</span> posexplode(split(b, <span class="string">&#x27;/&#x27;</span>)) t <span class="keyword">AS</span> b_id, b_inx</span><br><span class="line">) tmp</span><br><span class="line"><span class="keyword">WHERE</span> a_id <span class="operator">=</span> b_id;</span><br></pre></td></tr></table></figure>
+
+
+
 <h2 id="十二、多容器–转多行"><a href="#十二、多容器–转多行" class="headerlink" title="十二、多容器–转多行"></a>十二、多容器–转多行</h2><p>表名：t12</p>
 <p>表字段及内容：</p>
-<p>a    b   c</p>
-<p>001   A/B   1/3/5</p>
-<p>002   B/C/D  4/5</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">a    b   c</span><br><span class="line"></span><br><span class="line">001   A/B   1/3/5</span><br><span class="line"></span><br><span class="line">002   B/C/D  4/5</span><br></pre></td></tr></table></figure>
+
+
+
 <h4 id="问题一：转多行"><a href="#问题一：转多行" class="headerlink" title="问题一：转多行"></a>问题一：转多行</h4><p>输出结果如下所示：</p>
-<p>a    d    e</p>
-<p>001   type_b  A</p>
-<p>001   type_b  B</p>
-<p>001   type_c  1</p>
-<p>001   type_c  3</p>
-<p>001   type_c  5</p>
-<p>002   type_b  B</p>
-<p>002   type_b  C</p>
-<p>002   type_b  D</p>
-<p>002   type_c  4</p>
-<p>002   type_c  5</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">a    d    e</span><br><span class="line"></span><br><span class="line">001   type_b  A</span><br><span class="line"></span><br><span class="line">001   type_b  B</span><br><span class="line"></span><br><span class="line">001   type_c  1</span><br><span class="line"></span><br><span class="line">001   type_c  3</span><br><span class="line"></span><br><span class="line">001   type_c  5</span><br><span class="line"></span><br><span class="line">002   type_b  B</span><br><span class="line"></span><br><span class="line">002   type_b  C</span><br><span class="line"></span><br><span class="line">002   type_b  D</span><br><span class="line"></span><br><span class="line">002   type_c  4</span><br><span class="line"></span><br><span class="line">002   type_c  5</span><br></pre></td></tr></table></figure>
+
+
+
 <p>参考答案:</p>
-<p>select </p>
-<p> a,</p>
-<p> d,</p>
-<p> e</p>
-<p>from </p>
-<p>(</p>
-<p> select</p>
-<p>  a,</p>
-<p>  “type_b” as d,</p>
-<p>  str as e</p>
-<p> from t12</p>
-<p> lateral view explode(split(b,”/“)) t as str</p>
-<p> union all </p>
-<p> select</p>
-<p>  a,</p>
-<p>  “type_c” as d,</p>
-<p>  str as e</p>
-<p> from t12</p>
-<p> lateral view explode(split(c,”/“)) t as str</p>
-<p>) tmp</p>
-<p>order by a,d;</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> a, d, e</span><br><span class="line"><span class="keyword">FROM</span> (</span><br><span class="line">	<span class="keyword">SELECT</span> a, <span class="string">&#x27;type_b&#x27;</span> <span class="keyword">AS</span> d, str <span class="keyword">AS</span> e</span><br><span class="line">	<span class="keyword">FROM</span> t12</span><br><span class="line">		<span class="keyword">LATERAL</span> <span class="keyword">VIEW</span> explode(split(b, <span class="string">&#x27;/&#x27;</span>)) t <span class="keyword">AS</span> str</span><br><span class="line">	<span class="keyword">UNION</span> <span class="keyword">ALL</span></span><br><span class="line">	<span class="keyword">SELECT</span> a, <span class="string">&#x27;type_c&#x27;</span> <span class="keyword">AS</span> d, str <span class="keyword">AS</span> e</span><br><span class="line">	<span class="keyword">FROM</span> t12</span><br><span class="line">		<span class="keyword">LATERAL</span> <span class="keyword">VIEW</span> explode(split(c, <span class="string">&#x27;/&#x27;</span>)) t <span class="keyword">AS</span> str</span><br><span class="line">) tmp</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> a, d;</span><br></pre></td></tr></table></figure>
+
+
+
 <h2 id="十三、抽象分组–断点排序"><a href="#十三、抽象分组–断点排序" class="headerlink" title="十三、抽象分组–断点排序"></a>十三、抽象分组–断点排序</h2><p>表名：t13</p>
 <p>表字段及内容：</p>
-<p>a  b</p>
-<p>2014 1</p>
-<p>2015 1</p>
-<p>2016 1</p>
-<p>2017 0</p>
-<p>2018 0</p>
-<p>2019 -1</p>
-<p>2020 -1</p>
-<p>2021 -1</p>
-<p>2022 1</p>
-<p>2023 1</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">a  b</span><br><span class="line"></span><br><span class="line">2014 1</span><br><span class="line"></span><br><span class="line">2015 1</span><br><span class="line"></span><br><span class="line">2016 1</span><br><span class="line"></span><br><span class="line">2017 0</span><br><span class="line"></span><br><span class="line">2018 0</span><br><span class="line"></span><br><span class="line">2019 -1</span><br><span class="line"></span><br><span class="line">2020 -1</span><br><span class="line"></span><br><span class="line">2021 -1</span><br><span class="line"></span><br><span class="line">2022 1</span><br><span class="line"></span><br><span class="line">2023 1</span><br></pre></td></tr></table></figure>
+
+
+
 <h4 id="问题一：断点排序"><a href="#问题一：断点排序" class="headerlink" title="问题一：断点排序"></a>问题一：断点排序</h4><p>输出结果如下所示：</p>
-<p>a  b  c </p>
-<p>2014 1  1</p>
-<p>2015 1  2</p>
-<p>2016 1  3</p>
-<p>2017 0  1</p>
-<p>2018 0  2</p>
-<p>2019 -1  1</p>
-<p>2020 -1  2</p>
-<p>2021 -1  3</p>
-<p>2022 1  1</p>
-<p>2023 1  2</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">a  b  c </span><br><span class="line"></span><br><span class="line">2014 1  1</span><br><span class="line"></span><br><span class="line">2015 1  2</span><br><span class="line"></span><br><span class="line">2016 1  3</span><br><span class="line"></span><br><span class="line">2017 0  1</span><br><span class="line"></span><br><span class="line">2018 0  2</span><br><span class="line"></span><br><span class="line">2019 -1  1</span><br><span class="line"></span><br><span class="line">2020 -1  2</span><br><span class="line"></span><br><span class="line">2021 -1  3</span><br><span class="line"></span><br><span class="line">2022 1  1</span><br><span class="line"></span><br><span class="line">2023 1  2</span><br></pre></td></tr></table></figure>
+
+
+
+
+
 <p>参考答案:</p>
-<p>select </p>
-<p> a,</p>
-<p> b,</p>
-<p> row_number() over( partition by b,repair_a order by a asc) as c–按照b列和[b的组首]分组，排序</p>
-<p>from </p>
-<p>(</p>
-<p> select </p>
-<p>  a,</p>
-<p>  b,</p>
-<p>  a-b_rn as repair_a–根据b列值出现的次序,修复a列值为b首次出现的a列值,称为b的[组首]</p>
-<p> from </p>
-<p> (</p>
-<p>  select </p>
-<p>   a,</p>
-<p>   b,</p>
-<p>   row_number() over( partition by b order by a asc ) as b_rn–按b列分组,按a列排序,得到b列各值出现的次序</p>
-<p>  from t13 </p>
-<p> )tmp1</p>
-<p>)tmp2–注意，如果不同的b列值，可能出现同样的组首值，但组首值需要和a列值 一并参与分组，故并不影响排序。</p>
-<p>order by a asc; </p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> </span><br><span class="line"> a,</span><br><span class="line"> b,</span><br><span class="line"> <span class="built_in">row_number</span>() <span class="keyword">over</span>( <span class="keyword">partition</span> <span class="keyword">by</span> b,repair_a <span class="keyword">order</span> <span class="keyword">by</span> a <span class="keyword">asc</span>) <span class="keyword">as</span> c <span class="comment">--按照b列和[b的组首]分组，排序</span></span><br><span class="line"><span class="keyword">from</span> </span><br><span class="line">(</span><br><span class="line"> <span class="keyword">select</span> </span><br><span class="line">  a,</span><br><span class="line">  b,</span><br><span class="line">  a<span class="operator">-</span>b_rn <span class="keyword">as</span> repair_a <span class="comment">-- 根据b列值出现的次序,修复a列值为b首次出现的a列值,称为b的[组首]</span></span><br><span class="line"> <span class="keyword">from</span> </span><br><span class="line"> (</span><br><span class="line">  <span class="keyword">select</span> </span><br><span class="line">   a,</span><br><span class="line">   b,</span><br><span class="line">   <span class="built_in">row_number</span>() <span class="keyword">over</span>( <span class="keyword">partition</span> <span class="keyword">by</span> b <span class="keyword">order</span> <span class="keyword">by</span> a <span class="keyword">asc</span> ) <span class="keyword">as</span> b_rn <span class="comment">-- 按b列分组,按a列排序,得到b列各值出现的次序</span></span><br><span class="line">  <span class="keyword">from</span> t13 </span><br><span class="line">)tmp1</span><br><span class="line">)tmp2 <span class="comment">-- 注意，如果不同的b列值，可能出现同样的组首值，但组首值需要和a列值 一并参与分组，故并不影响排序。</span></span><br><span class="line"><span class="keyword">order</span> <span class="keyword">by</span> a <span class="keyword">asc</span>; </span><br></pre></td></tr></table></figure>
+
+
+
 <h2 id="十四、业务逻辑的分类与抽象–时效"><a href="#十四、业务逻辑的分类与抽象–时效" class="headerlink" title="十四、业务逻辑的分类与抽象–时效"></a>十四、业务逻辑的分类与抽象–时效</h2><p>日期表：d_date</p>
 <p>表字段及内容：</p>
-<p>date_id   is_work</p>
-<p>2017-04-13    1</p>
-<p>2017-04-14    1</p>
-<p>2017-04-15    0</p>
-<p>2017-04-16    0</p>
-<p>2017-04-17    1</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">date_id   is_work</span><br><span class="line"></span><br><span class="line">2017-04-13    1</span><br><span class="line"></span><br><span class="line">2017-04-14    1</span><br><span class="line"></span><br><span class="line">2017-04-15    0</span><br><span class="line"></span><br><span class="line">2017-04-16    0</span><br><span class="line"></span><br><span class="line">2017-04-17    1</span><br></pre></td></tr></table></figure>
+
+
+
 <p>工作日：周一至周五09:30-18:30</p>
 <p>客户申请表：t14</p>
 <p>表字段及内容：</p>
-<p>a   b    c</p>
-<p>1   申请  2017-04-14 18:03:00</p>
-<p>1   通过  2017-04-17 09:43:00</p>
-<p>2   申请  2017-04-13 17:02:00</p>
-<p>2   通过  2017-04-15 09:42:00</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">a   b    c</span><br><span class="line"></span><br><span class="line">1   申请  2017-04-14 18:03:00</span><br><span class="line"></span><br><span class="line">1   通过  2017-04-17 09:43:00</span><br><span class="line"></span><br><span class="line">2   申请  2017-04-13 17:02:00</span><br><span class="line"></span><br><span class="line">2   通过  2017-04-15 09:42:00</span><br></pre></td></tr></table></figure>
+
+
+
 <h4 id="问题一：计算上表中从申请到通过占用的工作时长"><a href="#问题一：计算上表中从申请到通过占用的工作时长" class="headerlink" title="问题一：计算上表中从申请到通过占用的工作时长"></a>问题一：计算上表中从申请到通过占用的工作时长</h4><p>输出结果如下所示：</p>
-<p>a     d</p>
-<p>1    0.67h</p>
-<p>2    10.67h </p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">a     d</span><br><span class="line"></span><br><span class="line">1    0.67h</span><br><span class="line"></span><br><span class="line">2    10.67h </span><br></pre></td></tr></table></figure>
+
+
+
 <p>参考答案:</p>
-<p>select </p>
-<p>  a,</p>
-<p>  round(sum(diff)/3600,2) as d</p>
-<p>from (</p>
-<p>  select </p>
-<p>​    a,</p>
-<p>​    apply_time,</p>
-<p>​    pass_time,</p>
-<p>​    dates,</p>
-<p>​    rn,</p>
-<p>​    ct,</p>
-<p>​    is_work,</p>
-<p>​    case when is_work=1 and rn=1 then unix_timestamp(concat(dates,’ 18:30:00’),’yyyy-MM-dd HH:mm:ss’)-unix_timestamp(apply_time,’yyyy-MM-dd HH:mm:ss’)</p>
-<p>​      when is_work=0 then 0</p>
-<p>​      when is_work=1 and rn=ct then unix_timestamp(pass_time,’yyyy-MM-dd HH:mm:ss’)-unix_timestamp(concat(dates,’ 09:30:00’),’yyyy-MM-dd HH:mm:ss’)</p>
-<p>​      when is_work=1 and rn!=ct then 93600</p>
-<p>​    end diff</p>
-<p>  from (</p>
-<p>​    select </p>
-<p>​      a,</p>
-<p>​      apply_time,</p>
-<p>​      pass_time,</p>
-<p>​      time_diff,</p>
-<p>​      day_diff,</p>
-<p>​      rn,</p>
-<p>​      ct,</p>
-<p>​      date_add(start,rn-1) dates</p>
-<p>​    from (</p>
-<p>​      select </p>
-<p>​        a,</p>
-<p>​        apply_time,</p>
-<p>​        pass_time,</p>
-<p>​        time_diff,</p>
-<p>​        day_diff,</p>
-<p>​        strs,</p>
-<p>​        start,</p>
-<p>​        row_number() over(partition by a) as rn,</p>
-<p>​        count() over(partition by a) as ct</p>
-<p>​      from (</p>
-<p>​        select </p>
-<p>​          a,</p>
-<p>​          apply_time,</p>
-<p>​          pass_time,</p>
-<p>​          time_diff,</p>
-<p>​          day_diff,</p>
-<p>​          substr(repeat(concat(substr(apply_time,1,10),’,’),day_diff+1),1,11(day_diff+1)-1) strs</p>
-<p>​        from (</p>
-<p>​          select </p>
-<p>​            a,</p>
-<p>​            apply_time,</p>
-<p>​            pass_time,</p>
-<p>​            unix_timestamp(pass_time,’yyyy-MM-dd HH:mm:ss’)-unix_timestamp(apply_time,’yyyy-MM-dd HH:mm:ss’) time_diff,</p>
-<p>​            datediff(substr(pass_time,1,10),substr(apply_time,1,10)) day_diff</p>
-<p>​          from (</p>
-<p>​            select </p>
-<p>​              a,</p>
-<p>​              max(case when b=’申请’ then c end) apply_time,</p>
-<p>​              max(case when b=’通过’ then c end) pass_time</p>
-<p>​            from t14</p>
-<p>​            group by a</p>
-<p>​          ) tmp1</p>
-<p>​        ) tmp2</p>
-<p>​      ) tmp3 </p>
-<p>​      lateral view explode(split(strs,”,”)) t as start</p>
-<p>​    ) tmp4</p>
-<p>  ) tmp5</p>
-<p>  join d_date </p>
-<p>  on tmp5.dates = d_date.date_id</p>
-<p>) tmp6</p>
-<p>group by a;</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> a</span><br><span class="line">	, round(<span class="built_in">sum</span>(diff) <span class="operator">/</span> <span class="number">3600</span>, <span class="number">2</span>) <span class="keyword">AS</span> d</span><br><span class="line"><span class="keyword">FROM</span> (</span><br><span class="line">	<span class="keyword">SELECT</span> a, apply_time, pass_time, dates, rn</span><br><span class="line">		, ct, is_work</span><br><span class="line">		, <span class="keyword">CASE</span> </span><br><span class="line">			<span class="keyword">WHEN</span> is_work <span class="operator">=</span> <span class="number">1</span></span><br><span class="line">				<span class="keyword">AND</span> rn <span class="operator">=</span> <span class="number">1</span></span><br><span class="line">			<span class="keyword">THEN</span> unix_timestamp(concat(dates, <span class="string">&#x27; 18:30:00&#x27;</span>), <span class="string">&#x27;yyyy-MM-dd HH:mm:ss&#x27;</span>) <span class="operator">-</span> unix_timestamp(apply_time, <span class="string">&#x27;yyyy-MM-dd HH:mm:ss&#x27;</span>)</span><br><span class="line">			<span class="keyword">WHEN</span> is_work <span class="operator">=</span> <span class="number">0</span> <span class="keyword">THEN</span> <span class="number">0</span></span><br><span class="line">			<span class="keyword">WHEN</span> is_work <span class="operator">=</span> <span class="number">1</span></span><br><span class="line">				<span class="keyword">AND</span> rn <span class="operator">=</span> ct</span><br><span class="line">			<span class="keyword">THEN</span> unix_timestamp(pass_time, <span class="string">&#x27;yyyy-MM-dd HH:mm:ss&#x27;</span>) <span class="operator">-</span> unix_timestamp(concat(dates, <span class="string">&#x27; 09:30:00&#x27;</span>), <span class="string">&#x27;yyyy-MM-dd HH:mm:ss&#x27;</span>)</span><br><span class="line">			<span class="keyword">WHEN</span> is_work <span class="operator">=</span> <span class="number">1</span></span><br><span class="line">				<span class="keyword">AND</span> rn <span class="operator">!=</span> ct</span><br><span class="line">			<span class="keyword">THEN</span> <span class="number">93600</span></span><br><span class="line">		<span class="keyword">END</span> <span class="keyword">AS</span> diff</span><br><span class="line">	<span class="keyword">FROM</span> (</span><br><span class="line">		<span class="keyword">SELECT</span> a, apply_time, pass_time, time_diff, day_diff</span><br><span class="line">			, rn, ct</span><br><span class="line">			, date_add(<span class="keyword">start</span>, rn <span class="operator">-</span> <span class="number">1</span>) <span class="keyword">AS</span> dates</span><br><span class="line">		<span class="keyword">FROM</span> (</span><br><span class="line">			<span class="keyword">SELECT</span> a, apply_time, pass_time, time_diff, day_diff</span><br><span class="line">				, strs, <span class="keyword">start</span>, <span class="built_in">row_number</span>() <span class="keyword">OVER</span> (<span class="keyword">PARTITION</span> <span class="keyword">BY</span> a ) <span class="keyword">AS</span> rn</span><br><span class="line">				, <span class="built_in">count</span>() <span class="keyword">OVER</span> (<span class="keyword">PARTITION</span> <span class="keyword">BY</span> a ) <span class="keyword">AS</span> ct</span><br><span class="line">			<span class="keyword">FROM</span> (</span><br><span class="line">				<span class="keyword">SELECT</span> a, apply_time, pass_time, time_diff, day_diff</span><br><span class="line">					, substr(repeat(concat(substr(apply_time, <span class="number">1</span>, <span class="number">10</span>), <span class="string">&#x27;,&#x27;</span>), day_diff <span class="operator">+</span> <span class="number">1</span>), <span class="number">1</span>, <span class="number">11</span> <span class="operator">*</span> (day_diff <span class="operator">+</span> <span class="number">1</span>) <span class="operator">-</span> <span class="number">1</span>) <span class="keyword">AS</span> strs</span><br><span class="line">				<span class="keyword">FROM</span> (</span><br><span class="line">					<span class="keyword">SELECT</span> a, apply_time, pass_time</span><br><span class="line">						, unix_timestamp(pass_time, <span class="string">&#x27;yyyy-MM-dd HH:mm:ss&#x27;</span>) <span class="operator">-</span> unix_timestamp(apply_time, <span class="string">&#x27;yyyy-MM-dd HH:mm:ss&#x27;</span>) <span class="keyword">AS</span> time_diff</span><br><span class="line">						, datediff(substr(pass_time, <span class="number">1</span>, <span class="number">10</span>), substr(apply_time, <span class="number">1</span>, <span class="number">10</span>)) <span class="keyword">AS</span> day_diff</span><br><span class="line">					<span class="keyword">FROM</span> (</span><br><span class="line">						<span class="keyword">SELECT</span> a</span><br><span class="line">							, <span class="built_in">max</span>(<span class="keyword">CASE</span> </span><br><span class="line">								<span class="keyword">WHEN</span> b <span class="operator">=</span> <span class="string">&#x27;申请&#x27;</span> <span class="keyword">THEN</span> c</span><br><span class="line">							<span class="keyword">END</span>) <span class="keyword">AS</span> apply_time</span><br><span class="line">							, <span class="built_in">max</span>(<span class="keyword">CASE</span> </span><br><span class="line">								<span class="keyword">WHEN</span> b <span class="operator">=</span> <span class="string">&#x27;通过&#x27;</span> <span class="keyword">THEN</span> c</span><br><span class="line">							<span class="keyword">END</span>) <span class="keyword">AS</span> pass_time</span><br><span class="line">						<span class="keyword">FROM</span> t14</span><br><span class="line">						<span class="keyword">GROUP</span> <span class="keyword">BY</span> a</span><br><span class="line">					) tmp1</span><br><span class="line">				) tmp2</span><br><span class="line">			) tmp3</span><br><span class="line">				<span class="keyword">LATERAL</span> <span class="keyword">VIEW</span> explode(split(strs, <span class="string">&#x27;,&#x27;</span>)) t <span class="keyword">AS</span> <span class="keyword">start</span></span><br><span class="line">		) tmp4</span><br><span class="line">	) tmp5</span><br><span class="line">		<span class="keyword">JOIN</span> d_date <span class="keyword">ON</span> tmp5.dates <span class="operator">=</span> d_date.date_id</span><br><span class="line">) tmp6</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> a;</span><br></pre></td></tr></table></figure>
+
+
+
 <h2 id="十五、时间序列–进度及剩余"><a href="#十五、时间序列–进度及剩余" class="headerlink" title="十五、时间序列–进度及剩余"></a>十五、时间序列–进度及剩余</h2><p>表名：t15</p>
 <p>表字段及内容：</p>
-<p>date_id   is_work</p>
-<p>2017-07-30   0</p>
-<p>2017-07-31   1</p>
-<p>2017-08-01   1</p>
-<p>2017-08-02   1</p>
-<p>2017-08-03   1</p>
-<p>2017-08-04   1</p>
-<p>2017-08-05   0</p>
-<p>2017-08-06   0</p>
-<p>2017-08-07   1</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">date_id   is_work</span><br><span class="line"></span><br><span class="line">2017-07-30   0</span><br><span class="line"></span><br><span class="line">2017-07-31   1</span><br><span class="line"></span><br><span class="line">2017-08-01   1</span><br><span class="line"></span><br><span class="line">2017-08-02   1</span><br><span class="line"></span><br><span class="line">2017-08-03   1</span><br><span class="line"></span><br><span class="line">2017-08-04   1</span><br><span class="line"></span><br><span class="line">2017-08-05   0</span><br><span class="line"></span><br><span class="line">2017-08-06   0</span><br><span class="line"></span><br><span class="line">2017-08-07   1</span><br></pre></td></tr></table></figure>
+
+
+
 <h4 id="问题一：求每天的累计周工作日，剩余周工作日"><a href="#问题一：求每天的累计周工作日，剩余周工作日" class="headerlink" title="问题一：求每天的累计周工作日，剩余周工作日"></a>问题一：求每天的累计周工作日，剩余周工作日</h4><p>输出结果如下所示：</p>
-<p>date_id   week_to_work week_left_work</p>
-<p>2017-07-31   1       4</p>
-<p>2017-08-01   2       3</p>
-<p>2017-08-02   3       2</p>
-<p>2017-08-03   4       1</p>
-<p>2017-08-04   5       0</p>
-<p>2017-08-05   5       0</p>
-<p>2017-08-06   5       0</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">date_id   week_to_work week_left_work</span><br><span class="line"></span><br><span class="line">2017-07-31   1       4</span><br><span class="line"></span><br><span class="line">2017-08-01   2       3</span><br><span class="line"></span><br><span class="line">2017-08-02   3       2</span><br><span class="line"></span><br><span class="line">2017-08-03   4       1</span><br><span class="line"></span><br><span class="line">2017-08-04   5       0</span><br><span class="line"></span><br><span class="line">2017-08-05   5       0</span><br><span class="line"></span><br><span class="line">2017-08-06   5       0</span><br></pre></td></tr></table></figure>
+
+
+
 <p>参考答案:</p>
 <p>此处给出两种解法，其一：</p>
-<p>select </p>
-<p> date_id</p>
-<p>,case date_format(date_id,’u’)</p>
-<p>  when 1 then 1</p>
-<p>  when 2 then 2 </p>
-<p>  when 3 then 3 </p>
-<p>  when 4 then 4</p>
-<p>  when 5 then 5 </p>
-<p>  when 6 then 5 </p>
-<p>  when 7 then 5 </p>
-<p> end as week_to_work</p>
-<p>,case date_format(date_id,’u’)</p>
-<p>  when 1 then 4</p>
-<p>  when 2 then 3 </p>
-<p>  when 3 then 2 </p>
-<p>  when 4 then 1</p>
-<p>  when 5 then 0 </p>
-<p>  when 6 then 0 </p>
-<p>  when 7 then 0 </p>
-<p> end as week_to_work</p>
-<p>from t15</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> date_id</span><br><span class="line">	, <span class="keyword">CASE</span> date_format(date_id, <span class="string">&#x27;u&#x27;</span>)</span><br><span class="line">		<span class="keyword">WHEN</span> <span class="number">1</span> <span class="keyword">THEN</span> <span class="number">1</span></span><br><span class="line">		<span class="keyword">WHEN</span> <span class="number">2</span> <span class="keyword">THEN</span> <span class="number">2</span></span><br><span class="line">		<span class="keyword">WHEN</span> <span class="number">3</span> <span class="keyword">THEN</span> <span class="number">3</span></span><br><span class="line">		<span class="keyword">WHEN</span> <span class="number">4</span> <span class="keyword">THEN</span> <span class="number">4</span></span><br><span class="line">		<span class="keyword">WHEN</span> <span class="number">5</span> <span class="keyword">THEN</span> <span class="number">5</span></span><br><span class="line">		<span class="keyword">WHEN</span> <span class="number">6</span> <span class="keyword">THEN</span> <span class="number">5</span></span><br><span class="line">		<span class="keyword">WHEN</span> <span class="number">7</span> <span class="keyword">THEN</span> <span class="number">5</span></span><br><span class="line">	<span class="keyword">END</span> <span class="keyword">AS</span> week_to_work</span><br><span class="line">	, <span class="keyword">CASE</span> date_format(date_id, <span class="string">&#x27;u&#x27;</span>)</span><br><span class="line">		<span class="keyword">WHEN</span> <span class="number">1</span> <span class="keyword">THEN</span> <span class="number">4</span></span><br><span class="line">		<span class="keyword">WHEN</span> <span class="number">2</span> <span class="keyword">THEN</span> <span class="number">3</span></span><br><span class="line">		<span class="keyword">WHEN</span> <span class="number">3</span> <span class="keyword">THEN</span> <span class="number">2</span></span><br><span class="line">		<span class="keyword">WHEN</span> <span class="number">4</span> <span class="keyword">THEN</span> <span class="number">1</span></span><br><span class="line">		<span class="keyword">WHEN</span> <span class="number">5</span> <span class="keyword">THEN</span> <span class="number">0</span></span><br><span class="line">		<span class="keyword">WHEN</span> <span class="number">6</span> <span class="keyword">THEN</span> <span class="number">0</span></span><br><span class="line">		<span class="keyword">WHEN</span> <span class="number">7</span> <span class="keyword">THEN</span> <span class="number">0</span></span><br><span class="line">	<span class="keyword">END</span> <span class="keyword">AS</span> week_to_work</span><br><span class="line"><span class="keyword">FROM</span> t15</span><br></pre></td></tr></table></figure>
+
+
+
 <p>其二：</p>
-<p>select</p>
-<p>date_id,</p>
-<p>week_to_work,</p>
-<p>week_sum_work-week_to_work as week_left_work</p>
-<p>from(</p>
-<p>  select</p>
-<p>  date_id,</p>
-<p>  sum(is_work) over(partition by year,week order by date_id) as week_to_work,</p>
-<p>  sum(is_work) over(partition by year,week) as week_sum_work</p>
-<p>  from(</p>
-<p>​    select</p>
-<p>​    date_id,</p>
-<p>​    is_work,</p>
-<p>​    year(date_id) as year,</p>
-<p>​    weekofyear(date_id) as week</p>
-<p>​    from t15</p>
-<p>  ) ta</p>
-<p>) tb order by date_id;</p>
-<h2 id="十六、时间序列–构造日期"><a href="#十六、时间序列–构造日期" class="headerlink" title="十六、时间序列–构造日期"></a>十六、时间序列–构造日期</h2><h4 id="问题一：直接使用SQL实现一张日期维度表，包含以下字段："><a href="#问题一：直接使用SQL实现一张日期维度表，包含以下字段：" class="headerlink" title="问题一：直接使用SQL实现一张日期维度表，包含以下字段："></a>问题一：直接使用SQL实现一张日期维度表，包含以下字段：</h4><p>date         string        日期</p>
-<p>d_week        string        年内第几周</p>
-<p>weeks        int         周几</p>
-<p>w_start       string        周开始日</p>
-<p>w_end        string        周结束日</p>
-<p>d_month       int         第几月</p>
-<p>m_start       string        月开始日</p>
-<p>m_end        string        月结束日</p>
-<p>d_quarter      int          第几季</p>
-<p>q_start       string        季开始日</p>
-<p>q_end        string        季结束日</p>
-<p>d_year        int          年份</p>
-<p>y_start       string        年开始日</p>
-<p>y_end        string        年结束日</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> date_id, week_to_work, week_sum_work <span class="operator">-</span> week_to_work <span class="keyword">AS</span> week_left_work</span><br><span class="line"><span class="keyword">FROM</span> (</span><br><span class="line">	<span class="keyword">SELECT</span> date_id, <span class="built_in">sum</span>(is_work) <span class="keyword">OVER</span> (<span class="keyword">PARTITION</span> <span class="keyword">BY</span> <span class="keyword">year</span>, week <span class="keyword">ORDER</span> <span class="keyword">BY</span> date_id) <span class="keyword">AS</span> week_to_work</span><br><span class="line">		, <span class="built_in">sum</span>(is_work) <span class="keyword">OVER</span> (<span class="keyword">PARTITION</span> <span class="keyword">BY</span> <span class="keyword">year</span>, week ) <span class="keyword">AS</span> week_sum_work</span><br><span class="line">	<span class="keyword">FROM</span> (</span><br><span class="line">		<span class="keyword">SELECT</span> date_id, is_work, <span class="keyword">year</span>(date_id) <span class="keyword">AS</span> <span class="keyword">year</span></span><br><span class="line">			, weekofyear(date_id) <span class="keyword">AS</span> week</span><br><span class="line">		<span class="keyword">FROM</span> t15</span><br><span class="line">	) ta</span><br><span class="line">) tb</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> date_id;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="十六、时间序列–构造日期"><a href="#十六、时间序列–构造日期" class="headerlink" title="十六、时间序列–构造日期"></a>十六、时间序列–构造日期</h2><h4 id="问题一：直接使用SQL实现一张日期维度表，包含以下字段："><a href="#问题一：直接使用SQL实现一张日期维度表，包含以下字段：" class="headerlink" title="问题一：直接使用SQL实现一张日期维度表，包含以下字段："></a>问题一：直接使用SQL实现一张日期维度表，包含以下字段：</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">date         string        日期</span><br><span class="line"></span><br><span class="line">d_week        string        年内第几周</span><br><span class="line"></span><br><span class="line">weeks        int         周几</span><br><span class="line"></span><br><span class="line">w_start       string        周开始日</span><br><span class="line"></span><br><span class="line">w_end        string        周结束日</span><br><span class="line"></span><br><span class="line">d_month       int         第几月</span><br><span class="line"></span><br><span class="line">m_start       string        月开始日</span><br><span class="line"></span><br><span class="line">m_end        string        月结束日</span><br><span class="line"></span><br><span class="line">d_quarter      int          第几季</span><br><span class="line"></span><br><span class="line">q_start       string        季开始日</span><br><span class="line"></span><br><span class="line">q_end        string        季结束日</span><br><span class="line"></span><br><span class="line">d_year        int          年份</span><br><span class="line"></span><br><span class="line">y_start       string        年开始日</span><br><span class="line"></span><br><span class="line">y_end        string        年结束日</span><br></pre></td></tr></table></figure>
+
+
+
 <p>参考答案：</p>
-<p>drop table if exists dim_date;</p>
-<p>create table if not exists dim_date(</p>
-<p>  <code>date</code> string comment ‘日期’,</p>
-<p>  d_week string comment ‘年内第几周’,</p>
-<p>  weeks string comment ‘周几’,</p>
-<p>  w_start string comment ‘周开始日’,</p>
-<p>  w_end string comment ‘周结束日’,</p>
-<p>  d_month string comment ‘第几月’,</p>
-<p>  m_start string comment ‘月开始日’,</p>
-<p>  m_end string comment ‘月结束日’,</p>
-<p>  d_quarter int comment ‘第几季’,</p>
-<p>  q_start string comment ‘季开始日’,</p>
-<p>  q_end string comment ‘季结束日’,</p>
-<p>  d_year int comment ‘年份’,</p>
-<p>  y_start string comment ‘年开始日’,</p>
-<p>  y_end string comment ‘年结束日’</p>
-<p>);</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">DROP</span> <span class="keyword">TABLE</span> IF <span class="keyword">EXISTS</span> dim_date;</span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> IF <span class="keyword">NOT</span> <span class="keyword">EXISTS</span> dim_date (</span><br><span class="line">	`<span class="type">date</span>` string COMMENT <span class="string">&#x27;日期&#x27;</span>,</span><br><span class="line">	d_week string COMMENT <span class="string">&#x27;年内第几周&#x27;</span>,</span><br><span class="line">	weeks string COMMENT <span class="string">&#x27;周几&#x27;</span>,</span><br><span class="line">	w_start string COMMENT <span class="string">&#x27;周开始日&#x27;</span>,</span><br><span class="line">	w_end string COMMENT <span class="string">&#x27;周结束日&#x27;</span>,</span><br><span class="line">	d_month string COMMENT <span class="string">&#x27;第几月&#x27;</span>,</span><br><span class="line">	m_start string COMMENT <span class="string">&#x27;月开始日&#x27;</span>,</span><br><span class="line">	m_end string COMMENT <span class="string">&#x27;月结束日&#x27;</span>,</span><br><span class="line">	d_quarter <span class="type">int</span> COMMENT <span class="string">&#x27;第几季&#x27;</span>,</span><br><span class="line">	q_start string COMMENT <span class="string">&#x27;季开始日&#x27;</span>,</span><br><span class="line">	q_end string COMMENT <span class="string">&#x27;季结束日&#x27;</span>,</span><br><span class="line">	d_year <span class="type">int</span> COMMENT <span class="string">&#x27;年份&#x27;</span>,</span><br><span class="line">	y_start string COMMENT <span class="string">&#x27;年开始日&#x27;</span>,</span><br><span class="line">	y_end string COMMENT <span class="string">&#x27;年结束日&#x27;</span></span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+
+
 <p>–自然月: 指每月的1号到那个月的月底，它是按照阳历来计算的。就是从每月1号到月底，不管这个月有30天，31天，29天或者28天，都算是一个自然月。</p>
-<p>insert overwrite table dim_date</p>
-<p>select <code>date</code></p>
-<p>   , d_week –年内第几周</p>
-<p>   , case weekid</p>
-<p>​      when 0 then ‘周日’</p>
-<p>​      when 1 then ‘周一’</p>
-<p>​      when 2 then ‘周二’</p>
-<p>​      when 3 then ‘周三’</p>
-<p>​      when 4 then ‘周四’</p>
-<p>​      when 5 then ‘周五’</p>
-<p>​      when 6 then ‘周六’</p>
-<p>  end as weeks – 周</p>
-<p>   , date_add(next_day(<code>date</code>,’MO’),-7) as w_start –周一</p>
-<p>   , date_add(next_day(<code>date</code>,’MO’),-1) as w_end  – 周日_end</p>
-<p>   – 月份日期</p>
-<p>   , concat(‘第’, monthid, ‘月’) as d_month</p>
-<p>   , m_start</p>
-<p>   , m_end</p>
-<p>   – 季节</p>
-<p>   , quarterid as d_quart</p>
-<p>   , concat(d_year, ‘-‘, substr(concat(‘0’, (quarterid - 1)  3 + 1), -2), ‘-01’) as q_start –季开始日</p>
-<p>   , date_sub(concat(d_year, ‘-‘, substr(concat(‘0’, (quarterid)  3 + 1), -2), ‘-01’), 1) as q_end  –季结束日</p>
-<p>   – 年</p>
-<p>   , d_year</p>
-<p>   , y_start</p>
-<p>   , y_end</p>
-<p>from (</p>
-<p>​     select <code>date</code></p>
-<p>​       , pmod(datediff(<code>date</code>, ‘2012-01-01’), 7)         as weekid  –获取周几</p>
-<p>​       , cast(substr(<code>date</code>, 6, 2) as int)            as monthid  –获取月份</p>
-<p>​       , case</p>
-<p>​          when cast(substr(<code>date</code>, 6, 2) as int) &lt;= 3 then 1</p>
-<p>​          when cast(substr(<code>date</code>, 6, 2) as int) &lt;= 6 then 2</p>
-<p>​          when cast(substr(<code>date</code>, 6, 2) as int) &lt;= 9 then 3</p>
-<p>​          when cast(substr(<code>date</code>, 6, 2) as int) &lt;= 12 then 4</p>
-<p>​       end                            as quarterid –获取季节 可以直接使用 quarter(<code>date</code>)</p>
-<p>​       , substr(<code>date</code>, 1, 4)                   as d_year  – 获取年份</p>
-<p>​       , trunc(<code>date</code>, ‘YYYY’)                  as y_start  –年开始日</p>
-<p>​       , date_sub(trunc(add_months(<code>date</code>, 12), ‘YYYY’), 1) as y_end   –年结束日</p>
-<p>​       , date_sub(<code>date</code>, dayofmonth(<code>date</code>) - 1)         as m_start  –当月第一天</p>
-<p>​       , last_day(date_sub(<code>date</code>, dayofmonth(<code>date</code>) - 1))     m_end   –当月最后一天</p>
-<p>​       , weekofyear(<code>date</code>)                    as d_week  –年内第几周</p>
-<p>​     from (</p>
-<p>​          – ‘2021-04-01’是开始日期, ‘2022-03-31’是截止日期</p>
-<p>​         select date_add(‘2021-04-01’, t0.pos) as <code>date</code></p>
-<p>​         from (</p>
-<p>​              select posexplode(</p>
-<p>​                     split(</p>
-<p>​                         repeat(‘o’, datediff(</p>
-<p>​                             from_unixtime(unix_timestamp(‘2022-03-31’, ‘yyyy-mm-dd’),</p>
-<p>​                                    ‘yyyy-mm-dd’),</p>
-<p>​                             ‘2021-04-01’)), ‘o’</p>
-<p>​                       )</p>
-<p>​                   )</p>
-<p>​            ) t0</p>
-<p>​       ) t1</p>
-<p>   ) t2;</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">insert</span> overwrite <span class="keyword">table</span> dim_date</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> `<span class="type">date</span>`</span><br><span class="line"></span><br><span class="line">   , d_week <span class="comment">--年内第几周</span></span><br><span class="line"></span><br><span class="line">   , <span class="keyword">case</span> weekid</span><br><span class="line"></span><br><span class="line">​      <span class="keyword">when</span> <span class="number">0</span> <span class="keyword">then</span> <span class="string">&#x27;周日&#x27;</span></span><br><span class="line"></span><br><span class="line">​      <span class="keyword">when</span> <span class="number">1</span> <span class="keyword">then</span> <span class="string">&#x27;周一&#x27;</span></span><br><span class="line"></span><br><span class="line">​      <span class="keyword">when</span> <span class="number">2</span> <span class="keyword">then</span> <span class="string">&#x27;周二&#x27;</span></span><br><span class="line"></span><br><span class="line">​      <span class="keyword">when</span> <span class="number">3</span> <span class="keyword">then</span> <span class="string">&#x27;周三&#x27;</span></span><br><span class="line"></span><br><span class="line">​      <span class="keyword">when</span> <span class="number">4</span> <span class="keyword">then</span> <span class="string">&#x27;周四&#x27;</span></span><br><span class="line"></span><br><span class="line">​      <span class="keyword">when</span> <span class="number">5</span> <span class="keyword">then</span> <span class="string">&#x27;周五&#x27;</span></span><br><span class="line"></span><br><span class="line">​      <span class="keyword">when</span> <span class="number">6</span> <span class="keyword">then</span> <span class="string">&#x27;周六&#x27;</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">end</span> <span class="keyword">as</span> weeks <span class="comment">-- 周</span></span><br><span class="line"></span><br><span class="line">   , date_add(next_day(`<span class="type">date</span>`,<span class="string">&#x27;MO&#x27;</span>),<span class="number">-7</span>) <span class="keyword">as</span> w_start <span class="comment">--周一</span></span><br><span class="line"></span><br><span class="line">   , date_add(next_day(`<span class="type">date</span>`,<span class="string">&#x27;MO&#x27;</span>),<span class="number">-1</span>) <span class="keyword">as</span> w_end  <span class="comment">-- 周日_end</span></span><br><span class="line"></span><br><span class="line">   <span class="comment">-- 月份日期</span></span><br><span class="line"></span><br><span class="line">   , concat(<span class="string">&#x27;第&#x27;</span>, monthid, <span class="string">&#x27;月&#x27;</span>) <span class="keyword">as</span> d_month</span><br><span class="line"></span><br><span class="line">   , m_start</span><br><span class="line"></span><br><span class="line">   , m_end</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line">   <span class="comment">-- 季节</span></span><br><span class="line"></span><br><span class="line">   , quarterid <span class="keyword">as</span> d_quart</span><br><span class="line"></span><br><span class="line">   , concat(d_year, <span class="string">&#x27;-&#x27;</span>, substr(concat(<span class="string">&#x27;0&#x27;</span>, (quarterid <span class="operator">-</span> <span class="number">1</span>)  <span class="number">3</span> <span class="operator">+</span> <span class="number">1</span>), <span class="number">-2</span>), <span class="string">&#x27;-01&#x27;</span>) <span class="keyword">as</span> q_start <span class="comment">--季开始日</span></span><br><span class="line"></span><br><span class="line">   , date_sub(concat(d_year, <span class="string">&#x27;-&#x27;</span>, substr(concat(<span class="string">&#x27;0&#x27;</span>, (quarterid)  <span class="number">3</span> <span class="operator">+</span> <span class="number">1</span>), <span class="number">-2</span>), <span class="string">&#x27;-01&#x27;</span>), <span class="number">1</span>) <span class="keyword">as</span> q_end  <span class="comment">--季结束日</span></span><br><span class="line"></span><br><span class="line">   <span class="comment">-- 年</span></span><br><span class="line"></span><br><span class="line">   , d_year</span><br><span class="line"></span><br><span class="line">   , y_start</span><br><span class="line"></span><br><span class="line">   , y_end</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> (</span><br><span class="line"></span><br><span class="line">​     <span class="keyword">select</span> `<span class="type">date</span>`</span><br><span class="line"></span><br><span class="line">​       , pmod(datediff(`<span class="type">date</span>`, <span class="string">&#x27;2012-01-01&#x27;</span>), <span class="number">7</span>)         <span class="keyword">as</span> weekid  <span class="comment">--获取周几</span></span><br><span class="line"></span><br><span class="line">​       , <span class="built_in">cast</span>(substr(`<span class="type">date</span>`, <span class="number">6</span>, <span class="number">2</span>) <span class="keyword">as</span> <span class="type">int</span>)            <span class="keyword">as</span> monthid  <span class="comment">--获取月份</span></span><br><span class="line"></span><br><span class="line">​       , <span class="keyword">case</span></span><br><span class="line"></span><br><span class="line">​          <span class="keyword">when</span> <span class="built_in">cast</span>(substr(`<span class="type">date</span>`, <span class="number">6</span>, <span class="number">2</span>) <span class="keyword">as</span> <span class="type">int</span>) <span class="operator">&lt;=</span> <span class="number">3</span> <span class="keyword">then</span> <span class="number">1</span></span><br><span class="line"></span><br><span class="line">​          <span class="keyword">when</span> <span class="built_in">cast</span>(substr(`<span class="type">date</span>`, <span class="number">6</span>, <span class="number">2</span>) <span class="keyword">as</span> <span class="type">int</span>) <span class="operator">&lt;=</span> <span class="number">6</span> <span class="keyword">then</span> <span class="number">2</span></span><br><span class="line"></span><br><span class="line">​          <span class="keyword">when</span> <span class="built_in">cast</span>(substr(`<span class="type">date</span>`, <span class="number">6</span>, <span class="number">2</span>) <span class="keyword">as</span> <span class="type">int</span>) <span class="operator">&lt;=</span> <span class="number">9</span> <span class="keyword">then</span> <span class="number">3</span></span><br><span class="line"></span><br><span class="line">​          <span class="keyword">when</span> <span class="built_in">cast</span>(substr(`<span class="type">date</span>`, <span class="number">6</span>, <span class="number">2</span>) <span class="keyword">as</span> <span class="type">int</span>) <span class="operator">&lt;=</span> <span class="number">12</span> <span class="keyword">then</span> <span class="number">4</span></span><br><span class="line"></span><br><span class="line">​       <span class="keyword">end</span>                            <span class="keyword">as</span> quarterid <span class="comment">--获取季节 可以直接使用 quarter(`date`)</span></span><br><span class="line"></span><br><span class="line">​       , substr(`<span class="type">date</span>`, <span class="number">1</span>, <span class="number">4</span>)                   <span class="keyword">as</span> d_year  <span class="comment">-- 获取年份</span></span><br><span class="line"></span><br><span class="line">​       , trunc(`<span class="type">date</span>`, <span class="string">&#x27;YYYY&#x27;</span>)                  <span class="keyword">as</span> y_start  <span class="comment">--年开始日</span></span><br><span class="line"></span><br><span class="line">​       , date_sub(trunc(add_months(`<span class="type">date</span>`, <span class="number">12</span>), <span class="string">&#x27;YYYY&#x27;</span>), <span class="number">1</span>) <span class="keyword">as</span> y_end   <span class="comment">--年结束日</span></span><br><span class="line"></span><br><span class="line">​       , date_sub(`<span class="type">date</span>`, dayofmonth(`<span class="type">date</span>`) <span class="operator">-</span> <span class="number">1</span>)         <span class="keyword">as</span> m_start  <span class="comment">--当月第一天</span></span><br><span class="line"></span><br><span class="line">​       , last_day(date_sub(`<span class="type">date</span>`, dayofmonth(`<span class="type">date</span>`) <span class="operator">-</span> <span class="number">1</span>))     m_end   <span class="comment">--当月最后一天</span></span><br><span class="line"></span><br><span class="line">​       , weekofyear(`<span class="type">date</span>`)                    <span class="keyword">as</span> d_week  <span class="comment">--年内第几周</span></span><br><span class="line"></span><br><span class="line">​     <span class="keyword">from</span> (</span><br><span class="line"></span><br><span class="line">​          <span class="comment">-- &#x27;2021-04-01&#x27;是开始日期, &#x27;2022-03-31&#x27;是截止日期</span></span><br><span class="line"></span><br><span class="line">​         <span class="keyword">select</span> date_add(<span class="string">&#x27;2021-04-01&#x27;</span>, t0.pos) <span class="keyword">as</span> `<span class="type">date</span>`</span><br><span class="line"></span><br><span class="line">​         <span class="keyword">from</span> (</span><br><span class="line"></span><br><span class="line">​              <span class="keyword">select</span> posexplode(</span><br><span class="line"></span><br><span class="line">​                     split(</span><br><span class="line"></span><br><span class="line">​                         repeat(<span class="string">&#x27;o&#x27;</span>, datediff(</span><br><span class="line"></span><br><span class="line">​                             from_unixtime(unix_timestamp(<span class="string">&#x27;2022-03-31&#x27;</span>, <span class="string">&#x27;yyyy-mm-dd&#x27;</span>),</span><br><span class="line"></span><br><span class="line">​                                    <span class="string">&#x27;yyyy-mm-dd&#x27;</span>),</span><br><span class="line"></span><br><span class="line">​                             <span class="string">&#x27;2021-04-01&#x27;</span>)), <span class="string">&#x27;o&#x27;</span></span><br><span class="line"></span><br><span class="line">​                       )</span><br><span class="line"></span><br><span class="line">​                   )</span><br><span class="line"></span><br><span class="line">​            ) t0</span><br><span class="line"></span><br><span class="line">​       ) t1</span><br><span class="line"></span><br><span class="line">   ) t2;</span><br></pre></td></tr></table></figure>
+
+
+
 <h2 id="十七、时间序列–构造累积日期"><a href="#十七、时间序列–构造累积日期" class="headerlink" title="十七、时间序列–构造累积日期"></a>十七、时间序列–构造累积日期</h2><p>表名：t17</p>
 <p>表字段及内容：</p>
-<p>date_id</p>
-<p>2017-08-01</p>
-<p>2017-08-02</p>
-<p>2017-08-03</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">date_id</span><br><span class="line"></span><br><span class="line">2017-08-01</span><br><span class="line"></span><br><span class="line">2017-08-02</span><br><span class="line"></span><br><span class="line">2017-08-03</span><br></pre></td></tr></table></figure>
+
+
+
 <h4 id="问题一：每一日期，都扩展成月初至当天"><a href="#问题一：每一日期，都扩展成月初至当天" class="headerlink" title="问题一：每一日期，都扩展成月初至当天"></a>问题一：每一日期，都扩展成月初至当天</h4><p>输出结果如下所示：</p>
-<p>date_id  date_to_day</p>
-<p>2017-08-01 2017-08-01</p>
-<p>2017-08-02 2017-08-01</p>
-<p>2017-08-02 2017-08-02</p>
-<p>2017-08-03 2017-08-01</p>
-<p>2017-08-03 2017-08-02</p>
-<p>2017-08-03 2017-08-03</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">date_id  date_to_day</span><br><span class="line"></span><br><span class="line">2017-08-01 2017-08-01</span><br><span class="line"></span><br><span class="line">2017-08-02 2017-08-01</span><br><span class="line"></span><br><span class="line">2017-08-02 2017-08-02</span><br><span class="line"></span><br><span class="line">2017-08-03 2017-08-01</span><br><span class="line"></span><br><span class="line">2017-08-03 2017-08-02</span><br><span class="line"></span><br><span class="line">2017-08-03 2017-08-03</span><br></pre></td></tr></table></figure>
+
+
+
 <p>这种累积相关的表，常做桥接表。</p>
 <p>参考答案:</p>
-<p>select</p>
-<p> date_id,</p>
-<p> date_add(date_start_id,pos) as date_to_day</p>
-<p>from</p>
-<p>(</p>
-<p> select</p>
-<p>  date_id,</p>
-<p>  date_sub(date_id,dayofmonth(date_id)-1) as date_start_id</p>
-<p> from t17</p>
-<p>) m lateral view </p>
-<p>posexplode(split(space(datediff(from_unixtime(unix_timestamp(date_id,’yyyy-MM-dd’)),from_unixtime(unix_timestamp(date_start_id,’yyyy-MM-dd’)))), ‘’)) t as pos, val;</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> date_id, date_add(date_start_id, pos) <span class="keyword">AS</span> date_to_day</span><br><span class="line"><span class="keyword">FROM</span> (</span><br><span class="line">	<span class="keyword">SELECT</span> date_id</span><br><span class="line">		, date_sub(date_id, dayofmonth(date_id) <span class="operator">-</span> <span class="number">1</span>) <span class="keyword">AS</span> date_start_id</span><br><span class="line">	<span class="keyword">FROM</span> t17</span><br><span class="line">) m</span><br><span class="line">	<span class="keyword">LATERAL</span> <span class="keyword">VIEW</span> posexplode(split(space(datediff(from_unixtime(unix_timestamp(date_id, <span class="string">&#x27;yyyy-MM-dd&#x27;</span>)), from_unixtime(unix_timestamp(date_start_id, <span class="string">&#x27;yyyy-MM-dd&#x27;</span>)))), <span class="string">&#x27;&#x27;</span>)) t <span class="keyword">AS</span> pos, val;</span><br></pre></td></tr></table></figure>
+
+
+
 <h2 id="十八、时间序列–构造连续日期"><a href="#十八、时间序列–构造连续日期" class="headerlink" title="十八、时间序列–构造连续日期"></a>十八、时间序列–构造连续日期</h2><p>表名：t18</p>
 <p>表字段及内容：</p>
-<p>a       b     c</p>
-<p>101    2018-01-01   10</p>
-<p>101    2018-01-03   20</p>
-<p>101    2018-01-06   40</p>
-<p>102    2018-01-02   20</p>
-<p>102    2018-01-04   30</p>
-<p>102    2018-01-07   60</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">a       b     c</span><br><span class="line"></span><br><span class="line">101    2018-01-01   10</span><br><span class="line"></span><br><span class="line">101    2018-01-03   20</span><br><span class="line"></span><br><span class="line">101    2018-01-06   40</span><br><span class="line"></span><br><span class="line">102    2018-01-02   20</span><br><span class="line"></span><br><span class="line">102    2018-01-04   30</span><br><span class="line"></span><br><span class="line">102    2018-01-07   60</span><br></pre></td></tr></table></figure>
+
+
+
 <h4 id="问题一：构造连续日期"><a href="#问题一：构造连续日期" class="headerlink" title="问题一：构造连续日期"></a>问题一：构造连续日期</h4><p>问题描述：将表中数据的b字段扩充至范围[2018-01-01, 2018-01-07]，并累积对c求和。</p>
 <p>b字段的值是较稀疏的。</p>
 <p>输出结果如下所示：</p>
-<p>a       b     c   d</p>
-<p>101    2018-01-01   10   10</p>
-<p>101    2018-01-02   0   10</p>
-<p>101    2018-01-03   20   30</p>
-<p>101    2018-01-04   0   30</p>
-<p>101    2018-01-05   0   30</p>
-<p>101    2018-01-06   40   70</p>
-<p>101    2018-01-07   0   70</p>
-<p>102    2018-01-01   0   0</p>
-<p>102    2018-01-02   20   20</p>
-<p>102    2018-01-03   0   20</p>
-<p>102    2018-01-04   30   50</p>
-<p>102    2018-01-05   0   50</p>
-<p>102    2018-01-06   0   50</p>
-<p>102    2018-01-07   60  110</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">a       b     c   d</span><br><span class="line"></span><br><span class="line">101    2018-01-01   10   10</span><br><span class="line"></span><br><span class="line">101    2018-01-02   0   10</span><br><span class="line"></span><br><span class="line">101    2018-01-03   20   30</span><br><span class="line"></span><br><span class="line">101    2018-01-04   0   30</span><br><span class="line"></span><br><span class="line">101    2018-01-05   0   30</span><br><span class="line"></span><br><span class="line">101    2018-01-06   40   70</span><br><span class="line"></span><br><span class="line">101    2018-01-07   0   70</span><br><span class="line"></span><br><span class="line">102    2018-01-01   0   0</span><br><span class="line"></span><br><span class="line">102    2018-01-02   20   20</span><br><span class="line"></span><br><span class="line">102    2018-01-03   0   20</span><br><span class="line"></span><br><span class="line">102    2018-01-04   30   50</span><br><span class="line"></span><br><span class="line">102    2018-01-05   0   50</span><br><span class="line"></span><br><span class="line">102    2018-01-06   0   50</span><br><span class="line"></span><br><span class="line">102    2018-01-07   60  110</span><br></pre></td></tr></table></figure>
+
+
+
 <p>参考答案:</p>
-<p>select</p>
-<p> a,</p>
-<p> b,</p>
-<p> c,</p>
-<p> sum(c) over(partition by a order by b) as d</p>
-<p>from</p>
-<p>(</p>
-<p> select</p>
-<p> t1.a,</p>
-<p> t1.b,</p>
-<p> case</p>
-<p>  when t18.b is not null then t18.c</p>
-<p>  else 0</p>
-<p> end as c</p>
-<p> from</p>
-<p> (</p>
-<p>  select</p>
-<p>  a,</p>
-<p>  date_add(s,pos) as b</p>
-<p>  from</p>
-<p>  (</p>
-<p>   select</p>
-<p>​    a, </p>
-<p>​    ‘2018-01-01’ as s, </p>
-<p>​    ‘2018-01-07’ as r</p>
-<p>   from (select a from t18 group by a) ta</p>
-<p>  ) m lateral view </p>
-<p>   posexplode(split(space(datediff(from_unixtime(unix_timestamp(r,’yyyy-MM-dd’)),from_unixtime(unix_timestamp(s,’yyyy-MM-dd’)))), ‘’)) t as pos, val</p>
-<p> ) t1</p>
-<p>  left join t18</p>
-<p>  on t1.a = t18.a and t1.b = t18.b</p>
-<p>) ts;</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> a, b, c</span><br><span class="line">	, <span class="built_in">sum</span>(c) <span class="keyword">OVER</span> (<span class="keyword">PARTITION</span> <span class="keyword">BY</span> a <span class="keyword">ORDER</span> <span class="keyword">BY</span> b) <span class="keyword">AS</span> d</span><br><span class="line"><span class="keyword">FROM</span> (</span><br><span class="line">	<span class="keyword">SELECT</span> t1.a, t1.b</span><br><span class="line">		, <span class="keyword">CASE</span> </span><br><span class="line">			<span class="keyword">WHEN</span> t18.b <span class="keyword">IS</span> <span class="keyword">NOT</span> <span class="keyword">NULL</span> <span class="keyword">THEN</span> t18.c</span><br><span class="line">			<span class="keyword">ELSE</span> <span class="number">0</span></span><br><span class="line">		<span class="keyword">END</span> <span class="keyword">AS</span> c</span><br><span class="line">	<span class="keyword">FROM</span> (</span><br><span class="line">		<span class="keyword">SELECT</span> a, date_add(s, pos) <span class="keyword">AS</span> b</span><br><span class="line">		<span class="keyword">FROM</span> (</span><br><span class="line">			<span class="keyword">SELECT</span> a, <span class="string">&#x27;2018-01-01&#x27;</span> <span class="keyword">AS</span> s, <span class="string">&#x27;2018-01-07&#x27;</span> <span class="keyword">AS</span> r</span><br><span class="line">			<span class="keyword">FROM</span> (</span><br><span class="line">				<span class="keyword">SELECT</span> a</span><br><span class="line">				<span class="keyword">FROM</span> t18</span><br><span class="line">				<span class="keyword">GROUP</span> <span class="keyword">BY</span> a</span><br><span class="line">			) ta</span><br><span class="line">		) m</span><br><span class="line">			<span class="keyword">LATERAL</span> <span class="keyword">VIEW</span> posexplode(split(space(datediff(from_unixtime(unix_timestamp(r, <span class="string">&#x27;yyyy-MM-dd&#x27;</span>)), from_unixtime(unix_timestamp(s, <span class="string">&#x27;yyyy-MM-dd&#x27;</span>)))), <span class="string">&#x27;&#x27;</span>)) t <span class="keyword">AS</span> pos, val</span><br><span class="line">	) t1</span><br><span class="line">		<span class="keyword">LEFT</span> <span class="keyword">JOIN</span> t18</span><br><span class="line">		<span class="keyword">ON</span> t1.a <span class="operator">=</span> t18.a</span><br><span class="line">			<span class="keyword">AND</span> t1.b <span class="operator">=</span> t18.b</span><br><span class="line">) ts;</span><br></pre></td></tr></table></figure>
+
+
+
 <h2 id="十九、时间序列–取多个字段最新的值"><a href="#十九、时间序列–取多个字段最新的值" class="headerlink" title="十九、时间序列–取多个字段最新的值"></a>十九、时间序列–取多个字段最新的值</h2><p>表名：t19</p>
 <p>表字段及内容：</p>
-<p>date_id  a  b  c</p>
-<p>2014   AB 12  bc</p>
-<p>2015     23  </p>
-<p>2016        d</p>
-<p>2017   BC </p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">date_id  a  b  c</span><br><span class="line"></span><br><span class="line">2014   AB 12  bc</span><br><span class="line"></span><br><span class="line">2015     23  </span><br><span class="line"></span><br><span class="line">2016        d</span><br><span class="line"></span><br><span class="line">2017   BC </span><br></pre></td></tr></table></figure>
+
+
+
 <h4 id="问题一：如何一并取出最新日期"><a href="#问题一：如何一并取出最新日期" class="headerlink" title="问题一：如何一并取出最新日期"></a>问题一：如何一并取出最新日期</h4><p>输出结果如下所示：</p>
-<p>date_a  a  date_b  b  date_c  c</p>
-<p>2017  BC  2015   23  2016  d</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">date_a  a  date_b  b  date_c  c</span><br><span class="line"></span><br><span class="line">2017  BC  2015   23  2016  d</span><br></pre></td></tr></table></figure>
+
+
+
 <p>参考答案:</p>
 <p>此处给出三种解法，其一：</p>
-<p>SELECT max(CASE WHEN rn_a = 1 THEN date_id else 0 END) AS date_a</p>
-<p>​    ,max(CASE WHEN rn_a = 1 THEN a else null END) AS a</p>
-<p>​    ,max(CASE WHEN rn_b = 1 THEN date_id else 0 END) AS date_b</p>
-<p>​    ,max(CASE WHEN rn_b = 1 THEN b else NULL END) AS b</p>
-<p>​    ,max(CASE WHEN rn_c = 1 THEN date_id else 0 END) AS date_c</p>
-<p>​    ,max(CASE WHEN rn_c = 1 THEN c else null END) AS c</p>
-<p>FROM  (</p>
-<p>​      SELECT date_id</p>
-<p>​          ,a</p>
-<p>​          ,b</p>
-<p>​          ,c</p>
-<p>​          –对每列上不为null的值 的 日期 进行排序</p>
-<p>​          ,row_number()OVER( PARTITION BY 1 ORDER BY CASE WHEN a IS NULL THEN 0 ELSE date_id END DESC) AS rn_a</p>
-<p>​          ,row_number()OVER(PARTITION BY 1 ORDER BY CASE WHEN b IS NULL THEN 0 ELSE date_id END DESC) AS rn_b</p>
-<p>​          ,row_number()OVER(PARTITION BY 1 ORDER BY CASE WHEN c IS NULL THEN 0 ELSE date_id END DESC) AS rn_c</p>
-<p>​      FROM  t19</p>
-<p>​    ) t</p>
-<p>WHERE  t.rn_a = 1</p>
-<p>OR   t.rn_b = 1</p>
-<p>OR   t.rn_c = 1;</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="built_in">max</span>(<span class="keyword">CASE</span> </span><br><span class="line">		<span class="keyword">WHEN</span> rn_a <span class="operator">=</span> <span class="number">1</span> <span class="keyword">THEN</span> date_id</span><br><span class="line">		<span class="keyword">ELSE</span> <span class="number">0</span></span><br><span class="line">	<span class="keyword">END</span>) <span class="keyword">AS</span> date_a</span><br><span class="line">	, <span class="built_in">max</span>(<span class="keyword">CASE</span> </span><br><span class="line">		<span class="keyword">WHEN</span> rn_a <span class="operator">=</span> <span class="number">1</span> <span class="keyword">THEN</span> a</span><br><span class="line">		<span class="keyword">ELSE</span> <span class="keyword">NULL</span></span><br><span class="line">	<span class="keyword">END</span>) <span class="keyword">AS</span> a</span><br><span class="line">	, <span class="built_in">max</span>(<span class="keyword">CASE</span> </span><br><span class="line">		<span class="keyword">WHEN</span> rn_b <span class="operator">=</span> <span class="number">1</span> <span class="keyword">THEN</span> date_id</span><br><span class="line">		<span class="keyword">ELSE</span> <span class="number">0</span></span><br><span class="line">	<span class="keyword">END</span>) <span class="keyword">AS</span> date_b</span><br><span class="line">	, <span class="built_in">max</span>(<span class="keyword">CASE</span> </span><br><span class="line">		<span class="keyword">WHEN</span> rn_b <span class="operator">=</span> <span class="number">1</span> <span class="keyword">THEN</span> b</span><br><span class="line">		<span class="keyword">ELSE</span> <span class="keyword">NULL</span></span><br><span class="line">	<span class="keyword">END</span>) <span class="keyword">AS</span> b</span><br><span class="line">	, <span class="built_in">max</span>(<span class="keyword">CASE</span> </span><br><span class="line">		<span class="keyword">WHEN</span> rn_c <span class="operator">=</span> <span class="number">1</span> <span class="keyword">THEN</span> date_id</span><br><span class="line">		<span class="keyword">ELSE</span> <span class="number">0</span></span><br><span class="line">	<span class="keyword">END</span>) <span class="keyword">AS</span> date_c</span><br><span class="line">	, <span class="built_in">max</span>(<span class="keyword">CASE</span> </span><br><span class="line">		<span class="keyword">WHEN</span> rn_c <span class="operator">=</span> <span class="number">1</span> <span class="keyword">THEN</span> c</span><br><span class="line">		<span class="keyword">ELSE</span> <span class="keyword">NULL</span></span><br><span class="line">	<span class="keyword">END</span>) <span class="keyword">AS</span> c</span><br><span class="line"><span class="keyword">FROM</span> (</span><br><span class="line">	<span class="keyword">SELECT</span> date_id, a, b, c <span class="comment">--对每列上不为null的值 的 日期 进行排序</span></span><br><span class="line">		, <span class="built_in">row_number</span>() <span class="keyword">OVER</span> (<span class="keyword">PARTITION</span> <span class="keyword">BY</span> <span class="number">1</span> <span class="keyword">ORDER</span> <span class="keyword">BY</span> <span class="keyword">CASE</span> </span><br><span class="line">			<span class="keyword">WHEN</span> a <span class="keyword">IS</span> <span class="keyword">NULL</span> <span class="keyword">THEN</span> <span class="number">0</span></span><br><span class="line">			<span class="keyword">ELSE</span> date_id</span><br><span class="line">		<span class="keyword">END</span> <span class="keyword">DESC</span>) <span class="keyword">AS</span> rn_a, <span class="built_in">row_number</span>() <span class="keyword">OVER</span> (<span class="keyword">PARTITION</span> <span class="keyword">BY</span> <span class="number">1</span> <span class="keyword">ORDER</span> <span class="keyword">BY</span> <span class="keyword">CASE</span> </span><br><span class="line">			<span class="keyword">WHEN</span> b <span class="keyword">IS</span> <span class="keyword">NULL</span> <span class="keyword">THEN</span> <span class="number">0</span></span><br><span class="line">			<span class="keyword">ELSE</span> date_id</span><br><span class="line">		<span class="keyword">END</span> <span class="keyword">DESC</span>) <span class="keyword">AS</span> rn_b</span><br><span class="line">		, <span class="built_in">row_number</span>() <span class="keyword">OVER</span> (<span class="keyword">PARTITION</span> <span class="keyword">BY</span> <span class="number">1</span> <span class="keyword">ORDER</span> <span class="keyword">BY</span> <span class="keyword">CASE</span> </span><br><span class="line">			<span class="keyword">WHEN</span> c <span class="keyword">IS</span> <span class="keyword">NULL</span> <span class="keyword">THEN</span> <span class="number">0</span></span><br><span class="line">			<span class="keyword">ELSE</span> date_id</span><br><span class="line">		<span class="keyword">END</span> <span class="keyword">DESC</span>) <span class="keyword">AS</span> rn_c</span><br><span class="line">	<span class="keyword">FROM</span> t19</span><br><span class="line">) t</span><br><span class="line"><span class="keyword">WHERE</span> t.rn_a <span class="operator">=</span> <span class="number">1</span></span><br><span class="line">	<span class="keyword">OR</span> t.rn_b <span class="operator">=</span> <span class="number">1</span></span><br><span class="line">	<span class="keyword">OR</span> t.rn_c <span class="operator">=</span> <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+
+
+
 <p>其二：</p>
-<p>SELECT </p>
-<p>  a.date_id</p>
-<p> ,a.a</p>
-<p> ,b.date_id</p>
-<p> ,b.b</p>
-<p> ,c.date_id</p>
-<p> ,c.c</p>
-<p>FROM</p>
-<p>(</p>
-<p>  SELECT </p>
-<p>   t.date_id,</p>
-<p>   t.a</p>
-<p>  FROM </p>
-<p>  (</p>
-<p>   SELECT </p>
-<p>​    t.date_id</p>
-<p>​    ,t.a</p>
-<p>​    ,t.b</p>
-<p>​    ,t.c</p>
-<p>   FROM t19 t INNER JOIN  t19 t1 ON t.date_id = t1.date_id AND t.a IS NOT NULL</p>
-<p>  ) t</p>
-<p>  ORDER BY t.date_id DESC</p>
-<p>  LIMIT 1</p>
-<p>) a</p>
-<p>LEFT JOIN </p>
-<p>(</p>
-<p> SELECT </p>
-<p>  t.date_id</p>
-<p>  ,t.b</p>
-<p> FROM  </p>
-<p> (</p>
-<p>  SELECT </p>
-<p>   t.date_id</p>
-<p>   ,t.b</p>
-<p>  FROM t19 t INNER JOIN t19 t1 ON t.date_id = t1.date_id AND t.b IS NOT NULL</p>
-<p> ) t</p>
-<p> ORDER BY t.date_id DESC</p>
-<p> LIMIT 1</p>
-<p>) b ON 1 = 1 </p>
-<p>LEFT JOIN</p>
-<p>(</p>
-<p> SELECT </p>
-<p>  t.date_id</p>
-<p>  ,t.c</p>
-<p> FROM  </p>
-<p> (</p>
-<p>  SELECT </p>
-<p>   t.date_id</p>
-<p>   ,t.c</p>
-<p>  FROM t19 t INNER JOIN t19 t1 ON t.date_id = t1.date_id AND t.c IS NOT NULL</p>
-<p> ) t</p>
-<p> ORDER BY t.date_id DESC</p>
-<p> LIMIT  1</p>
-<p>) c</p>
-<p>ON 1 = 1;</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> a.date_id, a.a, b.date_id, b.b, c.date_id</span><br><span class="line">	, c.c</span><br><span class="line"><span class="keyword">FROM</span> (</span><br><span class="line">	<span class="keyword">SELECT</span> t.date_id, t.a</span><br><span class="line">	<span class="keyword">FROM</span> (</span><br><span class="line">		<span class="keyword">SELECT</span> t.date_id, t.a, t.b, t.c</span><br><span class="line">		<span class="keyword">FROM</span> t19 t</span><br><span class="line">			<span class="keyword">INNER</span> <span class="keyword">JOIN</span> t19 t1</span><br><span class="line">			<span class="keyword">ON</span> t.date_id <span class="operator">=</span> t1.date_id</span><br><span class="line">				<span class="keyword">AND</span> t.a <span class="keyword">IS</span> <span class="keyword">NOT</span> <span class="keyword">NULL</span></span><br><span class="line">	) t</span><br><span class="line">	<span class="keyword">ORDER</span> <span class="keyword">BY</span> t.date_id <span class="keyword">DESC</span></span><br><span class="line">	LIMIT <span class="number">1</span></span><br><span class="line">) a</span><br><span class="line">	<span class="keyword">LEFT</span> <span class="keyword">JOIN</span> (</span><br><span class="line">		<span class="keyword">SELECT</span> t.date_id, t.b</span><br><span class="line">		<span class="keyword">FROM</span> (</span><br><span class="line">			<span class="keyword">SELECT</span> t.date_id, t.b</span><br><span class="line">			<span class="keyword">FROM</span> t19 t</span><br><span class="line">				<span class="keyword">INNER</span> <span class="keyword">JOIN</span> t19 t1</span><br><span class="line">				<span class="keyword">ON</span> t.date_id <span class="operator">=</span> t1.date_id</span><br><span class="line">					<span class="keyword">AND</span> t.b <span class="keyword">IS</span> <span class="keyword">NOT</span> <span class="keyword">NULL</span></span><br><span class="line">		) t</span><br><span class="line">		<span class="keyword">ORDER</span> <span class="keyword">BY</span> t.date_id <span class="keyword">DESC</span></span><br><span class="line">		LIMIT <span class="number">1</span></span><br><span class="line">	) b</span><br><span class="line">	<span class="keyword">ON</span> <span class="number">1</span> <span class="operator">=</span> <span class="number">1</span></span><br><span class="line">	<span class="keyword">LEFT</span> <span class="keyword">JOIN</span> (</span><br><span class="line">		<span class="keyword">SELECT</span> t.date_id, t.c</span><br><span class="line">		<span class="keyword">FROM</span> (</span><br><span class="line">			<span class="keyword">SELECT</span> t.date_id, t.c</span><br><span class="line">			<span class="keyword">FROM</span> t19 t</span><br><span class="line">				<span class="keyword">INNER</span> <span class="keyword">JOIN</span> t19 t1</span><br><span class="line">				<span class="keyword">ON</span> t.date_id <span class="operator">=</span> t1.date_id</span><br><span class="line">					<span class="keyword">AND</span> t.c <span class="keyword">IS</span> <span class="keyword">NOT</span> <span class="keyword">NULL</span></span><br><span class="line">		) t</span><br><span class="line">		<span class="keyword">ORDER</span> <span class="keyword">BY</span> t.date_id <span class="keyword">DESC</span></span><br><span class="line">		LIMIT <span class="number">1</span></span><br><span class="line">	) c</span><br><span class="line">	<span class="keyword">ON</span> <span class="number">1</span> <span class="operator">=</span> <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+
+
+
 <p>其三：</p>
-<p>select </p>
-<p>from </p>
-<p>(</p>
-<p> select t1.date_id as date_a,t1.a from (select t1.date_id,t1.a from t19 t1 where t1.a is not null) t1</p>
-<p> inner join (select max(t1.date_id) as date_id  from t19 t1 where t1.a is not null) t2</p>
-<p> on t1.date_id=t2.date_id</p>
-<p>) t1</p>
-<p>cross join</p>
-<p>(</p>
-<p> select t1.date_b,t1.b from (select t1.date_id as date_b,t1.b from t19 t1 where t1.b is not null) t1</p>
-<p> inner join (select max(t1.date_id) as date_id  from t19 t1 where t1.b is not null)t2</p>
-<p> on t1.date_b=t2.date_id</p>
-<p>) t2</p>
-<p>cross join </p>
-<p>(</p>
-<p> select t1.date_c,t1.c from (select t1.date_id as date_c,t1.c from t19 t1 where t1.c is not null) t1</p>
-<p> inner join (select max(t1.date_id) as date_id  from t19 t1 where t1.c is not null)t2</p>
-<p> on t1.date_c=t2.date_id</p>
-<p>) t3;</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> (</span><br><span class="line">	<span class="keyword">SELECT</span> t1.date_id <span class="keyword">AS</span> date_a, t1.a</span><br><span class="line">	<span class="keyword">FROM</span> (</span><br><span class="line">		<span class="keyword">SELECT</span> t1.date_id, t1.a</span><br><span class="line">		<span class="keyword">FROM</span> t19 t1</span><br><span class="line">		<span class="keyword">WHERE</span> t1.a <span class="keyword">IS</span> <span class="keyword">NOT</span> <span class="keyword">NULL</span></span><br><span class="line">	) t1</span><br><span class="line">		<span class="keyword">INNER</span> <span class="keyword">JOIN</span> (</span><br><span class="line">			<span class="keyword">SELECT</span> <span class="built_in">max</span>(t1.date_id) <span class="keyword">AS</span> date_id</span><br><span class="line">			<span class="keyword">FROM</span> t19 t1</span><br><span class="line">			<span class="keyword">WHERE</span> t1.a <span class="keyword">IS</span> <span class="keyword">NOT</span> <span class="keyword">NULL</span></span><br><span class="line">		) t2</span><br><span class="line">		<span class="keyword">ON</span> t1.date_id <span class="operator">=</span> t2.date_id</span><br><span class="line">) t1</span><br><span class="line">	<span class="keyword">CROSS</span> <span class="keyword">JOIN</span> (</span><br><span class="line">		<span class="keyword">SELECT</span> t1.date_b, t1.b</span><br><span class="line">		<span class="keyword">FROM</span> (</span><br><span class="line">			<span class="keyword">SELECT</span> t1.date_id <span class="keyword">AS</span> date_b, t1.b</span><br><span class="line">			<span class="keyword">FROM</span> t19 t1</span><br><span class="line">			<span class="keyword">WHERE</span> t1.b <span class="keyword">IS</span> <span class="keyword">NOT</span> <span class="keyword">NULL</span></span><br><span class="line">		) t1</span><br><span class="line">			<span class="keyword">INNER</span> <span class="keyword">JOIN</span> (</span><br><span class="line">				<span class="keyword">SELECT</span> <span class="built_in">max</span>(t1.date_id) <span class="keyword">AS</span> date_id</span><br><span class="line">				<span class="keyword">FROM</span> t19 t1</span><br><span class="line">				<span class="keyword">WHERE</span> t1.b <span class="keyword">IS</span> <span class="keyword">NOT</span> <span class="keyword">NULL</span></span><br><span class="line">			) t2</span><br><span class="line">			<span class="keyword">ON</span> t1.date_b <span class="operator">=</span> t2.date_id</span><br><span class="line">	) t2</span><br><span class="line">	<span class="keyword">CROSS</span> <span class="keyword">JOIN</span> (</span><br><span class="line">		<span class="keyword">SELECT</span> t1.date_c, t1.c</span><br><span class="line">		<span class="keyword">FROM</span> (</span><br><span class="line">			<span class="keyword">SELECT</span> t1.date_id <span class="keyword">AS</span> date_c, t1.c</span><br><span class="line">			<span class="keyword">FROM</span> t19 t1</span><br><span class="line">			<span class="keyword">WHERE</span> t1.c <span class="keyword">IS</span> <span class="keyword">NOT</span> <span class="keyword">NULL</span></span><br><span class="line">		) t1</span><br><span class="line">			<span class="keyword">INNER</span> <span class="keyword">JOIN</span> (</span><br><span class="line">				<span class="keyword">SELECT</span> <span class="built_in">max</span>(t1.date_id) <span class="keyword">AS</span> date_id</span><br><span class="line">				<span class="keyword">FROM</span> t19 t1</span><br><span class="line">				<span class="keyword">WHERE</span> t1.c <span class="keyword">IS</span> <span class="keyword">NOT</span> <span class="keyword">NULL</span></span><br><span class="line">			) t2</span><br><span class="line">			<span class="keyword">ON</span> t1.date_c <span class="operator">=</span> t2.date_id</span><br><span class="line">	) t3;</span><br></pre></td></tr></table></figure>
+
+
+
 <h2 id="二十、时间序列–补全数据"><a href="#二十、时间序列–补全数据" class="headerlink" title="二十、时间序列–补全数据"></a>二十、时间序列–补全数据</h2><p>表名：t20</p>
 <p>表字段及内容：</p>
-<p>date_id  a  b  c</p>
-<p>2014   AB 12  bc</p>
-<p>2015     23  </p>
-<p>2016        d</p>
-<p>2017   BC </p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">date_id  a  b  c</span><br><span class="line"></span><br><span class="line">2014   AB 12  bc</span><br><span class="line"></span><br><span class="line">2015     23  </span><br><span class="line"></span><br><span class="line">2016        d</span><br><span class="line"></span><br><span class="line">2017   BC </span><br></pre></td></tr></table></figure>
+
+
+
 <h4 id="问题一：如何使用最新数据补全表格"><a href="#问题一：如何使用最新数据补全表格" class="headerlink" title="问题一：如何使用最新数据补全表格"></a>问题一：如何使用最新数据补全表格</h4><p>输出结果如下所示：</p>
-<p>date_id  a  b  c</p>
-<p>2014   AB 12  bc</p>
-<p>2015   AB 23  bc</p>
-<p>2016   AB 23  d</p>
-<p>2017   BC 23  d</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">date_id  a  b  c</span><br><span class="line"></span><br><span class="line">2014   AB 12  bc</span><br><span class="line"></span><br><span class="line">2015   AB 23  bc</span><br><span class="line"></span><br><span class="line">2016   AB 23  d</span><br><span class="line"></span><br><span class="line">2017   BC 23  d</span><br></pre></td></tr></table></figure>
+
+
+
 <p>参考答案:</p>
-<p>select </p>
-<p> date_id, </p>
-<p> first_value(a) over(partition by aa order by date_id) as a,</p>
-<p> first_value(b) over(partition by bb order by date_id) as b,</p>
-<p> first_value(c) over(partition by cc order by date_id) as c</p>
-<p>from</p>
-<p>(</p>
-<p> select </p>
-<p>  date_id,</p>
-<p>  a,</p>
-<p>  b,</p>
-<p>  c,</p>
-<p>  count(a) over(order by date_id) as aa,</p>
-<p>  count(b) over(order by date_id) as bb,</p>
-<p>  count(c) over(order by date_id) as cc</p>
-<p> from t20</p>
-<p>)tmp1;</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> date_id, <span class="built_in">first_value</span>(a) <span class="keyword">OVER</span> (<span class="keyword">PARTITION</span> <span class="keyword">BY</span> aa <span class="keyword">ORDER</span> <span class="keyword">BY</span> date_id) <span class="keyword">AS</span> a</span><br><span class="line">	, <span class="built_in">first_value</span>(b) <span class="keyword">OVER</span> (<span class="keyword">PARTITION</span> <span class="keyword">BY</span> bb <span class="keyword">ORDER</span> <span class="keyword">BY</span> date_id) <span class="keyword">AS</span> b</span><br><span class="line">	, <span class="built_in">first_value</span>(c) <span class="keyword">OVER</span> (<span class="keyword">PARTITION</span> <span class="keyword">BY</span> cc <span class="keyword">ORDER</span> <span class="keyword">BY</span> date_id) <span class="keyword">AS</span> c</span><br><span class="line"><span class="keyword">FROM</span> (</span><br><span class="line">	<span class="keyword">SELECT</span> date_id, a, b, c</span><br><span class="line">		, <span class="built_in">count</span>(a) <span class="keyword">OVER</span> (<span class="keyword">ORDER</span> <span class="keyword">BY</span> date_id) <span class="keyword">AS</span> aa</span><br><span class="line">		, <span class="built_in">count</span>(b) <span class="keyword">OVER</span> (<span class="keyword">ORDER</span> <span class="keyword">BY</span> date_id) <span class="keyword">AS</span> bb</span><br><span class="line">		, <span class="built_in">count</span>(c) <span class="keyword">OVER</span> (<span class="keyword">ORDER</span> <span class="keyword">BY</span> date_id) <span class="keyword">AS</span> cc</span><br><span class="line">	<span class="keyword">FROM</span> t20</span><br><span class="line">) tmp1;</span><br></pre></td></tr></table></figure>
+
+
+
 <h2 id="二十一、时间序列–取最新完成状态的前一个状态"><a href="#二十一、时间序列–取最新完成状态的前一个状态" class="headerlink" title="二十一、时间序列–取最新完成状态的前一个状态"></a>二十一、时间序列–取最新完成状态的前一个状态</h2><p>表名：t21</p>
 <p>表字段及内容：</p>
-<p>date_id  a  b</p>
-<p>2014   1  A</p>
-<p>2015   1  B</p>
-<p>2016   1  A</p>
-<p>2017   1  B</p>
-<p>2013   2  A</p>
-<p>2014   2  B</p>
-<p>2015   2  A</p>
-<p>2014   3  A</p>
-<p>2015   3  A</p>
-<p>2016   3  B</p>
-<p>2017   3  A</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">date_id  a  b</span><br><span class="line"></span><br><span class="line">2014   1  A</span><br><span class="line"></span><br><span class="line">2015   1  B</span><br><span class="line"></span><br><span class="line">2016   1  A</span><br><span class="line"></span><br><span class="line">2017   1  B</span><br><span class="line"></span><br><span class="line">2013   2  A</span><br><span class="line"></span><br><span class="line">2014   2  B</span><br><span class="line"></span><br><span class="line">2015   2  A</span><br><span class="line"></span><br><span class="line">2014   3  A</span><br><span class="line"></span><br><span class="line">2015   3  A</span><br><span class="line"></span><br><span class="line">2016   3  B</span><br><span class="line"></span><br><span class="line">2017   3  A</span><br></pre></td></tr></table></figure>
+
+
+
 <p>上表中B为完成状态。</p>
 <h4 id="问题一：取最新完成状态的前一个状态"><a href="#问题一：取最新完成状态的前一个状态" class="headerlink" title="问题一：取最新完成状态的前一个状态"></a>问题一：取最新完成状态的前一个状态</h4><p>输出结果如下所示：</p>
-<p>date_id a  b</p>
-<p>2016   1  A</p>
-<p>2013   2  A</p>
-<p>2015   3  A</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">date_id a  b</span><br><span class="line"></span><br><span class="line">2016   1  A</span><br><span class="line"></span><br><span class="line">2013   2  A</span><br><span class="line"></span><br><span class="line">2015   3  A</span><br></pre></td></tr></table></figure>
+
+
+
 <p>参考答案:</p>
 <p>此处给出两种解法，其一：</p>
-<p>select</p>
-<p>  t21.date_id,</p>
-<p>  t21.a,</p>
-<p>  t21.b</p>
-<p>from</p>
-<p>  (</p>
-<p>​    select</p>
-<p>​      max(date_id) date_id,</p>
-<p>​      a</p>
-<p>​    from</p>
-<p>​      t21</p>
-<p>​    where</p>
-<p>​      b = ‘B’</p>
-<p>​    group by</p>
-<p>​      a</p>
-<p>  ) t1</p>
-<p>  inner join t21 on t1.date_id -1 = t21.date_id</p>
-<p>and t1.a = t21.a;</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> t21.date_id, t21.a, t21.b</span><br><span class="line"><span class="keyword">FROM</span> (</span><br><span class="line">	<span class="keyword">SELECT</span> <span class="built_in">max</span>(date_id) <span class="keyword">AS</span> date_id, a</span><br><span class="line">	<span class="keyword">FROM</span> t21</span><br><span class="line">	<span class="keyword">WHERE</span> b <span class="operator">=</span> <span class="string">&#x27;B&#x27;</span></span><br><span class="line">	<span class="keyword">GROUP</span> <span class="keyword">BY</span> a</span><br><span class="line">) t1</span><br><span class="line">	<span class="keyword">INNER</span> <span class="keyword">JOIN</span> t21</span><br><span class="line">	<span class="keyword">ON</span> t1.date_id <span class="operator">-</span> <span class="number">1</span> <span class="operator">=</span> t21.date_id</span><br><span class="line">		<span class="keyword">AND</span> t1.a <span class="operator">=</span> t21.a;</span><br></pre></td></tr></table></figure>
+
+
+
 <p>其二：</p>
-<p>select</p>
-<p> next_date_id as date_id</p>
-<p> ,a</p>
-<p> ,next_b as b</p>
-<p>from(</p>
-<p> select</p>
-<p>  ,min(nk) over(partition by a,b) as minb</p>
-<p> from(</p>
-<p>  select</p>
-<p>   ,row_number() over(partition by a order by date_id desc) nk</p>
-<p>   ,lead(date_id) over(partition by a order by date_id desc) next_date_id</p>
-<p>   ,lead(b) over(partition by a order by date_id desc) next_b</p>
-<p>  from(</p>
-<p>   select  from t21</p>
-<p>  ) t</p>
-<p> ) t</p>
-<p>) t</p>
-<p>where minb = nk and b = ‘B’;</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> next_date_id <span class="keyword">AS</span> date_id, a, next_b <span class="keyword">AS</span> b</span><br><span class="line"><span class="keyword">FROM</span> (</span><br><span class="line">	<span class="keyword">SELECT</span> <span class="operator">*</span>, <span class="built_in">min</span>(nk) <span class="keyword">OVER</span> (<span class="keyword">PARTITION</span> <span class="keyword">BY</span> a, b ) <span class="keyword">AS</span> minb</span><br><span class="line">	<span class="keyword">FROM</span> (</span><br><span class="line">		<span class="keyword">SELECT</span> <span class="operator">*</span>, <span class="built_in">row_number</span>() <span class="keyword">OVER</span> (<span class="keyword">PARTITION</span> <span class="keyword">BY</span> a <span class="keyword">ORDER</span> <span class="keyword">BY</span> date_id <span class="keyword">DESC</span>) <span class="keyword">AS</span> nk</span><br><span class="line">			, <span class="built_in">lead</span>(date_id) <span class="keyword">OVER</span> (<span class="keyword">PARTITION</span> <span class="keyword">BY</span> a <span class="keyword">ORDER</span> <span class="keyword">BY</span> date_id <span class="keyword">DESC</span>) <span class="keyword">AS</span> next_date_id</span><br><span class="line">			, <span class="built_in">lead</span>(b) <span class="keyword">OVER</span> (<span class="keyword">PARTITION</span> <span class="keyword">BY</span> a <span class="keyword">ORDER</span> <span class="keyword">BY</span> date_id <span class="keyword">DESC</span>) <span class="keyword">AS</span> next_b</span><br><span class="line">		<span class="keyword">FROM</span> (</span><br><span class="line">			<span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line">			<span class="keyword">FROM</span> t21</span><br><span class="line">		) t</span><br><span class="line">	) t</span><br><span class="line">) t</span><br><span class="line"><span class="keyword">WHERE</span> minb <span class="operator">=</span> nk</span><br><span class="line">	<span class="keyword">AND</span> b <span class="operator">=</span> <span class="string">&#x27;B&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+
+
 <h4 id="问题二：如何将完成状态的过程合并"><a href="#问题二：如何将完成状态的过程合并" class="headerlink" title="问题二：如何将完成状态的过程合并"></a>问题二：如何将完成状态的过程合并</h4><p>输出结果如下所示:</p>
-<p>a  b_merge</p>
-<p>1  A、B、A、B</p>
-<p>2  A、B</p>
-<p>3  A、A、B</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">a  b_merge</span><br><span class="line"></span><br><span class="line">1  A、B、A、B</span><br><span class="line"></span><br><span class="line">2  A、B</span><br><span class="line"></span><br><span class="line">3  A、A、B</span><br></pre></td></tr></table></figure>
+
+
+
 <p>参考答案：</p>
-<p>select</p>
-<p> a</p>
-<p> ,collect_list(b) as b</p>
-<p>from(</p>
-<p> select</p>
-<p>  ,min(if(b = ‘B’,nk,null)) over(partition by a) as minb</p>
-<p> from(</p>
-<p>  select</p>
-<p>   ,row_number() over(partition by a order by date_id desc) nk</p>
-<p>  from(</p>
-<p>   select  from t21</p>
-<p>  ) t</p>
-<p> ) t</p>
-<p>) t</p>
-<p>where nk &gt;= minb</p>
-<p>group by a;</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> a, collect_list(b) <span class="keyword">AS</span> b</span><br><span class="line"><span class="keyword">FROM</span> (</span><br><span class="line">	<span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line">		, <span class="built_in">min</span>(if(b <span class="operator">=</span> <span class="string">&#x27;B&#x27;</span>, nk, <span class="keyword">NULL</span>)) <span class="keyword">OVER</span> (<span class="keyword">PARTITION</span> <span class="keyword">BY</span> a ) <span class="keyword">AS</span> minb</span><br><span class="line">	<span class="keyword">FROM</span> (</span><br><span class="line">		<span class="keyword">SELECT</span> <span class="operator">*</span>, <span class="built_in">row_number</span>() <span class="keyword">OVER</span> (<span class="keyword">PARTITION</span> <span class="keyword">BY</span> a <span class="keyword">ORDER</span> <span class="keyword">BY</span> date_id <span class="keyword">DESC</span>) <span class="keyword">AS</span> nk</span><br><span class="line">		<span class="keyword">FROM</span> (</span><br><span class="line">			<span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line">			<span class="keyword">FROM</span> t21</span><br><span class="line">		) t</span><br><span class="line">	) t</span><br><span class="line">) t</span><br><span class="line"><span class="keyword">WHERE</span> nk <span class="operator">&gt;=</span> minb</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> a;</span><br></pre></td></tr></table></figure>
+
+
+
 <h2 id="二十二、非等值连接–范围匹配"><a href="#二十二、非等值连接–范围匹配" class="headerlink" title="二十二、非等值连接–范围匹配"></a>二十二、非等值连接–范围匹配</h2><p>表f是事实表，表d是匹配表，在hive中如何将匹配表中的值关联到事实表中？</p>
 <p>表d相当于拉链过的变化维，但日期范围可能是不全的。</p>
 <p>表f：</p>
-<p>date_id p_id</p>
-<p> 2017  C</p>
-<p> 2018  B</p>
-<p> 2019  A</p>
-<p> 2013  C</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">date_id p_id</span><br><span class="line"></span><br><span class="line"> 2017  C</span><br><span class="line"></span><br><span class="line"> 2018  B</span><br><span class="line"></span><br><span class="line"> 2019  A</span><br><span class="line"></span><br><span class="line"> 2013  C</span><br></pre></td></tr></table></figure>
+
+
+
 <p>表d：</p>
-<p>d_start  d_end  p_id  p_value</p>
-<p> 2016   2018   A    1</p>
-<p> 2016   2018   B    2</p>
-<p> 2008   2009   C    4</p>
-<p> 2010   2015   C    3</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">d_start  d_end  p_id  p_value</span><br><span class="line"></span><br><span class="line"> 2016   2018   A    1</span><br><span class="line"></span><br><span class="line"> 2016   2018   B    2</span><br><span class="line"></span><br><span class="line"> 2008   2009   C    4</span><br><span class="line"></span><br><span class="line"> 2010   2015   C    3</span><br></pre></td></tr></table></figure>
+
+
+
 <h4 id="问题一：范围匹配"><a href="#问题一：范围匹配" class="headerlink" title="问题一：范围匹配"></a>问题一：范围匹配</h4><p>输出结果如下所示：</p>
-<p>date_id p_id  p_value</p>
-<p> 2017  C   null</p>
-<p> 2018  B   2</p>
-<p> 2019  A   null</p>
-<p> 2013  C   3</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">date_id p_id  p_value</span><br><span class="line"></span><br><span class="line"> 2017  C   null</span><br><span class="line"></span><br><span class="line"> 2018  B   2</span><br><span class="line"></span><br><span class="line"> 2019  A   null</span><br><span class="line"></span><br><span class="line"> 2013  C   3</span><br></pre></td></tr></table></figure>
+
+
+
 <p>参考答案：</p>
 <p>此处给出两种解法，其一：</p>
-<p>select </p>
-<p> f.date_id,</p>
-<p> f.p_id,</p>
-<p> A.p_value</p>
-<p>from f </p>
-<p>left join </p>
-<p>(</p>
-<p> select </p>
-<p>  date_id,</p>
-<p>  p_id,</p>
-<p>  p_value</p>
-<p> from </p>
-<p> (</p>
-<p>  select </p>
-<p>   f.date_id,</p>
-<p>   f.p_id,</p>
-<p>   d.p_value</p>
-<p>  from f </p>
-<p>  left join d on f.p_id = d.p_id</p>
-<p>  where f.date_id &gt;= d.d_start and f.date_id &lt;= d.d_end</p>
-<p> )A</p>
-<p>)A</p>
-<p>ON f.date_id = A.date_id;</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> f.date_id, f.p_id, A.p_value</span><br><span class="line"><span class="keyword">FROM</span> f</span><br><span class="line">	<span class="keyword">LEFT</span> <span class="keyword">JOIN</span> (</span><br><span class="line">		<span class="keyword">SELECT</span> date_id, p_id, p_value</span><br><span class="line">		<span class="keyword">FROM</span> (</span><br><span class="line">			<span class="keyword">SELECT</span> f.date_id, f.p_id, d.p_value</span><br><span class="line">			<span class="keyword">FROM</span> f</span><br><span class="line">				<span class="keyword">LEFT</span> <span class="keyword">JOIN</span> d <span class="keyword">ON</span> f.p_id <span class="operator">=</span> d.p_id</span><br><span class="line">			<span class="keyword">WHERE</span> f.date_id <span class="operator">&gt;=</span> d.d_start</span><br><span class="line">				<span class="keyword">AND</span> f.date_id <span class="operator">&lt;=</span> d.d_end</span><br><span class="line">		) A</span><br><span class="line">	) A</span><br><span class="line">	<span class="keyword">ON</span> f.date_id <span class="operator">=</span> A.date_id;</span><br></pre></td></tr></table></figure>
+
+
+
 <p>其二：</p>
-<p>select </p>
-<p>  date_id,</p>
-<p>  p_id,</p>
-<p>  flag as p_value</p>
-<p>from (</p>
-<p>  select </p>
-<p>​    f.date_id,</p>
-<p>​    f.p_id,</p>
-<p>​    d.d_start,</p>
-<p>​    d.d_end,</p>
-<p>​    d.p_value,</p>
-<p>​    if(f.date_id between d.d_start and d.d_end,d.p_value,null) flag,</p>
-<p>​    max(d.d_end) over(partition by date_id) max_end</p>
-<p>  from f</p>
-<p>  left join d</p>
-<p>  on f.p_id = d.p_id</p>
-<p>) tmp</p>
-<p>where d_end = max_end;</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> date_id, p_id, flag <span class="keyword">AS</span> p_value</span><br><span class="line"><span class="keyword">FROM</span> (</span><br><span class="line">	<span class="keyword">SELECT</span> f.date_id, f.p_id, d.d_start, d.d_end, d.p_value</span><br><span class="line">		, if(f.date_id <span class="keyword">BETWEEN</span> d.d_start <span class="keyword">AND</span> d.d_end, d.p_value, <span class="keyword">NULL</span>) <span class="keyword">AS</span> flag</span><br><span class="line">		, <span class="built_in">max</span>(d.d_end) <span class="keyword">OVER</span> (<span class="keyword">PARTITION</span> <span class="keyword">BY</span> date_id ) <span class="keyword">AS</span> max_end</span><br><span class="line">	<span class="keyword">FROM</span> f</span><br><span class="line">		<span class="keyword">LEFT</span> <span class="keyword">JOIN</span> d <span class="keyword">ON</span> f.p_id <span class="operator">=</span> d.p_id</span><br><span class="line">) tmp</span><br><span class="line"><span class="keyword">WHERE</span> d_end <span class="operator">=</span> max_end;</span><br></pre></td></tr></table></figure>
+
+
+
 <h2 id="二十三、非等值连接–最近匹配"><a href="#二十三、非等值连接–最近匹配" class="headerlink" title="二十三、非等值连接–最近匹配"></a>二十三、非等值连接–最近匹配</h2><p>表t23_1和表t23_2通过a和b关联时，有相等的取相等的值匹配，不相等时每一个a的值在b中找差值最小的来匹配。</p>
 <p>t23_1和t23_2为两个班的成绩单，t23_1班的每个学生成绩在t23_2班中找出成绩最接近的成绩。</p>
 <p>表t23_1：a中无重复值</p>
-<p>a</p>
-<p>1</p>
-<p>2</p>
-<p>4</p>
-<p>5</p>
-<p>8</p>
-<p>10</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">a</span><br><span class="line"></span><br><span class="line">1</span><br><span class="line"></span><br><span class="line">2</span><br><span class="line"></span><br><span class="line">4</span><br><span class="line"></span><br><span class="line">5</span><br><span class="line"></span><br><span class="line">8</span><br><span class="line"></span><br><span class="line">10</span><br></pre></td></tr></table></figure>
+
+
+
 <p>表t23_2：b中无重复值</p>
-<p>b</p>
-<p>2</p>
-<p>3</p>
-<p>7</p>
-<p>11</p>
-<p>13</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">b</span><br><span class="line"></span><br><span class="line">2</span><br><span class="line"></span><br><span class="line">3</span><br><span class="line"></span><br><span class="line">7</span><br><span class="line"></span><br><span class="line">11</span><br><span class="line"></span><br><span class="line">13</span><br></pre></td></tr></table></figure>
+
+
+
 <h4 id="问题一：单向最近匹配"><a href="#问题一：单向最近匹配" class="headerlink" title="问题一：单向最近匹配"></a>问题一：单向最近匹配</h4><p>输出结果如下所示：</p>
 <p>注意：b的值可能会被丢弃</p>
-<p>a  b</p>
-<p>1  2</p>
-<p>2  2</p>
-<p>4  3</p>
-<p>5  3</p>
-<p>5  7</p>
-<p>8  7</p>
-<p>10  11</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">a  b</span><br><span class="line"></span><br><span class="line">1  2</span><br><span class="line"></span><br><span class="line">2  2</span><br><span class="line"></span><br><span class="line">4  3</span><br><span class="line"></span><br><span class="line">5  3</span><br><span class="line"></span><br><span class="line">5  7</span><br><span class="line"></span><br><span class="line">8  7</span><br><span class="line"></span><br><span class="line">10  11</span><br></pre></td></tr></table></figure>
+
+
+
 <p>参考答案：</p>
-<p>select </p>
-<p>from</p>
-<p>(</p>
-<p> select </p>
-<p>  ttt1.a,</p>
-<p>  ttt1.b </p>
-<p> from</p>
-<p> (</p>
-<p>  select </p>
-<p>   tt1.a,</p>
-<p>   t23_2.b,</p>
-<p>   dense_rank() over(partition by tt1.a order by abs(tt1.a-t23_2.b)) as dr </p>
-<p>  from </p>
-<p>  (</p>
-<p>   select </p>
-<p>​    t23_1.a </p>
-<p>   from t23_1 </p>
-<p>   left join t23_2 on t23_1.a=t23_2.b </p>
-<p>   where t23_2.b is null</p>
-<p>  ) tt1 </p>
-<p>  cross join t23_2</p>
-<p> ) ttt1 </p>
-<p> where ttt1.dr=1 </p>
-<p> union all</p>
-<p> select </p>
-<p>  t23_1.a,</p>
-<p>  t23_2.b </p>
-<p> from t23_1 </p>
-<p> inner join t23_2 on t23_1.a=t23_2.b</p>
-<p>) result_t </p>
-<p>order by result_t.a;</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">FROM</span> (</span><br><span class="line">	<span class="keyword">SELECT</span> ttt1.a, ttt1.b</span><br><span class="line">	<span class="keyword">FROM</span> (</span><br><span class="line">		<span class="keyword">SELECT</span> tt1.a, t23_2.b, <span class="built_in">dense_rank</span>() <span class="keyword">OVER</span> (<span class="keyword">PARTITION</span> <span class="keyword">BY</span> tt1.a <span class="keyword">ORDER</span> <span class="keyword">BY</span> <span class="built_in">abs</span>(tt1.a <span class="operator">-</span> t23_2.b)) <span class="keyword">AS</span> dr</span><br><span class="line">		<span class="keyword">FROM</span> (</span><br><span class="line">			<span class="keyword">SELECT</span> t23_1.a</span><br><span class="line">			<span class="keyword">FROM</span> t23_1</span><br><span class="line">				<span class="keyword">LEFT</span> <span class="keyword">JOIN</span> t23_2 <span class="keyword">ON</span> t23_1.a <span class="operator">=</span> t23_2.b</span><br><span class="line">			<span class="keyword">WHERE</span> t23_2.b <span class="keyword">IS</span> <span class="keyword">NULL</span></span><br><span class="line">		) tt1</span><br><span class="line">			<span class="keyword">CROSS</span> <span class="keyword">JOIN</span> t23_2</span><br><span class="line">	) ttt1</span><br><span class="line">	<span class="keyword">WHERE</span> ttt1.dr <span class="operator">=</span> <span class="number">1</span></span><br><span class="line">	<span class="keyword">UNION</span> <span class="keyword">ALL</span></span><br><span class="line">	<span class="keyword">SELECT</span> t23_1.a, t23_2.b</span><br><span class="line">	<span class="keyword">FROM</span> t23_1</span><br><span class="line">		<span class="keyword">INNER</span> <span class="keyword">JOIN</span> t23_2 <span class="keyword">ON</span> t23_1.a <span class="operator">=</span> t23_2.b</span><br><span class="line">) result_t</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> result_t.a;</span><br></pre></td></tr></table></figure>
+
+
+
 <h2 id="二十四、N指标–累计去重"><a href="#二十四、N指标–累计去重" class="headerlink" title="二十四、N指标–累计去重"></a>二十四、N指标–累计去重</h2><p>假设表A为事件流水表，客户当天有一条记录则视为当天活跃。</p>
 <p>表A：</p>
-<p>  time_id     user_id</p>
-<p>2018-01-01 10:00:00  001</p>
-<p>2018-01-01 11:03:00  002</p>
-<p>2018-01-01 13:18:00  001</p>
-<p>2018-01-02 08:34:00  004</p>
-<p>2018-01-02 10:08:00  002</p>
-<p>2018-01-02 10:40:00  003</p>
-<p>2018-01-02 14:21:00  002</p>
-<p>2018-01-02 15:39:00  004</p>
-<p>2018-01-03 08:34:00  005</p>
-<p>2018-01-03 10:08:00  003</p>
-<p>2018-01-03 10:40:00  001</p>
-<p>2018-01-03 14:21:00  005</p>
+ <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"> time_id     user_id</span><br><span class="line"></span><br><span class="line">2018-01-01 10:00:00  001</span><br><span class="line"></span><br><span class="line">2018-01-01 11:03:00  002</span><br><span class="line"></span><br><span class="line">2018-01-01 13:18:00  001</span><br><span class="line"></span><br><span class="line">2018-01-02 08:34:00  004</span><br><span class="line"></span><br><span class="line">2018-01-02 10:08:00  002</span><br><span class="line"></span><br><span class="line">2018-01-02 10:40:00  003</span><br><span class="line"></span><br><span class="line">2018-01-02 14:21:00  002</span><br><span class="line"></span><br><span class="line">2018-01-02 15:39:00  004</span><br><span class="line"></span><br><span class="line">2018-01-03 08:34:00  005</span><br><span class="line"></span><br><span class="line">2018-01-03 10:08:00  003</span><br><span class="line"></span><br><span class="line">2018-01-03 10:40:00  001</span><br><span class="line"></span><br><span class="line">2018-01-03 14:21:00  005</span><br></pre></td></tr></table></figure>
+
+
+
 <p>假设客户活跃非常，一天产生的事件记录平均达千条。</p>
 <h4 id="问题一：累计去重"><a href="#问题一：累计去重" class="headerlink" title="问题一：累计去重"></a>问题一：累计去重</h4><p>输出结果如下所示：</p>
 <p>日期    当日活跃人数   月累计活跃人数_截至当日</p>
-<p>date_id  user_cnt_act  user_cnt_act_month</p>
-<p>2018-01-01   2        2</p>
-<p>2018-01-02   3        4</p>
-<p>2018-01-03   3        5</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">date_id  user_cnt_act  user_cnt_act_month</span><br><span class="line"></span><br><span class="line">2018-01-01   2        2</span><br><span class="line"></span><br><span class="line">2018-01-02   3        4</span><br><span class="line"></span><br><span class="line">2018-01-03   3        5</span><br></pre></td></tr></table></figure>
+
+
+
 <p>参考答案：</p>
-<p>SELECT tt1.date_id</p>
-<p>​    ,tt2.user_cnt_act</p>
-<p>​    ,tt1.user_cnt_act_month</p>
-<p>FROM</p>
-<p>(  – ④ 按照t.date_id分组求出user_cnt_act_month，得到tt1</p>
-<p> SELECT t.date_id</p>
-<p>​    ,COUNT(user_id) AS user_cnt_act_month</p>
-<p> FROM</p>
-<p> (  – ③ 表a和表b进行笛卡尔积，按照a.date_id,b.user_id分组，保证截止到当日的用户唯一，得出表t。</p>
-<p> SELECT a.date_id</p>
-<p>​     ,b.user_id</p>
-<p> FROM</p>
-<p> (  – ① 按照日期分组，取出date_id字段当主表的维度字段 得出表a</p>
-<p>  SELECT from_unixtime(unix_timestamp(time_id),’yyyy-MM-dd’) AS date_id</p>
-<p>  FROM test.temp_tanhaidi_20211213_1</p>
-<p>  GROUP BY from_unixtime(unix_timestamp(time_id),’yyyy-MM-dd’)</p>
-<p> ) a</p>
-<p> INNER JOIN</p>
-<p> (  – ② 按照date_id、user_id分组，保证每天每个用户只有一条记录，得出表b</p>
-<p>  SELECT from_unixtime(unix_timestamp(time_id),’yyyy-MM-dd’) AS date_id</p>
-<p>​     ,user_id</p>
-<p>  FROM test.temp_tanhaidi_20211213_1</p>
-<p>  GROUP BY from_unixtime(unix_timestamp(time_id),’yyyy-MM-dd’)</p>
-<p>​      ,user_id</p>
-<p> ) b</p>
-<p> ON 1 = 1</p>
-<p> WHERE a.date_id &gt;= b.date_id</p>
-<p> GROUP BY a.date_id</p>
-<p>​      ,b.user_id</p>
-<p> ) t</p>
-<p> GROUP BY t.date_id</p>
-<p>) tt1</p>
-<p>LEFT JOIN</p>
-<p>(  – ⑥ 按照date_id分组求出user_cnt_act，得到tt2</p>
-<p> SELECT date_id</p>
-<p>​    ,COUNT(user_id) AS user_cnt_act</p>
-<p> FROM</p>
-<p> (  – ⑤ 按照日期分组，取出date_id字段当主表的维度字段 得出表a</p>
-<p> SELECT from_unixtime(unix_timestamp(time_id),’yyyy-MM-dd’) AS date_id</p>
-<p>​     ,user_id</p>
-<p> FROM test.temp_tanhaidi_20211213_1</p>
-<p> GROUP BY from_unixtime(unix_timestamp(time_id),’yyyy-MM-dd’)</p>
-<p>​      ,user_id</p>
-<p> ) a</p>
-<p> GROUP BY date_id</p>
-<p>) tt2</p>
-<p>ON tt2.date_id = tt1.date_id</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> tt1.date_id</span><br><span class="line">    ,tt2.user_cnt_act</span><br><span class="line">    ,tt1.user_cnt_act_month</span><br><span class="line"><span class="keyword">FROM</span></span><br><span class="line">(  <span class="comment">-- ④ 按照t.date_id分组求出user_cnt_act_month，得到tt1</span></span><br><span class="line"> <span class="keyword">SELECT</span> t.date_id</span><br><span class="line">    ,<span class="built_in">COUNT</span>(user_id) <span class="keyword">AS</span> user_cnt_act_month</span><br><span class="line"> <span class="keyword">FROM</span></span><br><span class="line"> (  <span class="comment">-- ③ 表a和表b进行笛卡尔积，按照a.date_id,b.user_id分组，保证截止到当日的用户唯一，得出表t。</span></span><br><span class="line"> <span class="keyword">SELECT</span> a.date_id</span><br><span class="line">     ,b.user_id</span><br><span class="line"> <span class="keyword">FROM</span></span><br><span class="line"> (  <span class="comment">-- ① 按照日期分组，取出date_id字段当主表的维度字段 得出表a</span></span><br><span class="line">  <span class="keyword">SELECT</span> from_unixtime(unix_timestamp(time_id),<span class="string">&#x27;yyyy-MM-dd&#x27;</span>) <span class="keyword">AS</span> date_id</span><br><span class="line">  <span class="keyword">FROM</span> test.temp_tanhaidi_20211213_1</span><br><span class="line">  <span class="keyword">GROUP</span> <span class="keyword">BY</span> from_unixtime(unix_timestamp(time_id),<span class="string">&#x27;yyyy-MM-dd&#x27;</span>)</span><br><span class="line"> ) a</span><br><span class="line"> <span class="keyword">INNER</span> <span class="keyword">JOIN</span></span><br><span class="line"> (  <span class="comment">-- ② 按照date_id、user_id分组，保证每天每个用户只有一条记录，得出表b</span></span><br><span class="line">  <span class="keyword">SELECT</span> from_unixtime(unix_timestamp(time_id),<span class="string">&#x27;yyyy-MM-dd&#x27;</span>) <span class="keyword">AS</span> date_id</span><br><span class="line">     ,user_id</span><br><span class="line">  <span class="keyword">FROM</span> test.temp_tanhaidi_20211213_1</span><br><span class="line">  <span class="keyword">GROUP</span> <span class="keyword">BY</span> from_unixtime(unix_timestamp(time_id),<span class="string">&#x27;yyyy-MM-dd&#x27;</span>)</span><br><span class="line">      ,user_id</span><br><span class="line"> ) b</span><br><span class="line"> <span class="keyword">ON</span> <span class="number">1</span> <span class="operator">=</span> <span class="number">1</span></span><br><span class="line"> <span class="keyword">WHERE</span> a.date_id <span class="operator">&gt;=</span> b.date_id</span><br><span class="line"> <span class="keyword">GROUP</span> <span class="keyword">BY</span> a.date_id</span><br><span class="line">      ,b.user_id</span><br><span class="line"> ) t</span><br><span class="line"> <span class="keyword">GROUP</span> <span class="keyword">BY</span> t.date_id</span><br><span class="line">) tt1</span><br><span class="line"><span class="keyword">LEFT</span> <span class="keyword">JOIN</span></span><br><span class="line">(  <span class="comment">-- ⑥ 按照date_id分组求出user_cnt_act，得到tt2</span></span><br><span class="line"> <span class="keyword">SELECT</span> date_id</span><br><span class="line">    ,<span class="built_in">COUNT</span>(user_id) <span class="keyword">AS</span> user_cnt_act</span><br><span class="line"> <span class="keyword">FROM</span></span><br><span class="line"> (  <span class="comment">-- ⑤ 按照日期分组，取出date_id字段当主表的维度字段 得出表a</span></span><br><span class="line"> <span class="keyword">SELECT</span> from_unixtime(unix_timestamp(time_id),<span class="string">&#x27;yyyy-MM-dd&#x27;</span>) <span class="keyword">AS</span> date_id</span><br><span class="line">     ,user_id</span><br><span class="line"> <span class="keyword">FROM</span> test.temp_tanhaidi_20211213_1</span><br><span class="line"> <span class="keyword">GROUP</span> <span class="keyword">BY</span> from_unixtime(unix_timestamp(time_id),<span class="string">&#x27;yyyy-MM-dd&#x27;</span>)      ,user_id</span><br><span class="line"> ) a</span><br><span class="line"> <span class="keyword">GROUP</span> <span class="keyword">BY</span> date_id</span><br><span class="line">) tt2</span><br><span class="line"><span class="keyword">ON</span> tt2.date_id <span class="operator">=</span> tt1.date_id</span><br></pre></td></tr></table></figure>
+
 ]]></content>
       <categories>
         <category>BigData</category>
