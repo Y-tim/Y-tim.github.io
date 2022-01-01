@@ -2817,4 +2817,20 @@
         <tag>BigData</tag>
       </tags>
   </entry>
+  <entry>
+    <title>试用期</title>
+    <url>/2022/01/01/%E5%B7%A5%E4%BD%9C%E8%AE%B0%E5%BD%95/</url>
+    <content><![CDATA[<h1 id="试用期流程"><a href="#试用期流程" class="headerlink" title="试用期流程"></a>试用期流程</h1><h2 id="一、业务调研"><a href="#一、业务调研" class="headerlink" title="一、业务调研"></a>一、业务调研</h2><p>​    首先了解公司的业务系统有哪些(<code>只要是公司用的，能给公司带来利益的系统都需要知道</code>)</p>
+<h2 id="二、数据调研"><a href="#二、数据调研" class="headerlink" title="二、数据调研"></a>二、数据调研</h2><p>​    了解公司的数据来源有哪些，绘制一个数据来源渠道(<code>数据来源就是数据的源头，例如从其他公司过来的数据有哪些，或者自己系统埋点的数据有哪些，这些都需要了解</code>)。</p>
+<h2 id="三、数据ETL"><a href="#三、数据ETL" class="headerlink" title="三、数据ETL"></a>三、数据ETL</h2><p>​    所谓的ETL就是数据抽取，转换，装载。换句话说就是数据从源头过来了之后是怎么进行处理的，之后获取我们需要的数据，然后通过某种组件消费数据，最后进行装载之后就是我们能在系统前端看到的样子了<code>例如公司的销售额今天多少，或者公司近段时间销售额变化趋势图</code></p>
+<h2 id="四、需求调研"><a href="#四、需求调研" class="headerlink" title="四、需求调研"></a>四、需求调研</h2><p>​    指标分析、指标拆解，针对各个影响因素进行比较也就是，清除我们前端展示的数据能代表什么。</p>
+]]></content>
+      <categories>
+        <category>工作</category>
+        <category>试用期步骤</category>
+      </categories>
+      <tags>
+        <tag>试用期</tag>
+      </tags>
+  </entry>
 </search>

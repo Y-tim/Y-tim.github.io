@@ -11,7 +11,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1"
       />
-      <title>知识碎片 |  Y-tim</title>
+      <title>试用期 |  Y-tim</title>
   <meta name="generator" content="hexo-theme-ayer">
       
       <link rel="shortcut icon" href="/favicon.ico" />
@@ -67,7 +67,7 @@ var _hmt = _hmt || [];
     <main class="content on">
       <section class="outer">
   <article
-  id="post-知识碎片"
+  id="post-工作记录"
   class="article article-type-post"
   itemscope
   itemprop="blogPost"
@@ -78,7 +78,7 @@ var _hmt = _hmt || [];
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  知识碎片
+  试用期
 </h1>
  
 
@@ -86,11 +86,11 @@ var _hmt = _hmt || [];
     </header>
      
     <div class="article-meta">
-      <a href="/2021/12/23/%E7%9F%A5%E8%AF%86%E7%A2%8E%E7%89%87/" class="article-date">
-  <time datetime="2021-12-23T08:17:17.022Z" itemprop="datePublished">2021-12-23</time>
+      <a href="/2022/01/01/%E5%B7%A5%E4%BD%9C%E8%AE%B0%E5%BD%95/" class="article-date">
+  <time datetime="2022-01-01T03:20:35.528Z" itemprop="datePublished">2022-01-01</time>
 </a> 
   <div class="article-category">
-    <a class="article-category-link" href="/categories/%E7%A2%8E%E7%89%87/">碎片</a> / <a class="article-category-link" href="/categories/%E7%A2%8E%E7%89%87/%E7%9F%A5%E8%AF%86%E7%A2%8E%E7%89%87/">知识碎片</a>
+    <a class="article-category-link" href="/categories/%E5%B7%A5%E4%BD%9C/">工作</a> / <a class="article-category-link" href="/categories/%E5%B7%A5%E4%BD%9C/%E8%AF%95%E7%94%A8%E6%9C%9F%E6%AD%A5%E9%AA%A4/">试用期步骤</a>
   </div>
   
 <div class="word_count">
@@ -98,7 +98,7 @@ var _hmt = _hmt || [];
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">352</span>
+            <span class="post-count">282</span>
         </span>
     </span>
 
@@ -114,24 +114,18 @@ var _hmt = _hmt || [];
  
     </div>
       
+    <div class="tocbot"></div>
+
 
 
 
   
     <div class="article-entry" itemprop="articleBody">
        
-  <p>1、在写sparkstreaming代码出现暴内存不足的情况？</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> sparkConf = <span class="keyword">new</span> <span class="type">SparkConf</span>().setAppName(<span class="string">&quot;InitData&quot;</span>)</span><br><span class="line">      .setMaster(<span class="string">&quot;local[*]&quot;</span>).set(<span class="string">&quot;spark.testing.memory&quot;</span>,<span class="string">&quot;471859200&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-<p>2、代码中出现</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">java.lang.NoClassDefFoundError: org/apache/spark/sql/SparkSession</span><br><span class="line">Error: A JNI error has occurred, please check your installation and try again</span><br><span class="line">原因：</span><br><span class="line">	pom文件中的依赖中scope填写的是provided，这是用于打包的时候防止需要的依赖一起打包导致包太大，但需要在服务器中已经有这些依赖了，否则加上这个在服务其中报没有依赖的错误，idea默认是compile，</span><br><span class="line">解决：</span><br><span class="line">	注释掉该标签</span><br></pre></td></tr></table></figure>
-
-<p>3、通过idea代码读取hdfs数据时，可能会出现lzo压缩找不到，所以需要在core-site.xml文件中添加配置</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span><span class="comment">&lt;!--这个配置可以不要--&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">name</span>&gt;</span>io.compression.codecs<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">value</span>&gt;</span></span><br><span class="line">           org.apache.hadoop.io.compress.GzipCodec,</span><br><span class="line">           org.apache.hadoop.io.compress.DefaultCodec,</span><br><span class="line">           org.apache.hadoop.io.compress.BZip2Codec,</span><br><span class="line">           org.apache.hadoop.io.compress.SnappyCodec</span><br><span class="line">           <span class="comment">&lt;!--com.hadoop.compression.lzo.LzoCodec,这里不能打开，否则报lzo找不到--&gt;</span></span><br><span class="line">           <span class="comment">&lt;!--com.hadoop.compression.lzo.LzopCodec这里不能打开，否则报lzo找不到--&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line">   <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">name</span>&gt;</span>io.compression.codec.lzo.class<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">value</span>&gt;</span>com.hadoop.compression.lzo.LzoCodec<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>4、spark中task并发和并行</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">三台节点，一个2核，总共6核，</span><br><span class="line">并发度理解为同时执行的task数量。这里并发度为6；</span><br></pre></td></tr></table></figure>
-
+  <h1 id="试用期流程"><a href="#试用期流程" class="headerlink" title="试用期流程"></a>试用期流程</h1><h2 id="一、业务调研"><a href="#一、业务调研" class="headerlink" title="一、业务调研"></a>一、业务调研</h2><p>​    首先了解公司的业务系统有哪些(<code>只要是公司用的，能给公司带来利益的系统都需要知道</code>)</p>
+<h2 id="二、数据调研"><a href="#二、数据调研" class="headerlink" title="二、数据调研"></a>二、数据调研</h2><p>​    了解公司的数据来源有哪些，绘制一个数据来源渠道(<code>数据来源就是数据的源头，例如从其他公司过来的数据有哪些，或者自己系统埋点的数据有哪些，这些都需要了解</code>)。</p>
+<h2 id="三、数据ETL"><a href="#三、数据ETL" class="headerlink" title="三、数据ETL"></a>三、数据ETL</h2><p>​    所谓的ETL就是数据抽取，转换，装载。换句话说就是数据从源头过来了之后是怎么进行处理的，之后获取我们需要的数据，然后通过某种组件消费数据，最后进行装载之后就是我们能在系统前端看到的样子了<code>例如公司的销售额今天多少，或者公司近段时间销售额变化趋势图</code></p>
+<h2 id="四、需求调研"><a href="#四、需求调研" class="headerlink" title="四、需求调研"></a>四、需求调研</h2><p>​    指标分析、指标拆解，针对各个影响因素进行比较也就是，清除我们前端展示的数据能代表什么。</p>
  
       <!-- reward -->
       
@@ -196,12 +190,12 @@ var _hmt = _hmt || [];
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://ylxlogan.top/2021/12/23/%E7%9F%A5%E8%AF%86%E7%A2%8E%E7%89%87/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://ylxlogan.top/2022/01/01/%E5%B7%A5%E4%BD%9C%E8%AE%B0%E5%BD%95/" alt="微信分享二维码">
     </div>
 </div>
 
 <div id="share-mask"></div>  
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%9F%A5%E8%AF%86%E7%A2%8E%E7%89%87/" rel="tag">知识碎片</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AF%95%E7%94%A8%E6%9C%9F/" rel="tag">试用期</a></li></ul>
 
     </footer>
   </div>
@@ -209,19 +203,10 @@ var _hmt = _hmt || [];
    
   <nav class="article-nav">
     
-      <a href="/2022/01/01/%E5%B7%A5%E4%BD%9C%E8%AE%B0%E5%BD%95/" class="article-nav-link">
-        <strong class="article-nav-caption">上一篇</strong>
-        <div class="article-nav-title">
-          
-            试用期
-          
-        </div>
-      </a>
     
-    
-      <a href="/2021/12/23/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" class="article-nav-link">
+      <a href="/2021/12/23/%E7%9F%A5%E8%AF%86%E7%A2%8E%E7%89%87/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">大数据常用命令</div>
+        <div class="article-nav-title">知识碎片</div>
       </a>
     
   </nav>
