@@ -11,7 +11,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1"
       />
-      <title>试用期 |  Y-tim</title>
+      <title>使用kubeadm快速部署一个K8s集群 |  Y-tim</title>
   <meta name="generator" content="hexo-theme-ayer">
       
       <link rel="shortcut icon" href="/favicon.ico" />
@@ -67,7 +67,7 @@ var _hmt = _hmt || [];
     <main class="content on">
       <section class="outer">
   <article
-  id="post-工作记录"
+  id="post-使用kubeadm快速部署一个K8s集群"
   class="article article-type-post"
   itemscope
   itemprop="blogPost"
@@ -78,7 +78,7 @@ var _hmt = _hmt || [];
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  试用期
+  使用kubeadm快速部署一个K8s集群
 </h1>
  
 
@@ -86,11 +86,11 @@ var _hmt = _hmt || [];
     </header>
      
     <div class="article-meta">
-      <a href="/2022/01/01/%E5%B7%A5%E4%BD%9C%E8%AE%B0%E5%BD%95/" class="article-date">
-  <time datetime="2022-01-01T03:20:35.528Z" itemprop="datePublished">2022-01-01</time>
+      <a href="/2022/01/09/%E4%BD%BF%E7%94%A8kubeadm%E5%BF%AB%E9%80%9F%E9%83%A8%E7%BD%B2%E4%B8%80%E4%B8%AAK8s%E9%9B%86%E7%BE%A4/" class="article-date">
+  <time datetime="2022-01-09T14:01:35.923Z" itemprop="datePublished">2022-01-09</time>
 </a> 
   <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%B7%A5%E4%BD%9C/">工作</a> / <a class="article-category-link" href="/categories/%E5%B7%A5%E4%BD%9C/%E8%AF%95%E7%94%A8%E6%9C%9F%E6%AD%A5%E9%AA%A4/">试用期步骤</a>
+    <a class="article-category-link" href="/categories/BigData/">BigData</a> / <a class="article-category-link" href="/categories/BigData/k8s/">k8s</a> / <a class="article-category-link" href="/categories/BigData/k8s/%E4%BD%BF%E7%94%A8kubeadm%E5%BF%AB%E9%80%9F%E9%83%A8%E7%BD%B2%E4%B8%80%E4%B8%AAK8s%E9%9B%86%E7%BE%A4/">使用kubeadm快速部署一个K8s集群</a>
   </div>
   
 <div class="word_count">
@@ -98,7 +98,7 @@ var _hmt = _hmt || [];
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">282</span>
+            <span class="post-count">855</span>
         </span>
     </span>
 
@@ -107,7 +107,7 @@ var _hmt = _hmt || [];
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">1 分钟</span>
+            <span class="post-count">4 分钟</span>
         </span>
     </span>
 </div>
@@ -122,10 +122,72 @@ var _hmt = _hmt || [];
   
     <div class="article-entry" itemprop="articleBody">
        
-  <h1 id="试用期流程"><a href="#试用期流程" class="headerlink" title="试用期流程"></a>试用期流程</h1><h2 id="一、业务调研"><a href="#一、业务调研" class="headerlink" title="一、业务调研"></a>一、业务调研</h2><p>​    首先了解公司的业务系统有哪些(<code>只要是公司用的，能给公司带来利益的系统都需要知道</code>)</p>
-<h2 id="二、数据调研"><a href="#二、数据调研" class="headerlink" title="二、数据调研"></a>二、数据调研</h2><p>​    了解公司的数据来源有哪些，绘制一个数据来源渠道(<code>数据来源就是数据的源头，例如从其他公司过来的数据有哪些，或者自己系统埋点的数据有哪些，这些都需要了解</code>)。</p>
-<h2 id="三、数据ETL"><a href="#三、数据ETL" class="headerlink" title="三、数据ETL"></a>三、数据ETL</h2><p>​    所谓的ETL就是数据抽取，转换，装载。换句话说就是数据从源头过来了之后是怎么进行处理的，之后获取我们需要的数据，然后通过某种组件消费数据，最后进行装载之后就是我们能在系统前端看到的样子了<code>例如公司的销售额今天多少，或者公司近段时间销售额变化趋势图</code></p>
-<h2 id="四、需求调研"><a href="#四、需求调研" class="headerlink" title="四、需求调研"></a>四、需求调研</h2><p>​    指标分析、指标拆解，针对各个影响因素进行比较也就是，清除我们前端展示的数据能代表什么。</p>
+  <p>kubeadm是官方社区推出的一个用于快速部署kubernetes集群的工具。</p>
+<p>这个工具能通过两条指令完成一个kubernetes集群的部署：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 创建一个 Master 节点</span><br><span class="line">$ kubeadm init</span><br><span class="line"></span><br><span class="line"># 将一个 Node 节点加入到当前集群中</span><br><span class="line">$ kubeadm join &lt;Master节点的IP和端口 &gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-安装要求"><a href="#1-安装要求" class="headerlink" title="1. 安装要求"></a>1. 安装要求</h2><p>在开始之前，部署Kubernetes集群机器需要满足以下几个条件：</p>
+<ul>
+<li>一台或多台机器，操作系统 CentOS7.x-86_x64</li>
+<li>硬件配置：2GB或更多RAM，2个CPU或更多CPU，硬盘30GB或更多</li>
+<li>可以访问外网，需要拉取镜像，如果服务器不能上网，需要提前下载镜像并导入节点</li>
+<li>禁止swap分区</li>
+</ul>
+<h2 id="2-准备环境"><a href="#2-准备环境" class="headerlink" title="2. 准备环境"></a>2. 准备环境</h2><table>
+<thead>
+<tr>
+<th>角色</th>
+<th>IP</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>master</td>
+<td>192.168.1.11</td>
+</tr>
+<tr>
+<td>node1</td>
+<td>192.168.1.12</td>
+</tr>
+<tr>
+<td>node2</td>
+<td>192.168.1.13</td>
+</tr>
+</tbody></table>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"># 关闭防火墙</span><br><span class="line">systemctl stop firewalld</span><br><span class="line">systemctl disable firewalld</span><br><span class="line"></span><br><span class="line"># 关闭selinux</span><br><span class="line">sed -i &#x27;s/enforcing/disabled/&#x27; /etc/selinux/config  # 永久</span><br><span class="line">setenforce 0  # 临时</span><br><span class="line"></span><br><span class="line"># 关闭swap</span><br><span class="line">swapoff -a  # 临时</span><br><span class="line">sed -ri &#x27;s/.*swap.*/#&amp;/&#x27; /etc/fstab    # 永久</span><br><span class="line"></span><br><span class="line"># 根据规划设置主机名</span><br><span class="line">hostnamectl set-hostname &lt;hostname&gt;</span><br><span class="line"></span><br><span class="line"># 在master添加hosts</span><br><span class="line">cat &gt;&gt; /etc/hosts &lt;&lt; EOF</span><br><span class="line">192.168.44.146 k8smaster</span><br><span class="line">192.168.44.145 k8snode1</span><br><span class="line">192.168.44.144 k8snode2</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line"># 将桥接的IPv4流量传递到iptables的链</span><br><span class="line">cat &gt; /etc/sysctl.d/k8s.conf &lt;&lt; EOF</span><br><span class="line">net.bridge.bridge-nf-call-ip6tables = 1</span><br><span class="line">net.bridge.bridge-nf-call-iptables = 1</span><br><span class="line">EOF</span><br><span class="line">sysctl --system  # 生效</span><br><span class="line"></span><br><span class="line"># 时间同步</span><br><span class="line">yum install ntpdate -y</span><br><span class="line">ntpdate time.windows.com</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-所有节点安装Docker-kubeadm-kubelet"><a href="#3-所有节点安装Docker-kubeadm-kubelet" class="headerlink" title="3. 所有节点安装Docker/kubeadm/kubelet"></a>3. 所有节点安装Docker/kubeadm/kubelet</h2><p>Kubernetes默认CRI（容器运行时）为Docker，因此先安装Docker。</p>
+<h3 id="3-1-安装Docker"><a href="#3-1-安装Docker" class="headerlink" title="3.1 安装Docker"></a>3.1 安装Docker</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ wget https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo -O /etc/yum.repos.d/docker-ce.repo</span><br><span class="line">$ yum -y install docker-ce-18.06.1.ce-3.el7</span><br><span class="line">$ systemctl enable docker &amp;&amp; systemctl start docker</span><br><span class="line">$ docker --version</span><br><span class="line">Docker version 18.06.1-ce, build e68fc7a</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ cat &gt; /etc/docker/daemon.json &lt;&lt; EOF</span><br><span class="line">&#123;</span><br><span class="line">  &quot;registry-mirrors&quot;: [&quot;https://b9pmyelo.mirror.aliyuncs.com&quot;]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-2-添加阿里云YUM软件源"><a href="#3-2-添加阿里云YUM软件源" class="headerlink" title="3.2 添加阿里云YUM软件源"></a>3.2 添加阿里云YUM软件源</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ cat &gt; /etc/yum.repos.d/kubernetes.repo &lt;&lt; EOF</span><br><span class="line">[kubernetes]</span><br><span class="line">name=Kubernetes</span><br><span class="line">baseurl=https://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64</span><br><span class="line">enabled=1</span><br><span class="line">gpgcheck=0</span><br><span class="line">repo_gpgcheck=0</span><br><span class="line">gpgkey=https://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg https://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-3-安装kubeadm，kubelet和kubectl"><a href="#3-3-安装kubeadm，kubelet和kubectl" class="headerlink" title="3.3 安装kubeadm，kubelet和kubectl"></a>3.3 安装kubeadm，kubelet和kubectl</h3><p>由于版本更新频繁，这里指定版本号部署：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ yum install -y kubelet-1.18.0 kubeadm-1.18.0 kubectl-1.18.0</span><br><span class="line">$ systemctl enable kubelet</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-部署Kubernetes-Master"><a href="#4-部署Kubernetes-Master" class="headerlink" title="4. 部署Kubernetes Master"></a>4. 部署Kubernetes Master</h2><p>在192.168.31.61（Master）执行。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ kubeadm init \</span><br><span class="line">  --apiserver-advertise-address=192.168.44.146 \</span><br><span class="line">  --image-repository registry.aliyuncs.com/google_containers \</span><br><span class="line">  --kubernetes-version v1.18.0 \</span><br><span class="line">  --service-cidr=10.96.0.0/12 \</span><br><span class="line">  --pod-network-cidr=10.244.0.0/16</span><br></pre></td></tr></table></figure>
+
+<p>由于默认拉取镜像地址k8s.gcr.io国内无法访问，这里指定阿里云镜像仓库地址。</p>
+<p>使用kubectl工具：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p <span class="variable">$HOME</span>/.kube</span><br><span class="line">sudo cp -i /etc/kubernetes/admin.conf <span class="variable">$HOME</span>/.kube/config</span><br><span class="line">sudo chown $(id -u):$(id -g) <span class="variable">$HOME</span>/.kube/config</span><br><span class="line">$ kubectl get nodes</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-加入Kubernetes-Node"><a href="#5-加入Kubernetes-Node" class="headerlink" title="5. 加入Kubernetes Node"></a>5. 加入Kubernetes Node</h2><p>在192.168.1.12/13（Node）执行。</p>
+<p>向集群添加新节点，执行在kubeadm init输出的kubeadm join命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ kubeadm join 192.168.1.11:6443 --token esce21.q6hetwm8si29qxwn \</span><br><span class="line">    --discovery-token-ca-cert-hash sha256:00603a05805807501d7181c3d60b478788408cfe6cedefedb1f97569708be9c5</span><br></pre></td></tr></table></figure>
+
+<p>默认token有效期为24小时，当过期之后，该token就不可用了。这时就需要重新创建token，操作如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubeadm token create --print-join-command</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-部署CNI网络插件"><a href="#6-部署CNI网络插件" class="headerlink" title="6. 部署CNI网络插件"></a>6. 部署CNI网络插件</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml</span><br></pre></td></tr></table></figure>
+
+<p>默认镜像地址无法访问，sed命令修改为docker hub镜像仓库。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml</span><br><span class="line"></span><br><span class="line">kubectl get pods -n kube-system</span><br><span class="line">NAME                          READY   STATUS    RESTARTS   AGE</span><br><span class="line">kube-flannel-ds-amd64-2pc95   1/1     Running   0          72s</span><br></pre></td></tr></table></figure>
+
+<h2 id="7-测试kubernetes集群"><a href="#7-测试kubernetes集群" class="headerlink" title="7. 测试kubernetes集群"></a>7. 测试kubernetes集群</h2><p>在Kubernetes集群中创建一个pod，验证是否正常运行：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl create deployment nginx --image=nginx</span><br><span class="line">$ kubectl expose deployment nginx --port=80 --type=NodePort</span><br><span class="line">$ kubectl get pod,svc</span><br></pre></td></tr></table></figure>
+
+<p>访问地址：<a href="http://NodeIP:Port">http://NodeIP:Port</a>  </p>
  
       <!-- reward -->
       
@@ -190,12 +252,12 @@ var _hmt = _hmt || [];
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://ylxlogan.top/2022/01/01/%E5%B7%A5%E4%BD%9C%E8%AE%B0%E5%BD%95/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://ylxlogan.top/2022/01/09/%E4%BD%BF%E7%94%A8kubeadm%E5%BF%AB%E9%80%9F%E9%83%A8%E7%BD%B2%E4%B8%80%E4%B8%AAK8s%E9%9B%86%E7%BE%A4/" alt="微信分享二维码">
     </div>
 </div>
 
 <div id="share-mask"></div>  
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AF%95%E7%94%A8%E6%9C%9F/" rel="tag">试用期</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/BigData/" rel="tag">BigData</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/k8s/" rel="tag">k8s</a></li></ul>
 
     </footer>
   </div>
@@ -203,19 +265,10 @@ var _hmt = _hmt || [];
    
   <nav class="article-nav">
     
+    
       <a href="/2022/01/09/%E4%BD%BF%E7%94%A8kubeadm%E6%90%AD%E5%BB%BA%E9%AB%98%E5%8F%AF%E7%94%A8%E7%9A%84K8s%E9%9B%86%E7%BE%A4/" class="article-nav-link">
-        <strong class="article-nav-caption">上一篇</strong>
-        <div class="article-nav-title">
-          
-            使用kubeadm搭建高可用的K8s集群
-          
-        </div>
-      </a>
-    
-    
-      <a href="/2021/12/23/%E7%9F%A5%E8%AF%86%E7%A2%8E%E7%89%87/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">知识碎片</div>
+        <div class="article-nav-title">使用kubeadm搭建高可用的K8s集群</div>
       </a>
     
   </nav>
